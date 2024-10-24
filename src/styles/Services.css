@@ -1,0 +1,37 @@
+.services-container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .services-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  .services-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .service-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .service-name {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .service-description {
+    font-size: 1em;
+    color: #555;
+  }
+  
