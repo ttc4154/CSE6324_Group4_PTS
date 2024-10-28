@@ -105,3 +105,44 @@ footer {
         margin: 10px; /* Reduce margin on smaller screens */
     }
 }
+
+.home-container {
+    padding: 20px;
+    max-width: 1200px; /* Adjust based on your design */
+    margin: 0 auto;
+    text-align: center; /* Center text */
+  }
+  
+  .section-title {
+    font-size: 2em; /* Larger title font */
+    margin-bottom: 20px;
+  }
+  
+  .subject-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Space between items */
+  }
+  
+  .subject-item {
+    background-color: #f9f9f9; /* Light background */
+    border: 1px solid #ddd; /* Border for each item */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px; /* Inner padding */
+    transition: transform 0.2s; /* Animation effect on hover */
+  }
+  
+  .subject-item:hover {
+    transform: scale(1.05); /* Slight zoom effect */
+  }
+  
+  .subject-link {
+    display: inline-block; /* Link as a block */
+    margin-top: 10px; /* Space above the link */
+    color: #007BFF; /* Link color */
+    text-decoration: none; /* Remove underline */
+  }
+  
+  .subject-link:hover {
+    text-decoration: underline; /* Underline on hover */
+  }

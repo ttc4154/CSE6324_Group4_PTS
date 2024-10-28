@@ -1,38 +1,115 @@
+/* Navbar styling */
 .navbar {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo styling */
+.navbar-logo {
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+
+/* Navbar menu styling */
+.navbar-menu {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navbar-item {
+  margin: 0;
+}
+
+.navbar-link {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.navbar-link:hover {
+  color: #ffd700; /* Change to desired hover color */
+}
+
+/* Search bar styling */
+.navbar-search {
+  display: flex;
+  align-items: center;
+  margin-right: 4px; /* Space from links */
+}
+
+.navbar-search-input {
+  padding: 8px 12px; /* Added padding for better click area */
+  font-size: 16px;
+  border: 1px solid #ddd; /* Light border for contrast */
+  border-radius: 4px 0 0 4px; /* Rounded corners for input */
+  outline: none;
+}
+
+/* Search button styling */
+.navbar-search-button {
+  background-color: #ffffff; /* Distinct color for contrast */
+  border: none;
+  cursor: pointer;
+  padding: 12px 12px;
+  color: #333; /* Dark color for button icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 4px 4px 0; /* Rounded corners on right */
+  transition: background-color 0.3s ease;
+}
+
+.navbar-search-button:hover {
+  background-color: #7e7575; /* Slightly darker color on hover */
+}
+
+.navbar-auth {
+  display: flex; /* Align Login and Register horizontally */
+  align-items: center; /* Center vertically */
+  margin-left: auto;
+}
+
+.auth-link {
+  margin-left: 8px; /* Space between Login and Register */
+  text-decoration: none;
+  color: #ffffff; /* Bootstrap primary color */
+  margin-right: 10px;
+}
+
+.auth-link:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* Stack items vertically on smaller screens */
+    align-items: flex-start; /* Align items to the start */
   }
-  
-  .navbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+  .navbar-links {
+    justify-content: flex-start; /* Align links to the left */
+    width: 100%; /* Make links take full width */
+    margin-top: 10px; /* Add some space above links */
   }
-  
-  .navbar-logo {
-    color: white;
-    text-decoration: none;
-    font-size: 1.5rem;
+
+  .navbar-search {
+    width: 100%; /* Make search take full width */
+    margin-right: 0;
+    margin-top: 10px; /* Space above search box */
   }
-  
-  .navbar-menu {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
+
+  .navbar-auth {
+    margin-top: 10px; /* Space above auth links */
+    justify-content: flex-start; /* Align auth links to the left */
   }
-  
-  .navbar-item {
-    margin: 0;
-  }
-  
-  .navbar-link {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  
-  .navbar-link:hover {
-    color: #ffd700; /* Change to desired hover color */
-  }
-  
+}

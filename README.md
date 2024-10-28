@@ -11,3 +11,4 @@ I am no expert on react. The steps I took to have it setup and running on Ubuntu
 6. npm install react-router-dom axios
 7. npm install
 8. npm start
+9. npm install firebase
