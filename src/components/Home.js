@@ -1,10 +1,68 @@
 import React from 'react';
 import '../styles/styles.css';
-
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import ContactUs from './ContactUs'; 
 const Home = () => {
+
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 1024 },
+      items: 5
+    },
+    desktop: {
+      breakpoint: { max: 1024, min: 768 },
+      items: 3
+    },
+    tablet: {
+      breakpoint: { max: 768, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  };
+
   return (
     <div className="home-container">
-      <h2 className="section-title">About Our Subject Services</h2>
+        <Carousel responsive={responsive} autoPlay={true} infinite={true}>
+        {/* First Carousel Item */}
+        <div className="carousel-item">
+          <a href="https://example.com/service1" target="_blank" rel="noopener noreferrer">
+            <img src="/images/join_our_team.png" alt="Service 1" className="carousel-image" />
+            <div className="carousel-text">Join Our Team</div>
+          </a>
+        </div>
+        {/* Second Carousel Item */}
+        <div className="carousel-item">
+          <a href="https://example.com/service2" target="_blank" rel="noopener noreferrer">
+            <img src="/images/student_guide.png" alt="Service 2" className="carousel-image" />
+            <div className="carousel-text">Tutoring</div>
+          </a>
+        </div>
+        {/* Repeat for other items */}
+        <div className="carousel-item">
+          <a href="https://example.com/service3" target="_blank" rel="noopener noreferrer">
+            <img src="/images/writing_center.png" alt="Service 3" className="carousel-image" />
+            <div className="carousel-text">Writing Center</div>
+          </a>
+        </div>
+        <div className="carousel-item">
+          <a href="https://example.com/service4" target="_blank" rel="noopener noreferrer">
+            <img src="/images/academic_skills.png" alt="Service 4" className="carousel-image" />
+            <div className="carousel-text">Academic Skills</div>
+          </a>
+        </div>
+        <div className="carousel-item">
+          <a href="https://example.com/service5" target="_blank" rel="noopener noreferrer">
+            <img src="/images/math_exam_prep.png" alt="Service 5" className="carousel-image" />
+            <div className="carousel-text">Math Exam Prep</div>
+          </a>
+        </div>
+      </Carousel>
+        <ContactUs />
+      <h2 className="section-title">Our Subject</h2>
       <div className="subject-grid">
         <div className="subject-item">
           <h3>Math Tutoring</h3>

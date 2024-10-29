@@ -1,0 +1,36 @@
+.contact-us {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 600px; /* Limit the width of the container */
+  }
+  
+  .contact-us h3 {
+    margin-bottom: 20px; /* Space between heading and icons */
+    font-size: 1.25rem;
+    color: #333;
+  }
+  
+  .contact-options {
+    display: flex;
+    justify-content: space-evenly; /* Even spacing between each icon */
+    gap: 40px; /* Adjust the gap as needed */
+    align-items: center;
+  }
+  
+  .contact-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-size: 1rem; /* Adjust size if needed */
+  }
+  
+  .contact-option span {
+    margin-top: 5px;
+  }
+  
+  .contact-option:hover {
+    color: #007BFF; /* Change color on hover */
+  }
+  

@@ -91,6 +91,11 @@ footer {
     width: 100%;
 }
 
+img {
+    display: block !important;
+    opacity: 1 !important;
+    z-index: 1 !important;
+  }
 /* Media Queries for Responsive Design */
 @media (max-width: 600px) {
     nav ul {
@@ -146,3 +151,27 @@ footer {
   .subject-link:hover {
     text-decoration: underline; /* Underline on hover */
   }
+  /* styles.css */
+
+.carousel-item {
+    position: relative;
+  }
+  
+  .carousel-image {
+    width: 100%;
+    height: auto;
+  }
+  
+  .carousel-text {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 1rem;
+    text-align: center;
+  }
+  
