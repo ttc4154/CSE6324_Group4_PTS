@@ -9,22 +9,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
 }
 
 /* Logo styling */
 .navbar-logo {
-  font-size: 1.2rem;  /* Make it larger */
-  font-weight: bold;  /* Make it bold */
-  color: #ffffff;     /* Choose a unique color */
-  text-decoration: none;  /* Remove underline */
-  font-family: 'Montserrat', sans-serif;  /* Add a custom font */
+  font-size: 1.5rem; /* Increased size for better visibility */
+  font-weight: bold; /* Make it bold */
+  color: #ffffff; /* Choose a unique color */
+  text-decoration: none; /* Remove underline */
+  font-family: 'Montserrat', sans-serif; /* Add a custom font */
 }
+
 .navbar-subtitle {
-  font-size: 0.9rem;       /* Smaller font size for the subtitle */
-  color: #ffffff;             /* Subtle color for the subtitle */
-  margin-top: 0.2rem;      /* Small space between logo and subtitle */
-  text-align: center;      /* Center-align text under the logo */
+  font-size: 0.8rem; /* Adjusted for better scaling */
+  color: #ffffff; /* Subtle color for the subtitle */
+  margin-top: 0.2rem; /* Small space between logo and subtitle */
+  text-align: center; /* Center-align text under the logo */
 }
+
 /* Navbar menu styling */
 .navbar-menu {
   list-style: none;
@@ -50,7 +53,7 @@
 .navbar-search {
   display: flex;
   align-items: center;
-  margin-right: 4px; /* Space from links */
+  margin-right: 20px; /* Increased space from links */
 }
 
 .navbar-search-input {
@@ -59,6 +62,7 @@
   border: 1px solid #ddd; /* Light border for contrast */
   border-radius: 10px 0 0 10px; /* Rounded corners for input */
   outline: none;
+  flex-grow: 1; /* Allow input to grow and fill available space */
 }
 
 /* Search button styling */
@@ -66,7 +70,7 @@
   background-color: #ffffff; /* Distinct color for contrast */
   border: none;
   cursor: pointer;
-  padding: 12px 12px;
+  padding: 12px 15px; /* Adjusted padding for better size */
   color: #333; /* Dark color for button icon */
   display: flex;
   align-items: center;
@@ -82,14 +86,13 @@
 .navbar-auth {
   display: flex; /* Align Login and Register horizontally */
   align-items: center; /* Center vertically */
-  margin-left: auto;
+  margin-left: auto; /* Push auth links to the right */
 }
 
 .auth-link {
-  margin-left: 5px; /* Space between Login and Register */
+  margin-left: 10px; /* Space between Login and Register */
   text-decoration: none;
   color: #ffffff; /* Bootstrap primary color */
-  margin-right: 10px;
 }
 
 .auth-link:hover {
@@ -101,6 +104,10 @@
   .navbar {
     flex-direction: column; /* Stack items vertically on smaller screens */
     align-items: flex-start; /* Align items to the start */
+  }
+
+  .navbar-container {
+    width: 100%; /* Ensure full width for mobile */
   }
 
   .navbar-links {
@@ -118,5 +125,15 @@
   .navbar-auth {
     margin-top: 10px; /* Space above auth links */
     justify-content: flex-start; /* Align auth links to the left */
+  }
+
+  .navbar-search-input {
+    font-size: 14px; /* Smaller font size for mobile */
+    padding: 6px; /* Adjust padding for mobile */
+  }
+
+  .navbar-search-button {
+    padding: 8px; /* Adjust button padding for mobile */
+    font-size: 14px; /* Smaller font size for mobile */
   }
 }
