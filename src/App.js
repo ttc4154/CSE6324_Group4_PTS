@@ -13,7 +13,7 @@ import Navbar from './components/Navbar';
 import './styles/Services.css'; 
 
 function App() {
-    const [filteredServices, setFilteredServices] = useState(servicesData); // State for filtered services
+    //const [filteredServices, setFilteredServices] = useState(servicesData); // State for filtered services
 
     /*const handleSearch = (searchTerm) => {
         const lowercasedTerm = searchTerm.toLowerCase();
