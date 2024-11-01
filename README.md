@@ -1,5 +1,6 @@
 # CSE6324_Group4_PTS
 CSE6324 Group4: Personal Tutoring Service (PTS) Website
+Link to the website: https://yellow-desert-0d08f4210.5.azurestaticapps.net/
 
 I am no expert on react. The steps I took to have it setup and running on Ubuntu
 
