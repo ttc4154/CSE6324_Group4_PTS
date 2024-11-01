@@ -34,6 +34,12 @@ const Home = () => {
             <div className="carousel-text">Join Our Team</div>
           </a>
         </div>
+        <div className="carousel-item">
+          <a href="https://example.com/ad2" target="_blank" rel="noopener noreferrer">
+            <img src="/images/ad_2.png" alt="Service 4" className="carousel-image" />
+            <div className="carousel-text">First 10 hours FREE</div>
+          </a>
+        </div>
         {/* Second Carousel Item */}
         <div className="carousel-item">
           <a href="https://example.com/service2" target="_blank" rel="noopener noreferrer">
@@ -48,16 +54,11 @@ const Home = () => {
             <div className="carousel-text">Writing Center</div>
           </a>
         </div>
+        
         <div className="carousel-item">
-          <a href="https://example.com/service4" target="_blank" rel="noopener noreferrer">
-            <img src="/images/academic_skills.png" alt="Service 4" className="carousel-image" />
-            <div className="carousel-text">Academic Skills</div>
-          </a>
-        </div>
-        <div className="carousel-item">
-          <a href="https://example.com/service5" target="_blank" rel="noopener noreferrer">
-            <img src="/images/math_exam_prep.png" alt="Service 5" className="carousel-image" />
-            <div className="carousel-text">Math Exam Prep</div>
+          <a href="https://example.com/ad3" target="_blank" rel="noopener noreferrer">
+            <img src="/images/ad_3.png" alt="Service 5" className="carousel-image" />
+            <div className="carousel-text">50% OFF</div>
           </a>
         </div>
       </Carousel>

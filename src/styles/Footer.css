@@ -1,0 +1,54 @@
+/* Footer styling */
+.footer {
+    background-color: #333;    /* Dark background for footer */
+    color: white;              /* White text color */
+    padding: 5px;             /* Padding around the footer */
+    text-align: center;        /* Center text alignment */
+}
+
+.footer-container {
+    display: flex;             /* Flexbox for layout */
+    justify-content: space-around; /* Space out sections */
+    flex-wrap: wrap;          /* Wrap items for responsiveness */
+}
+
+.footer-links,
+.footer-socials,
+.footer-contact {
+    margin: 5px;             /* Margin around each section */
+}
+
+.footer-links ul,
+.footer-socials ul {
+    list-style: none;         /* Remove bullet points */
+    padding: 0;               /* Remove padding */
+}
+
+.footer-links li,
+.footer-socials li {
+    margin: 5px 0;           /* Space between links */
+}
+
+.footer-links a,
+.footer-socials a {
+    color: white;             /* White links */
+    text-decoration: none;    /* Remove underline */
+}
+
+.footer-links a:hover,
+.footer-socials a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+.footer-bottom {
+    margin-top: 0px;         /* Space above the bottom section */
+    font-size: 0.8rem;        /* Smaller font size for copyright */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .footer-container {
+        flex-direction: column; /* Stack items vertically on small screens */
+        align-items: center;     /* Center items */
+    }
+}

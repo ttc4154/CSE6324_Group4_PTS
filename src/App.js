@@ -7,6 +7,8 @@ import Login from './components/Login';
 import About from './components/About';
 import Contact from './components/Contact';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+
 //import Services from './components/Services';
 // import SearchBox from './components/SearchBox';
 //import servicesData from './servicesData';
@@ -36,6 +38,7 @@ function App() {
                     <Route path="/contact" element={<Contact />} />
                     {/*<Route path="/services" element={<Services services={filteredServices} />} /> {/* Pass filtered services */}
                 </Routes>
+                <Footer />
             </div>
         </Router>
     );

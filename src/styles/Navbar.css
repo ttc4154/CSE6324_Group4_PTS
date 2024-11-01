@@ -13,11 +13,18 @@
 
 /* Logo styling */
 .navbar-logo {
-  color: white;
-  text-decoration: none;
-  font-size: 1.5rem;
+  font-size: 3rem;  /* Make it larger */
+  font-weight: bold;  /* Make it bold */
+  color: #ffffff;     /* Choose a unique color */
+  text-decoration: none;  /* Remove underline */
+  font-family: 'Montserrat', sans-serif;  /* Add a custom font */
 }
-
+.navbar-subtitle {
+  font-size: 0.9rem;       /* Smaller font size for the subtitle */
+  color: #ffffff;             /* Subtle color for the subtitle */
+  margin-top: 0.2rem;      /* Small space between logo and subtitle */
+  text-align: center;      /* Center-align text under the logo */
+}
 /* Navbar menu styling */
 .navbar-menu {
   list-style: none;
@@ -50,7 +57,7 @@
   padding: 8px 12px; /* Added padding for better click area */
   font-size: 16px;
   border: 1px solid #ddd; /* Light border for contrast */
-  border-radius: 4px 0 0 4px; /* Rounded corners for input */
+  border-radius: 10px 0 0 10px; /* Rounded corners for input */
   outline: none;
 }
 
@@ -64,7 +71,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0 4px 4px 0; /* Rounded corners on right */
+  border-radius: 0 10px 10px 0; /* Rounded corners on right */
   transition: background-color 0.3s ease;
 }
 
@@ -79,7 +86,7 @@
 }
 
 .auth-link {
-  margin-left: 8px; /* Space between Login and Register */
+  margin-left: 5px; /* Space between Login and Register */
   text-decoration: none;
   color: #ffffff; /* Bootstrap primary color */
   margin-right: 10px;
@@ -112,4 +119,15 @@
     margin-top: 10px; /* Space above auth links */
     justify-content: flex-start; /* Align auth links to the left */
   }
+}
+.advertisement-banner {
+  display: block; /* Ensure it's displayed */
+  background-color: #e0efff;   /* Light red background for visibility */
+  color: #81000d;              /* Darker text color */
+  border-radius: 10px;          /* Rounded corners */
+  margin-top: 10px;            /* Space between the subtitle and banner */
+  text-align: center;          /* Center text inside the banner */
+  width: 30%;                 /* Full width of the navbar */
+  margin-left: 30px; /* Space between Login and Register */
+  box-shadow: 0 2px 4px rgba(0, 36, 241, 0.1); /* Optional shadow for depth */
 }

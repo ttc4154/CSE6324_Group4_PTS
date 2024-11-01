@@ -1,29 +1,54 @@
+.search-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 20px 0;
+}
+
 .search-box {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
+  display: flex;
+  width: 100%;
+  max-width: 500px; /* Limits width on larger screens */
+}
+
+.search-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+  min-width: 0; /* Allows flex to control width */
+}
+
+.search-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin-left: 10px;
+  cursor: pointer;
+  flex-shrink: 0; /* Prevents button from shrinking */
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+/* Media Query for Mobile Screens */
+@media (max-width: 600px) {
+  .search-box {
+      flex-direction: column; /* Stack input and button */
+      align-items: stretch; /* Makes both full width */
   }
-  
-  .search-input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 300px; /* Adjust width as needed */
+
+  .search-input, .search-button {
+      width: 100%; /* Full width on mobile */
+      margin: 5px 0; /* Adds space between elements */
   }
-  
+
   .search-button {
-    padding: 10px 15px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    margin-left: 10px;
-    cursor: pointer;
+      margin-left: 0; /* Removes horizontal margin on mobile */
   }
-  
-  .search-button:hover {
-    background-color: #0056b3;
-  }
-  
+}
