@@ -26,6 +26,9 @@ const Home = () => {
 
   return (
     <div className="home-container">
+        <div className="advertisement-banner">
+          <p>Advertise Here! Get 20% Off Your First Lesson!</p>
+        </div>
         <Carousel responsive={responsive} autoPlay={true} infinite={true}>
         {/* First Carousel Item */}
         <div className="carousel-item">

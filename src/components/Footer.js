@@ -15,7 +15,7 @@ const Footer = () => {
             <li><Link to="/contact">Contact Us</Link></li>
           </ul>
         </div>
-        <div className="advertisement-banner">
+        <div className="advertisement-banner-footer">
           <p>Advertise Here! 90% Off</p>
         </div>
         <div className="footer-socials">
@@ -27,7 +27,7 @@ const Footer = () => {
             <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><i className="fab fa-linkedin-in"></i> LinkedIn</a></li>
           </ul>
         </div>
-        <div className="advertisement-banner">
+        <div className="advertisement-banner-footer">
           <p>Advertise Here! 75% Off</p>
         </div>
         <div className="footer-contact">

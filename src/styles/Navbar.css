@@ -13,7 +13,7 @@
 
 /* Logo styling */
 .navbar-logo {
-  font-size: 3rem;  /* Make it larger */
+  font-size: 1.2rem;  /* Make it larger */
   font-weight: bold;  /* Make it bold */
   color: #ffffff;     /* Choose a unique color */
   text-decoration: none;  /* Remove underline */
@@ -119,15 +119,4 @@
     margin-top: 10px; /* Space above auth links */
     justify-content: flex-start; /* Align auth links to the left */
   }
-}
-.advertisement-banner {
-  display: block; /* Ensure it's displayed */
-  background-color: #e0efff;   /* Light red background for visibility */
-  color: #81000d;              /* Darker text color */
-  border-radius: 10px;          /* Rounded corners */
-  margin-top: 10px;            /* Space between the subtitle and banner */
-  text-align: center;          /* Center text inside the banner */
-  width: 30%;                 /* Full width of the navbar */
-  margin-left: 30px; /* Space between Login and Register */
-  box-shadow: 0 2px 4px rgba(0, 36, 241, 0.1); /* Optional shadow for depth */
 }

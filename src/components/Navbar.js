@@ -8,12 +8,8 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-          PTS
+          Personal Tutoring Services
         </Link>
-        {/*<span className="navbar-subtitle">Personal Tutoring Service</span>*/}
-        <div className="advertisement-banner">
-          <p>Advertise Here! Get 20% Off Your First Lesson!</p>
-        </div>
         <div className="navbar-auth">
           <Link to="/login" className="auth-link">Login</Link>
           <Link to="/register" className="auth-link">Register</Link>
