@@ -14,3 +14,5 @@ I am no expert on react. The steps I took to have it setup and running on Ubuntu
 9. npm install firebase
 10. npm install react-icons
 11. npm install react-multi-carousel
+12. npm install firebase-admin
+13. npm install react-firebase-hooks
