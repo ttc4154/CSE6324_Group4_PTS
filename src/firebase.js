@@ -1,5 +1,9 @@
-import { initializeApp } from 'firebase/app';
+import { initializeApp } from "firebase/app";
+
+import { getAnalytics } from "firebase/analytics";
+
 import { getAuth } from 'firebase/auth';
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
 
@@ -9,7 +13,7 @@ const firebaseConfig = {
 
   projectId: "cse6324-6eb33",
 
-  storageBucket: "cse6324-6eb33.appspot.com",
+  storageBucket: "cse6324-6eb33.firebasestorage.app",
 
   messagingSenderId: "993135800758",
 
@@ -20,7 +24,9 @@ const firebaseConfig = {
 };
 
 
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-export { auth };
+export { auth, db };

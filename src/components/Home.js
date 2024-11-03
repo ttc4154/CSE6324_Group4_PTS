@@ -3,7 +3,17 @@ import '../styles/styles.css';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import ContactUs from './ContactUs'; 
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
 const Home = () => {
+
+  const [user] = useAuthState(auth);
+  const navigate = useNavigate();
+
+  const handleNavigateToAdmin = () => {
+    navigate('/admin');
+  };
 
   const responsive = {
     superLargeDesktop: {
@@ -26,6 +36,9 @@ const Home = () => {
 
   return (
     <div className="home-container">
+        {user && user.isAdmin && ( // Check if the user is an admin
+          <button onClick={handleNavigateToAdmin}>Go to Admin Dashboard</button>
+        )}
         <div className="advertisement-banner">
           <p>Advertise Here! Get 20% Off Your First Lesson!</p>
         </div>
