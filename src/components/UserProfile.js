@@ -180,41 +180,53 @@ const UserProfile = () => {
           {/* Display User Type */}
           <p>User Type: {userData.userType}</p>
           
-          <p>Select Member Status:</p>
-          <label>
-            <input
-              type="radio"
-              value="regular"
-              checked={userData.memberStatus === 'regular'}
-              onChange={() => handleInputChange("memberStatus", "regular")}
-            />
-            Regular Member
-          </label>
-          <label>
-            <input
-              type="radio"
-              value="coordinator"
-              checked={userData.memberStatus === 'coordinator'}
-              onChange={() => handleInputChange("memberStatus", "coordinator")}
-            />
-            Coordinator
-          </label>
-  
-          {/* Display selected subjects */}
-          <div>
-            <p>Select Subjects:</p>
-            {["Math Tutoring", "Science Tutoring", "Writing Support", "Tennis Coaching", "Piano Lessons", "English Tutoring", "Programming Classes"].map((subject) => (
-              <label key={subject}>
+          <p>Member Status:</p>
+          <ul style={{ listStyleType: 'none', padding: 0 }}>
+            <li>
+              <label style={{ display: 'inline-flex', alignItems: 'center' }}>
+                Regular&nbsp;Member
                 <input
-                  type="checkbox"
-                  value={subject}
-                  checked={userData.selectedSubjects.includes(subject)}
-                  onChange={() => handleSubjectChange(subject)}
+                  type="radio"
+                  value="regular"
+                  checked={userData.memberStatus === 'regular'}
+                  onChange={() => handleInputChange("memberStatus", "regular")}
+                  style={{ marginLeft: '50px' }}
                 />
-                {subject}
               </label>
-            ))}
-          </div>
+            </li>
+            <li>
+              <label style={{ display: 'inline-flex', alignItems: 'center' }}>
+                Coordinator
+                <input
+                  type="radio"
+                  value="coordinator"
+                  checked={userData.memberStatus === 'coordinator'}
+                  onChange={() => handleInputChange("memberStatus", "coordinator")}
+                  style={{ marginLeft: '83px' }}
+                />
+              </label>
+            </li>
+          </ul>
+
+          {/* Display selected subjects */}
+          <ul style={{ listStyleType: 'none', padding: 0 }}>
+  <p>Subjects:</p>
+  {["Math Tutoring", "Science Tutoring", "Writing Support", "Tennis Coaching", "Piano Lessons", "English Tutoring", "Programming Classes"].map((subject) => (
+    <li key={subject} style={{ marginBottom: '0px' }}>
+    {subject}
+      <label style={{ display: 'inline-flex', alignItems: 'center' }}>
+        <input
+          type="checkbox"
+          value={subject}
+          checked={userData.selectedSubjects.includes(subject)}
+          onChange={() => handleSubjectChange(subject)}
+        />
+      </label>
+    </li>
+  ))}
+</ul>
+
+
   
           <div style={{ marginTop: '20px' }}>
             <button onClick={saveChanges} className="save-button">Save Changes</button>
