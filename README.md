@@ -1,8 +1,8 @@
 # CSE6324_Group4_PTS
 CSE6324 Group4: Personal Tutoring Service (PTS) Website
-something
-I am no expert on react. The steps I took to have it setup and running on Ubuntu
 
+I am no expert on react. The steps I took to have it setup and running on Ubuntu
+Link to the webserver: https://yellow-desert-0d08f4210.5.azurestaticapps.net/
 1. git clone https://github.com/ttc4154/CSE6324_Group4_PTS.git
 2. curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
 3. nvm install 23

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../firebase'; // Make sure to import your Firebase auth instance
 import { useNavigate } from 'react-router-dom'; // Updated import
+import '../styles/Login.css';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -32,21 +33,25 @@ function Login() {
       <h2>Login</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleLogin}>
+        <label htmlFor="email">Username:</label>
         <input
+          id="email"
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        <label htmlFor="password">Password:</label>
         <input
+          id="password"
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
+        <button className="save-button" type="submit">Login</button>
+        <button className="save-button" type="button" onClick={handleForgotPassword}>Forgot Password?</button>
       </form>
-      <button onClick={handleForgotPassword}>Forgot Password?</button>
     </div>
   );
 }

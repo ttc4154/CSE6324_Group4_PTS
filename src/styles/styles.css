@@ -185,7 +185,17 @@ img {
     padding: 1px;                /* Add padding for better spacing inside the banner */
     box-shadow: 0 2px 4px rgba(0, 36, 241, 0.1); /* Optional shadow for depth */
 }
-
+.advertisement-banner-fo oter {
+  display: block; /* Ensure it's displayed */
+  background-color: #e0efff;   /* Light red background for visibility */
+  color: #81000d;              /* Darker text color */
+  border-radius: 10px;          /* Rounded corners */
+  margin-top: 10px;            /* Space between the subtitle and banner */
+  text-align: center;          /* Center text inside the banner */
+  width: 30%;                 /* Full width of the navbar */
+  margin-left: 30px; /* Space between Login and Register */
+  box-shadow: 0 2px 4px rgba(0, 36, 241, 0.1); /* Optional shadow for depth */
+}
 /* Optional: Adjustments for smaller screens */
 @media (max-width: 768px) {
     .advertisement-banner {
@@ -193,4 +203,8 @@ img {
         margin-left: 10px; /* Reduced margin for mobile */
         margin-right: 10px; /* Reduced margin for mobile */
     }
+}
+
+.save-button {
+  margin-right: 10px; /* Adds space between the buttons */
 }

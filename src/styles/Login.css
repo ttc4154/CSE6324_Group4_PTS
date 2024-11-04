@@ -1,0 +1,23 @@
+.login-container {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    max-width: 400px;      /* Limit width */
+    margin: auto;          /* Center on the page */
+    padding: 20px;         /* Padding for aesthetics */
+    border: 1px solid #ccc; /* Optional border */
+    border-radius: 5px;    /* Optional rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+
+label {
+    margin-top: 10px; /* Space above each label */
+    font-weight: bold; /* Bold text for labels */
+}
+
+input {
+    margin-bottom: 10px; /* Space below each input field */
+    padding: 10px;      /* Padding inside the input */
+    border: 1px solid #ccc; /* Border for input fields */
+    border-radius: 4px; /* Rounded corners for inputs */
+    width: 100%;        /* Full width for inputs */
+}

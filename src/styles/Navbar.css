@@ -71,6 +71,7 @@
   border: none;
   cursor: pointer;
   padding: 12px 15px; /* Adjusted padding for better size */
+  margin-top: -10px; /* Add some space above links */
   color: #333; /* Dark color for button icon */
   display: flex;
   align-items: center;
