@@ -3,7 +3,7 @@ import { auth, db } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { doc, getDoc, updateDoc, collection, getDocs } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom'; 
-import '../styles/styles.css';
+import '../styles/UserProfile.css';
 
 const UserProfile = () => {
   const [user] = useAuthState(auth);
@@ -131,7 +131,7 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="user-profile">
+    <div className="user-profile-container">
       <h2>User Profile</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {userData ? (
@@ -210,24 +210,21 @@ const UserProfile = () => {
 
           {/* Display selected subjects */}
           <ul style={{ listStyleType: 'none', padding: 0 }}>
-  <p>Subjects:</p>
-  {["Math Tutoring", "Science Tutoring", "Writing Support", "Tennis Coaching", "Piano Lessons", "English Tutoring", "Programming Classes"].map((subject) => (
-    <li key={subject} style={{ marginBottom: '0px' }}>
-    {subject}
-      <label style={{ display: 'inline-flex', alignItems: 'center' }}>
-        <input
-          type="checkbox"
-          value={subject}
-          checked={userData.selectedSubjects.includes(subject)}
-          onChange={() => handleSubjectChange(subject)}
-        />
-      </label>
-    </li>
-  ))}
-</ul>
-
-
-  
+            <p>Subjects:</p>
+            {["Math Tutoring", "Science Tutoring", "Writing Support", "Tennis Coaching", "Piano Lessons", "English Tutoring", "Programming Classes"].map((subject) => (
+              <li key={subject} style={{ marginBottom: '0px' }}>
+              {subject}
+                <label style={{ display: 'inline-flex', alignItems: 'center' }}>
+                  <input
+                    type="checkbox"
+                    value={subject}
+                    checked={userData.selectedSubjects.includes(subject)}
+                    onChange={() => handleSubjectChange(subject)}
+                  />
+                </label>
+              </li>
+            ))}
+          </ul>
           <div style={{ marginTop: '20px' }}>
             <button onClick={saveChanges} className="save-button">Save Changes</button>
             <button onClick={handleLogout} className="auth-link">Logout</button>

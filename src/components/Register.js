@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth, db } from '../firebase';
 import { doc, setDoc } from 'firebase/firestore';
+import '../styles/Register.css';
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -66,102 +67,119 @@ function Register() {
       <h2>Register</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleRegister}>
-        <input
-          type="text"
-          placeholder="Display Name"
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Phone Number (optional)"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Address (optional)"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        />
-
-        <div>
-          <label>
+        <div style={{ marginBottom: '10px' }}>
+          <input
+            type="text"
+            placeholder="Display Name"
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+            required
+          />
+        </div>
+        <div style={{ marginBottom: '10px' }}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div style={{ marginBottom: '10px' }}>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div style={{ marginBottom: '10px' }}>
+          <input
+            type="text"
+            placeholder="Phone Number (optional)"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+        </div>
+        <div style={{ marginBottom: '10px' }}>
+          <input
+            type="text"
+            placeholder="Address (optional)"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </div>
+  
+        <div style={{ marginBottom: '10px' }}>
+          <p>Register as:</p>
+          <label style={{ display: 'inline-flex', alignItems: 'center', marginRight: '20px' }}>
             <input
               type="radio"
               value="student"
               checked={userType === 'student'}
               onChange={() => setUserType('student')}
+              style={{ marginRight: '5px' }} // Adds space between checkbox and text
             />
-            Register as Student
+            Student
           </label>
-          <label>
+          <label style={{ display: 'inline-flex', alignItems: 'center' }}>
             <input
               type="radio"
               value="tutor"
               checked={userType === 'tutor'}
               onChange={() => setUserType('tutor')}
+              style={{ marginRight: '5px' }} // Adds space between checkbox and text
             />
-            Register as Tutor
+            Tutor
           </label>
         </div>
-
-        <div>
+  
+        <div style={{ marginBottom: '10px' }}>
           <p>Select Subjects:</p>
           {subjects.map((subject) => (
-            <label key={subject}>
+            <label key={subject} style={{ display: 'inline-flex', alignItems: 'center', marginRight: '10px' }}>
               <input
                 type="checkbox"
                 value={subject}
                 checked={selectedSubjects.includes(subject)}
                 onChange={() => handleSubjectChange(subject)}
+                style={{ marginRight: '5px' }} // Adds space between checkbox and text
               />
               {subject}
             </label>
           ))}
         </div>
-
-        <div>
+  
+        <div style={{ marginBottom: '10px' }}>
           <p>Select Member Status:</p>
-          <label>
+          <label style={{ display: 'inline-flex', alignItems: 'center', marginRight: '20px' }}>
             <input
               type="radio"
               value="regular"
               checked={memberStatus === 'regular'}
               onChange={() => setMemberStatus('regular')}
+              style={{ marginRight: '5px' }} // Adds space between checkbox and text
             />
             Regular Member
           </label>
-          <label>
+          <label style={{ display: 'inline-flex', alignItems: 'center' }}>
             <input
               type="radio"
               value="coordinator"
               checked={memberStatus === 'coordinator'}
               onChange={() => setMemberStatus('coordinator')}
+              style={{ marginRight: '5px' }} // Adds space between checkbox and text
             />
             Coordinator
           </label>
         </div>
-
+  
         <button type="submit">Register</button>
       </form>
     </div>
   );
+  
 }
 
 export default Register;
