@@ -1,0 +1,16 @@
+.live-chat-container
+{
+    background-color: #f4f4f488;
+    backdrop-filter: blur(19px) saturate(180%);
+    display: flex;
+    flex-direction: row; /* Stack elements vertically */
+    max-width: 75vw;
+    min-height: 75vh;
+    margin: auto;          /* Center on the page */
+    padding: 20px;         /* Padding for aesthetics */
+    border: 1px solid #ccc; /* Optional border */
+    border-radius: 5px;    /* Optional rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+    display: flex;
+    
+}

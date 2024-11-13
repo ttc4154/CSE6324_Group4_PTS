@@ -1,0 +1,82 @@
+.chat{
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
+    flex: 2;
+    border-left: 1px solid #645e5e4b;
+    border-right: 1px solid #645e5e4b;
+    height: 100%;
+
+    .top{
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #645e5e4b;
+        border-radius: 5px;
+
+        .user{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            .texts{
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+                span{
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: white;
+                }
+                p{
+                    font-size: 14px;
+                    font-weight: 300;
+                    color:#f4f4f4;
+                }
+            }
+        }
+        .icons{
+            display: flex;
+            gap: 10px;
+            img{
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+            }
+        }
+    }
+    .center{
+        padding: 20px;
+        flex: 1;
+
+    }
+    .bottom{
+        margin-top:auto;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #645e5e4b;
+        border-radius: 5px;
+        gap: 10px;
+
+        input{
+            flex: 1;
+            background-color: #4e49494b;
+            border: none;
+            outline: none;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .sendButton{
+            padding: 10px 20px;
+            border:none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    }
+}
