@@ -6,6 +6,10 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    background-image: url('../../public/images/bkrd.png');
+    background-size: auto;
+    background-position: center;
+    min-height: auto;
     color: #333;
 }
 

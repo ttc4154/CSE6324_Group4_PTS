@@ -10,6 +10,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import UserProfile from './components/UserProfile';
 import AdminDashboard from './components/AdminDashboard';
+import LiveChat from './components/LiveChat';
 
 //import Services from './components/Services';
 // import SearchBox from './components/SearchBox';
@@ -40,6 +41,7 @@ function App() {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/user-profile" element={<UserProfile />} />
                     <Route path="/admin" element={<AdminDashboard />} />
+                    <Route path="/chat" element={<LiveChat/>}/>
                     {/*<Route path="/services" element={<Services services={filteredServices} />} /> {/* Pass filtered services */}
                 </Routes>
                 <Footer />

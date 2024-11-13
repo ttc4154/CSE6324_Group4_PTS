@@ -1,4 +1,5 @@
 .login-container {
+    background-color: #f9f9f9; /* Light background */
     display: flex;
     flex-direction: column; /* Stack elements vertically */
     max-width: 400px;      /* Limit width */

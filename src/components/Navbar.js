@@ -43,6 +43,10 @@ const Navbar = () => {
         <div className="navbar-auth">
       {user ? (
         <>
+          {/* Conditionally render the Chat link*/}
+          {location.pathname !== '/chat' && (
+            <Link to="/chat">Live Chat</Link>
+          )}
           {/* Conditionally render User Profile link */}
           {location.pathname !== '/user-profile' && (
             <Link to="/user-profile">User Profile</Link>
