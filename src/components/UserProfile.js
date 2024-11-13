@@ -4,12 +4,14 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { doc, getDoc, updateDoc, collection, getDocs } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom'; 
 import '../styles/UserProfile.css';
+import TutorScheduler from './TutorScheduler';
+import StudentScheduler from './StudentScheduler';
 
 const UserProfile = () => {
   const [user] = useAuthState(auth);
   const [userData, setUserData] = useState(null);
-  const [students, setStudents] = useState([]); // State for storing students
-  const [tutors, setTutors] = useState([]); // State for storing tutors
+  const [students, setStudents] = useState([]);
+  const [tutors, setTutors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate(); 
@@ -60,7 +62,7 @@ const UserProfile = () => {
 
   const handleLogout = async () => {
     await auth.signOut();
-    navigate('/'); // Redirect to home or login page after logout
+    navigate('/'); 
   };
 
   useEffect(() => {
@@ -116,11 +118,10 @@ const UserProfile = () => {
       }
     };
 
-    // Fetch user data first, then users
     fetchUserData().then(() => {
       fetchUsers();
     });
-  }, [user]); // Run effect whenever the user state changes
+  }, [user]);
 
   if (loading) {
     return <p>Loading profile...</p>;
@@ -177,7 +178,6 @@ const UserProfile = () => {
             </label>
           </div>
   
-          {/* Display User Type */}
           <p>User Type: {userData.userType}</p>
           
           <p>Member Status:</p>
@@ -208,7 +208,6 @@ const UserProfile = () => {
             </li>
           </ul>
 
-          {/* Display selected subjects */}
           <ul style={{ listStyleType: 'none', padding: 0 }}>
             <p>Subjects:</p>
             {["Math Tutoring", "Science Tutoring", "Writing Support", "Tennis Coaching", "Piano Lessons", "English Tutoring", "Programming Classes"].map((subject) => (
@@ -232,25 +231,29 @@ const UserProfile = () => {
               <button className="auth-link" onClick={handleNavigateToAdmin}>Go to Admin Dashboard</button>
             )}
           </div>
-          
-          {/* Display user list */}
-            <h3>Users List</h3>
-            <h4>Students:</h4>
-            <ul>
+
+          {/* Scheduling section */}
+          {userData.userType === 'tutor' && <TutorScheduler tutorId={user.uid} />}
+          {userData.userType === 'student' && <StudentScheduler studentId={user.uid} />}
+
+
+          <h3>Users List</h3>
+          <h4>Students:</h4>
+          <ul>
             {students.map(student => (
-                <li key={student.id}>
+              <li key={student.id}>
                 {student.displayName} ({student.email}) - Phone: {student.phone} - Subjects: {student.selectedSubjects.join(', ')}
-                </li>
+              </li>
             ))}
-            </ul>
-            <h4>Tutors:</h4>
-            <ul>
+          </ul>
+          <h4>Tutors:</h4>
+          <ul>
             {tutors.map(tutor => (
-                <li key={tutor.id}>
+              <li key={tutor.id}>
                 {tutor.displayName} ({tutor.email}) - Phone: {tutor.phone} - Subjects: {tutor.selectedSubjects.join(', ')}
-                </li>
+              </li>
             ))}
-            </ul>
+          </ul>
         </div>
       ) : (
         <p>No user data available.</p>
