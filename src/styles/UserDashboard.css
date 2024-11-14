@@ -1,0 +1,41 @@
+/* Style for the main dashboard container */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  /* Style for the dashboard menu */
+  .dashboard-menu ul {
+    display: flex;
+    gap: 15px;
+    list-style-type: none;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .dashboard-menu li {
+    margin: 0;
+  }
+  
+  .dashboard-menu li a {
+    text-decoration: none;
+    color: #333;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .dashboard-menu li a:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Style for the content area where each section is displayed */
+  .dashboard-content {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    min-height: 400px; /* Set a minimum height for content area */
+  }
+  

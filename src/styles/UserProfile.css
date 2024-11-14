@@ -1,4 +1,30 @@
-.user-profile-container {
+.user-profile-nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .user-profile-nav button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: #fff;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .user-profile-nav button:hover {
+    background-color: #2980b9;
+  }
+  
+  .user-profile-nav button:focus {
+    outline: none;
+    background-color: #2c3e50;
+  }
+  
+  .user-profile-container {
     display: flex;
     flex-direction: column; /* Stack elements vertically */
     max-width: 400px;      /* Limit width */
