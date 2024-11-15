@@ -136,10 +136,11 @@ const UserProfile = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {userData ? (
         <div>
+          <h1>User Profile</h1>
           <div>
             <label>
               Name:
-              <input 
+              <input
                 type="text"
                 value={userData.displayName}
                 onChange={(e) => handleInputChange("displayName", e.target.value)}

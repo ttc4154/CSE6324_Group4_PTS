@@ -7,6 +7,8 @@
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -55,7 +57,7 @@
 /* Slots list section */
 .tutor-scheduler h4 {
     margin-top: 25px;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: #333;
 }
 

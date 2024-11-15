@@ -109,8 +109,10 @@ const TutorScheduler = () => {
     };
 
     return (
+        
         <div className="tutor-scheduler">
-            <h3>Manage Available Slots</h3>
+            <h1>Schedules</h1>
+            <h4>Manage Available Slots</h4>
             <label htmlFor="newSlot">Pick a date and time:</label>
             <input
                 type="datetime-local"
