@@ -19,6 +19,7 @@ import { auth } from './firebase'; // Import Firebase auth
 import TutorScheduler from './components/TutorScheduler';
 import StudentScheduler from './components/StudentScheduler';
 import MyCourses from './components/MyCourses';
+import Messages from './components/messages/Messages';
 
 function App() {
     const [user, setUser] = useState(null); // State to track user
@@ -52,6 +53,7 @@ function App() {
                     <Route path="/admin" element={<AdminDashboard />} />
                     <Route path="/chat" element={<LiveChat />} />
                     <Route path="/my-courses" element={<MyCourses />} />
+                    <Route path="/my-messages" element={<Messages />} />
                 </Routes>
                 <Footer />
             </div>
