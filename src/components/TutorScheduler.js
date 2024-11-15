@@ -72,8 +72,11 @@ const TutorScheduler = () => {
         }
     };
 
-    // Function to delete a slot
+    // Function to delete a slot with confirmation
     const deleteSlot = async (slotToDelete) => {
+        const confirmDelete = window.confirm(`Are you sure you want to delete the slot: ${formatSlotDate(slotToDelete)}?`);
+        if (!confirmDelete) return;
+
         try {
             const tutorRef = doc(db, 'tutors', tutorId);
             const tutorDoc = await getDoc(tutorRef);
@@ -135,6 +138,12 @@ const TutorScheduler = () => {
         }
     };
 
+    // Function to cancel editing
+    const cancelEditing = () => {
+        setNewSlot('');
+        setEditingSlot(null);
+    };
+
     // Handle date-time change
     const handleDateTimeChange = (e) => {
         setNewSlot(e.target.value);
@@ -162,7 +171,12 @@ const TutorScheduler = () => {
                 onChange={handleDateTimeChange}
             />
             {editingSlot ? (
-                <button onClick={saveEditedSlot}>Save Edited Slot</button>
+                <>
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                        <button onClick={saveEditedSlot}>Save Edited Slot</button>
+                        <button onClick={cancelEditing}>Cancel</button>
+                    </div>
+                </>
             ) : (
                 <button onClick={addSlot}>Add Slot</button>
             )}
@@ -172,8 +186,10 @@ const TutorScheduler = () => {
                 {availableSlots.map((slot, index) => (
                     <li key={index}>
                         {slot ? formatSlotDate(slot) : "Invalid Date"}
-                        <button onClick={() => startEditingSlot(slot)}>Edit</button>
-                        <button onClick={() => deleteSlot(slot)}>Delete</button>
+                        <div style={{ display: 'flex', justifyContent: 'right', gap: '10px' }}>
+                            <button onClick={() => startEditingSlot(slot)}>Edit</button>
+                            <button onClick={() => deleteSlot(slot)}>Delete</button>
+                        </div>
                     </li>
                 ))}
             </ul>

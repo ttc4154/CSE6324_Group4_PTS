@@ -130,22 +130,24 @@ const SubjectManagement = () => {
                   onChange={(e) => setUpdatedDescription(e.target.value)}
                   placeholder="Edit subject description"
                 />
-                <p>
+                <div style={{ display: 'flex', justifyContent: 'left', gap: '10px' }}>
                     <button onClick={() => handleEditSubject(subject.id)}>Save</button>
                     <button onClick={() => setEditingSubject(null)}>Cancel</button>
-                </p>
+                </div>
                 
               </div>
             ) : (
               <div>
                 <p><strong>{subject.name}</strong></p>
                 <p>{subject.description}</p>
-                <button onClick={() => {
-                  setEditingSubject(subject.id);
-                  setUpdatedSubject(subject.name);
-                  setUpdatedDescription(subject.description);
-                }}>Edit</button>
-                <button onClick={() => handleDeleteSubject(subject.id)}>Delete</button>
+                <div style={{ display: 'flex', justifyContent: 'left', gap: '10px' }}>
+                  <button onClick={() => {
+                    setEditingSubject(subject.id);
+                    setUpdatedSubject(subject.name);
+                    setUpdatedDescription(subject.description);
+                  }}>Edit</button>
+                  <button onClick={() => handleDeleteSubject(subject.id)}>Delete</button>
+                </div>
               </div>
             )}
           </div>
