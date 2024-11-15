@@ -9,6 +9,7 @@ import Contact from './components/Contact';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import UserProfile from './components/UserProfile';
+import CreateCourse from './components/CreateCourse';
 import AdminDashboard from './components/AdminDashboard';
 import LiveChat from './components/LiveChat';
 import Menu from './components/Menu'; // Import the Menu component
@@ -17,6 +18,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase'; // Import Firebase auth
 import TutorScheduler from './components/TutorScheduler';
 import StudentScheduler from './components/StudentScheduler';
+import MyCourses from './components/MyCourses';
 
 function App() {
     const [user, setUser] = useState(null); // State to track user
@@ -43,11 +45,13 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />
+                    <Route path="/create-course" element={<CreateCourse />} /> 
                     <Route path="/user-profile" element={<UserProfile />} />
                     <Route path="/tutor-scheduler" element={<TutorScheduler />} />
                     <Route path="/student-scheduler" element={<StudentScheduler />} />
                     <Route path="/admin" element={<AdminDashboard />} />
                     <Route path="/chat" element={<LiveChat />} />
+                    <Route path="/my-courses" element={<MyCourses />} />
                 </Routes>
                 <Footer />
             </div>
