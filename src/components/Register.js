@@ -1,8 +1,7 @@
-// Register.js
-import React, { useState } from 'react';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import React, { useState, useEffect } from 'react';
+import { createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import { auth, db } from '../firebase';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
 import '../styles/Register.css';
 
 function Register() {
@@ -16,16 +15,24 @@ function Register() {
   const [address, setAddress] = useState(''); // State for address
   const [memberStatus, setMemberStatus] = useState('regular'); // Default member status
   const [error, setError] = useState('');
+  const [subjects, setSubjects] = useState([]); // Store subjects from Firestore
+  const [resetPasswordEmail, setResetPasswordEmail] = useState(''); // For resetting password
+  const [resetEmailError, setResetEmailError] = useState('');
 
-  const subjects = [
-    "Math Tutoring", 
-    "Science Tutoring", 
-    "Writing Support", 
-    "Tennis Coaching", 
-    "Piano Lessons", 
-    "English Tutoring", 
-    "Programming Classes"
-  ];
+  // Fetch subjects from Firestore
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'subjects'));
+        const subjectList = querySnapshot.docs.map((doc) => doc.data().name);
+        setSubjects(subjectList);
+      } catch (error) {
+        console.error('Error fetching subjects:', error);
+      }
+    };
+
+    fetchSubjects();
+  }, []); // Empty dependency array to run only once when the component mounts
 
   // Toggle subject selection
   const handleSubjectChange = (subject) => {
@@ -67,7 +74,23 @@ function Register() {
       console.error("Error in registration:", err);
     }
   };
-  
+
+  // Handle Forgot Password
+  const handleForgotPassword = async () => {
+    if (!resetPasswordEmail) {
+      setResetEmailError('Please enter your email address.');
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, resetPasswordEmail);
+      alert('Password reset email sent!');
+      setResetPasswordEmail('');
+      setResetEmailError('');
+    } catch (error) {
+      setResetEmailError('Error sending password reset email. Please try again.');
+      console.error('Error in sending password reset email:', error);
+    }
+  };
 
   return (
     <div className="register-container">
@@ -168,7 +191,7 @@ function Register() {
               onChange={() => setMemberStatus('regular')}
               style={{ marginRight: '5px' }} // Adds space between checkbox and text
             />
-            Regular Member
+            Regular
           </label>
           <label style={{ display: 'inline-flex', alignItems: 'center' }}>
             <input
@@ -184,9 +207,23 @@ function Register() {
   
         <button type="submit">Register</button>
       </form>
+
+      {/* Forgot Password Section */}
+      <div>
+        <p>Forgot your password?</p>
+        <input
+          type="email"
+          placeholder="Enter your email"
+          value={resetPasswordEmail}
+          onChange={(e) => setResetPasswordEmail(e.target.value)}
+        />
+        {resetEmailError && <p style={{ color: 'red' }}>{resetEmailError}</p>}
+        <button type="button" onClick={handleForgotPassword}>
+          Reset Password
+        </button>
+      </div>
     </div>
   );
-  
 }
 
 export default Register;
