@@ -31,8 +31,11 @@
     margin: auto;          /* Center on the page */
     padding: 20px;         /* Padding for aesthetics */
     border: 1px solid #ccc; /* Optional border */
-    border-radius: 5px;    /* Optional rounded corners */
+    border-radius: 20px;    /* Optional rounded corners */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+    background-color: #9acafa;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 label {
@@ -40,10 +43,15 @@ label {
     font-weight: bold; /* Bold text for labels */
 }
 
+label1 {
+    margin-top: 10px; /* Space above each label */
+    /*font-weight: bold; /* Bold text for labels */
+}
+
 input {
-    margin-bottom: 10px; /* Space below each input field */
+    margin-bottom: px; /* Space below each input field */
     padding: 10px;      /* Padding inside the input */
     border: 1px solid #ccc; /* Border for input fields */
     border-radius: 4px; /* Rounded corners for inputs */
-    width: 100%;        /* Full width for inputs */
+    width: 95%;        /* Full width for inputs */
 }

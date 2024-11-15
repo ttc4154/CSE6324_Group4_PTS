@@ -1,0 +1,81 @@
+/* TutorScheduler specific styles */
+
+/* Apply styles only inside the .tutor-scheduler container */
+.tutor-scheduler {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.tutor-scheduler h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Date picker label */
+.tutor-scheduler label {
+    font-size: 1rem;
+    color: #555;
+    margin-right: 10px;
+}
+
+/* Input field for date-time */
+.tutor-scheduler input[type="datetime-local"] {
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 250px;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+/* Add Slot button */
+.tutor-scheduler button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tutor-scheduler button:hover {
+    background-color: #0056b3;
+}
+
+/* Slots list section */
+.tutor-scheduler h4 {
+    margin-top: 25px;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.tutor-scheduler ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.tutor-scheduler ul li {
+    font-size: 1.1rem;
+    color: #555;
+    background-color: #e9ecef;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Invalid date style */
+.tutor-scheduler ul li span.invalid {
+    color: red;
+    font-style: italic;
+}

@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { doc, updateDoc, getDoc, arrayUnion } from 'firebase/firestore';
+import { useParams } from 'react-router-dom'; // Import useParams
+import '../styles/TutorScheduler.css';  // Import the CSS file for styling
 
-const TutorScheduler = ({ tutorId }) => {
+const TutorScheduler = () => {
+    const { userId: tutorId } = useParams(); // Use useParams to get tutorId from URL params
+    console.log("Tutor ID from URL params:", tutorId); // Debug: Check if tutorId is passed
+
     const [newSlot, setNewSlot] = useState('');
     const [availableSlots, setAvailableSlots] = useState([]);
 
@@ -11,7 +16,7 @@ const TutorScheduler = ({ tutorId }) => {
         const fetchSlots = async () => {
             if (!tutorId) {
                 console.error("No tutorId provided");
-                return; // Exit if userId is not available
+                return; // Exit if tutorId is not available
             }
 
             const docRef = doc(db, 'tutors', tutorId);
@@ -35,7 +40,7 @@ const TutorScheduler = ({ tutorId }) => {
     const addSlot = async () => {
         try {
             console.log("Adding slot:", newSlot); // Debug: check if newSlot is correct
-            console.log("TutorId:", tutorId); // Debug: check if userId is passed correctly
+            console.log("TutorId:", tutorId); // Debug: check if tutorId is passed correctly
 
             // Ensure newSlot is a valid date string
             if (!newSlot) {
@@ -104,7 +109,7 @@ const TutorScheduler = ({ tutorId }) => {
     };
 
     return (
-        <div>
+        <div className="tutor-scheduler">
             <h3>Manage Available Slots</h3>
             <label htmlFor="newSlot">Pick a date and time:</label>
             <input
@@ -114,7 +119,7 @@ const TutorScheduler = ({ tutorId }) => {
                 onChange={handleDateTimeChange}
             />
             <button onClick={addSlot}>Add Slot</button>
-
+    
             <h4>Available Slots:</h4>
             <ul>
                 {availableSlots.map((slot, index) => (
@@ -126,6 +131,7 @@ const TutorScheduler = ({ tutorId }) => {
             </ul>
         </div>
     );
+    
 };
 
 export default TutorScheduler;

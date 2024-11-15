@@ -133,14 +133,13 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile-container">
-      <h2>User Profile</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {userData ? (
         <div>
           <div>
             <label>
               Name:
-              <input
+              <input 
                 type="text"
                 value={userData.displayName}
                 onChange={(e) => handleInputChange("displayName", e.target.value)}
@@ -177,41 +176,54 @@ const UserProfile = () => {
               />
             </label>
           </div>
-  
-          <p>User Type: {userData.userType}</p>
-          
-          <p>Member Status:</p>
+          <div>
+            <label>User Type: </label>
+            <label1>{userData.userType}</label1>
+          </div>
           <ul style={{ listStyleType: 'none', padding: 0 }}>
+          <label>Member Status:</label>
             <li>
-              <label style={{ display: 'inline-flex', alignItems: 'center' }}>
-                Regular&nbsp;Member
+              <label1 style={{ display: 'inline-flex', alignItems: 'center' }}>
                 <input
                   type="radio"
                   value="regular"
                   checked={userData.memberStatus === 'regular'}
                   onChange={() => handleInputChange("memberStatus", "regular")}
-                  style={{ marginLeft: '50px' }}
+                  style={{
+                    marginLeft: '52px',
+                    width: '15px', // Adjusts the width of the radio button
+                    height: '15px', // Adjusts the height of the radio button
+                    accentColor: '#4A90E2', // Changes the radio button color (modern browsers)
+                    cursor: 'pointer', // Changes cursor to pointer on hover
+                  }}
                 />
-              </label>
+                Regular
+              </label1>
             </li>
             <li>
-              <label style={{ display: 'inline-flex', alignItems: 'center' }}>
-                Coordinator
+              <label1>                
                 <input
                   type="radio"
                   value="coordinator"
                   checked={userData.memberStatus === 'coordinator'}
                   onChange={() => handleInputChange("memberStatus", "coordinator")}
-                  style={{ marginLeft: '83px' }}
+                  style={{
+                    marginLeft: '52px',
+                    width: '15px', // Adjusts the width of the radio button
+                    height: '15px', // Adjusts the height of the radio button
+                    accentColor: '#4A90E2', // Changes the radio button color (modern browsers)
+                    cursor: 'pointer', // Changes cursor to pointer on hover
+                  }}
                 />
-              </label>
+                Coordinator
+              </label1>
             </li>
           </ul>
 
           <ul style={{ listStyleType: 'none', padding: 0 }}>
-            <p>Subjects:</p>
+            <label>Subjects:</label>
             {["Math Tutoring", "Science Tutoring", "Writing Support", "Tennis Coaching", "Piano Lessons", "English Tutoring", "Programming Classes"].map((subject) => (
-              <li key={subject} style={{ marginBottom: '0px' }}>
+              <li key={subject} style={{ marginBottom: '0px', marginLeft: '52px', }}>
               {subject}
                 <label style={{ display: 'inline-flex', alignItems: 'center' }}>
                   <input
@@ -227,17 +239,17 @@ const UserProfile = () => {
           <div style={{ marginTop: '20px' }}>
             <button onClick={saveChanges} className="save-button">Save Changes</button>
             <button onClick={handleLogout} className="auth-link">Logout</button>
-            {userData.isAdmin && (
+            {/*userData.isAdmin && (
               <button className="auth-link" onClick={handleNavigateToAdmin}>Go to Admin Dashboard</button>
-            )}
+            )*/}
           </div>
 
           {/* Scheduling section */}
-          {userData.userType === 'tutor' && <TutorScheduler tutorId={user.uid} />}
-          {userData.userType === 'student' && <StudentScheduler studentId={user.uid} />}
+          {/*userData.userType === 'tutor' && <TutorScheduler tutorId={user.uid} />*/}
+          {/*userData.userType === 'student' && <StudentScheduler studentId={user.uid} />*/}
 
 
-          <h3>Users List</h3>
+          {/*<h3>Users List</h3>
           <h4>Students:</h4>
           <ul>
             {students.map(student => (
@@ -253,7 +265,7 @@ const UserProfile = () => {
                 {tutor.displayName} ({tutor.email}) - Phone: {tutor.phone} - Subjects: {tutor.selectedSubjects.join(', ')}
               </li>
             ))}
-          </ul>
+          </ul>*/}
         </div>
       ) : (
         <p>No user data available.</p>

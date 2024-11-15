@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { auth, db } from '../firebase'; // Correct import for Firebase config
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { collection, getDocs, doc, getDoc, deleteDoc } from 'firebase/firestore'; // Ensure these are imported
-
+import '../styles/Admin.css';
 const AdminDashboard = () => {
   const [user] = useAuthState(auth);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -84,23 +84,28 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div>
+    <div className="admin-dashboard">
       <h1>Admin Dashboard</h1>
-      <h2>Manage Students</h2>
-      {students.map(student => (
-        <div key={student.id}>
-          <p>{student.displayName} ({student.email})</p>
-          <button onClick={() => handleDeleteUser(student.id, 'students')}>Delete</button>
-        </div>
-      ))}
-      
-      <h2>Manage Tutors</h2>
-      {tutors.map(tutor => (
-        <div key={tutor.id}>
-          <p>{tutor.displayName} ({tutor.email})</p>
-          <button onClick={() => handleDeleteUser(tutor.id, 'tutors')}>Delete</button>
-        </div>
-      ))}
+  
+      <div className="admin-section">
+        <h2>Manage Students</h2>
+        {students.map(student => (
+          <div key={student.id} className="admin-item">
+            <p>{student.displayName} ({student.email})</p>
+            <button className="admin-delete-button" onClick={() => handleDeleteUser(student.id, 'students')}>Delete</button>
+          </div>
+        ))}
+      </div>
+  
+      <div className="admin-section">
+        <h2>Manage Tutors</h2>
+        {tutors.map(tutor => (
+          <div key={tutor.id} className="admin-item">
+            <p>{tutor.displayName} ({tutor.email})</p>
+            <button className="admin-delete-button" onClick={() => handleDeleteUser(tutor.id, 'tutors')}>Delete</button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

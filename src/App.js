@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './styles/styles.css'; // Import styles
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Correct import for Routes and Route in v6
 import Home from './components/Home';
 import Register from './components/Register';
 import Login from './components/Login';
@@ -47,8 +47,8 @@ function App() {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/create-course" element={<CreateCourse />} /> 
                     <Route path="/user-profile" element={<UserProfile />} />
-                    <Route path="/tutor-scheduler" element={<TutorScheduler />} />
-                    <Route path="/student-scheduler" element={<StudentScheduler />} />
+                    <Route path="/tutor-scheduler/:userId" element={<TutorScheduler />} />
+                    <Route path="/student-scheduler/:userId" element={<StudentScheduler />} />
                     <Route path="/admin" element={<AdminDashboard />} />
                     <Route path="/chat" element={<LiveChat />} />
                     <Route path="/my-courses" element={<MyCourses />} />

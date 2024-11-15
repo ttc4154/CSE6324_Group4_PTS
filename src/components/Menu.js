@@ -9,6 +9,7 @@ const Menu = () => {
   const [user] = useAuthState(auth);
   const [isAdmin, setIsAdmin] = useState(false); // State for checking if user is admin
   const [userType, setUserType] = useState(null); // State for storing user type ('student' or 'tutor')
+  const [selectedSubjects, setSelectedSubjects] = useState([]);
 
   useEffect(() => {
     const checkUserStatus = async () => {
@@ -27,8 +28,10 @@ const Menu = () => {
         // Determine if the user is a student or tutor
         if (studentDoc.exists()) {
           setUserType('student');
+          setSelectedSubjects(studentDoc.data().selectedSubjects || []);
         } else if (tutorDoc.exists()) {
           setUserType('tutor');
+          setSelectedSubjects(tutorDoc.data().selectedSubjects || []);
         }
       }
     };
@@ -39,13 +42,20 @@ const Menu = () => {
   return (
     <div className="menu-container">
       <ul className="menu">
-        <li><Link to="/user-profile">Dashboard</Link></li>
+        <li><Link to="/user-profile">User Profile</Link></li>
         <li><Link to="/my-courses">My Courses</Link></li>
 
         {/* Conditionally render the scheduler links based on user type */}
-        {userType === 'tutor' && <li><Link to="/tutor-scheduler">My Schedules</Link></li>}
-        {userType === 'student' && <li><Link to="/student-scheduler">My Schedules</Link></li>}
-        
+        {user && user.uid && userType === 'tutor' && (
+          <li><Link to={`/tutor-scheduler/${user.uid}`}>My Schedules</Link></li>
+        )}
+        {user && user.uid && userType === 'student' && (
+  <li>
+    <Link to={`/student-scheduler/${user.uid}`}>My Schedules</Link>
+  </li>
+)}
+
+
         <li><Link to="/my-messages">My Messages</Link></li>
         <li><Link to="/my-tutor-ads">My Tutor Ads</Link></li>
         <li><Link to="/my-account">My Account</Link></li>
@@ -53,6 +63,8 @@ const Menu = () => {
         {/* Conditionally render the Admin Dashboard link if the user is an admin */}
         {isAdmin && <li><Link to="/admin">Admin Dashboard</Link></li>}
       </ul>
+
+      
     </div>
   );
 };

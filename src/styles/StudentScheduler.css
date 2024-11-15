@@ -1,0 +1,105 @@
+/* StudentScheduler specific styles */
+
+/* Apply styles only inside the .student-scheduler container */
+.student-scheduler {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.student-scheduler h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0px;
+    color: #333;
+    text-align: center;
+}
+
+/* Select dropdown label */
+.student-scheduler label {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 0px;
+    display: inline-block;
+}
+
+/* Select dropdown */
+.student-scheduler select {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 0px;
+    display: inline-block;
+    background-color: #fff;
+}
+
+/* Button to book slot */
+.student-scheduler button {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 25px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
+    margin: 0 auto;
+}
+
+.student-scheduler button:hover {
+    background-color: #218838;
+}
+
+/* Style for the disabled button */
+.student-scheduler button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Available slots section */
+.student-scheduler h4 {
+    margin-top: 30px;
+    font-size: 1.6rem;
+    color: #333;
+    text-align: center;
+}
+
+/* Slots list style */
+.student-scheduler ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.student-scheduler ul li {
+    font-size: 1.1rem;
+    color: #555;
+    background-color: #f8f9fa;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Disabled slot style */
+.student-scheduler ul li span.invalid {
+    color: #dc3545;
+    font-style: italic;
+}
+
+/* Message display */
+.student-scheduler .message {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-top: 15px;
+}

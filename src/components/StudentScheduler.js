@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { doc, updateDoc, getDoc, arrayUnion, collection, query, where, getDocs } from 'firebase/firestore';
+import { useParams } from 'react-router-dom';
+import '../styles/StudentScheduler.css';  // Import the CSS file for styling
 
-const StudentScheduler = ({ studentId }) => {
+const StudentScheduler = () => {
+    const { userId: studentId } = useParams();
+    console.log('studentId :', studentId);
     const [availableSlots, setAvailableSlots] = useState([]);
     const [selectedSlot, setSelectedSlot] = useState('');
     const [selectedTutor, setSelectedTutor] = useState('');
@@ -12,65 +16,80 @@ const StudentScheduler = ({ studentId }) => {
     // Fetch student's registered subjects
     useEffect(() => {
         const fetchStudentSubjects = async () => {
+            if (!studentId) {
+                console.error("No studentId provided");
+                return;
+            }
+
             const studentRef = doc(db, 'students', studentId);
             const studentDoc = await getDoc(studentRef);
             if (studentDoc.exists()) {
                 const subjects = studentDoc.data().selectedSubjects || [];
                 setStudentSubjects(subjects);
                 console.log("Student subjects:", subjects); // Log student subjects
+            } else {
+                console.error("Student document not found");
             }
         };
-        if (studentId) fetchStudentSubjects();
+
+        if (studentId) {
+            fetchStudentSubjects();
+        }
     }, [studentId]);
 
     // Fetch available tutors based on student's subjects
     useEffect(() => {
         const fetchTutors = async () => {
-            if (studentSubjects.length === 0) return; // No subjects selected by student
-    
+            if (studentSubjects.length === 0) {
+                console.log("No subjects selected by student");
+                setTutors([]);
+                return; // No subjects selected by student
+            }
+
             console.log("Fetching tutors for subjects:", studentSubjects);
-    
+
             // Query tutors who offer any of the student's subjects
             const tutorQuery = query(
                 collection(db, 'tutors'),
                 where('selectedSubjects', 'array-contains-any', studentSubjects)
             );
-    
+
             try {
                 const tutorSnap = await getDocs(tutorQuery);
-    
-                // Check if we have any documents in the snapshot
                 if (tutorSnap.empty) {
                     console.log("No tutors found matching the student's subjects");
                     setTutors([]);
                     return;
                 }
-    
-                // Process the documents in the snapshot
-                const tutorsList = tutorSnap.docs.map(doc => {
-                    return { id: doc.id, ...doc.data() };
-                });
-    
+
+                const tutorsList = tutorSnap.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+
                 console.log("Tutors fetched:", tutorsList);
                 setTutors(tutorsList);
             } catch (error) {
                 console.error("Error fetching tutors:", error);
             }
         };
-    
+
         fetchTutors();
     }, [studentSubjects]);
-    
-    
 
-    // Fetch available slots for selected tutor
+    // Fetch available slots for the selected tutor
     useEffect(() => {
         const fetchAvailableSlots = async () => {
             if (!selectedTutor) return; // No tutor selected
-            const docRef = doc(db, 'tutors', selectedTutor);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                setAvailableSlots(docSnap.data().availableSlots || []);
+
+            const tutorRef = doc(db, 'tutors', selectedTutor);
+            try {
+                const tutorDoc = await getDoc(tutorRef);
+                if (tutorDoc.exists()) {
+                    setAvailableSlots(tutorDoc.data().availableSlots || []);
+                }
+            } catch (error) {
+                console.error("Error fetching available slots:", error);
             }
         };
 
@@ -79,6 +98,11 @@ const StudentScheduler = ({ studentId }) => {
 
     // Book the selected slot
     const bookSlot = async () => {
+        if (!selectedSlot || !selectedTutor) {
+            alert("Please select a tutor and a time slot");
+            return;
+        }
+
         try {
             // Update student's bookedSlot and selected tutorId
             const studentRef = doc(db, 'students', studentId);
@@ -96,13 +120,14 @@ const StudentScheduler = ({ studentId }) => {
             alert('Booking confirmed!');
         } catch (err) {
             console.error("Error booking slot:", err);
+            alert('Error booking the slot. Please try again.');
         }
     };
 
     return (
-        <div>
+        <div className="student-scheduler">
             <h3>Book a Session</h3>
-            <label htmlFor="tutor">Select a Tutor</label>
+            <label htmlFor="tutor"><p>Select a Tutor</p>
             <select
                 id="tutor"
                 value={selectedTutor}
@@ -115,8 +140,9 @@ const StudentScheduler = ({ studentId }) => {
                     </option>
                 ))}
             </select>
-
-            <label htmlFor="slot">Select a Time Slot</label>
+            </label>
+            <br></br>
+            <label htmlFor="slot"><p>Select a Time Slot</p>
             <select
                 id="slot"
                 onChange={(e) => setSelectedSlot(e.target.value)}
@@ -130,7 +156,7 @@ const StudentScheduler = ({ studentId }) => {
                     </option>
                 ))}
             </select>
-
+            </label>
             <button onClick={bookSlot} disabled={!selectedSlot || !selectedTutor}>
                 Book Slot
             </button>

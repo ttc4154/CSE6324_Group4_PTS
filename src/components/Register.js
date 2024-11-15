@@ -39,11 +39,14 @@ function Register() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
+  
       await updateProfile(user, { displayName });
-
+      
       const collection = userType === 'student' ? 'students' : 'tutors';
-
+      
+      console.log("User authenticated successfully:", user);
+  
+      // Attempt to save to Firestore
       await setDoc(doc(db, collection, user.uid), {
         displayName,
         email,
@@ -55,12 +58,16 @@ function Register() {
         memberStatus,
         createdAt: new Date(),
       });
-
+  
+      console.log("User data saved to Firestore:", user.uid);
+  
       alert("Registration successful!");
     } catch (err) {
       setError(err.message);
+      console.error("Error in registration:", err);
     }
   };
+  
 
   return (
     <div className="register-container">
