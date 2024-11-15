@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
-import { doc, updateDoc, getDoc, arrayUnion } from 'firebase/firestore';
-import { useParams } from 'react-router-dom'; // Import useParams
-import '../styles/TutorScheduler.css';  // Import the CSS file for styling
+import { doc, updateDoc, getDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { useParams } from 'react-router-dom';
+import '../styles/TutorScheduler.css';
 
 const TutorScheduler = () => {
-    const { userId: tutorId } = useParams(); // Use useParams to get tutorId from URL params
-    console.log("Tutor ID from URL params:", tutorId); // Debug: Check if tutorId is passed
+    const { userId: tutorId } = useParams();
+    console.log("Tutor ID from URL params:", tutorId);
 
     const [newSlot, setNewSlot] = useState('');
     const [availableSlots, setAvailableSlots] = useState([]);
+    const [editingSlot, setEditingSlot] = useState(null); // To track which slot is being edited
 
     // Fetch available slots from Firestore
     useEffect(() => {
         const fetchSlots = async () => {
             if (!tutorId) {
                 console.error("No tutorId provided");
-                return; // Exit if tutorId is not available
+                return;
             }
 
             const docRef = doc(db, 'tutors', tutorId);
@@ -39,22 +40,16 @@ const TutorScheduler = () => {
     // Function to add a new slot to Firestore
     const addSlot = async () => {
         try {
-            console.log("Adding slot:", newSlot); // Debug: check if newSlot is correct
-            console.log("TutorId:", tutorId); // Debug: check if tutorId is passed correctly
-
-            // Ensure newSlot is a valid date string
             if (!newSlot) {
                 console.error("newSlot must be a valid date string");
                 return;
             }
 
-            // Ensure tutorId is valid
             if (!tutorId) {
                 console.error("TutorId is undefined or invalid");
                 return;
             }
 
-            // Get tutor document reference
             const tutorRef = doc(db, 'tutors', tutorId);
             const tutorDoc = await getDoc(tutorRef);
 
@@ -63,19 +58,80 @@ const TutorScheduler = () => {
                 return;
             }
 
-            // Check if availableSlots exists and initialize if not
             const availableSlots = tutorDoc.data().availableSlots || [];
 
-            // Add the new slot to availableSlots
             await updateDoc(tutorRef, {
                 availableSlots: arrayUnion(newSlot)
             });
 
             console.log('Slot added successfully!');
-            // Update availableSlots in local state to reflect changes immediately
             setAvailableSlots(prevSlots => [...prevSlots, newSlot]);
+            setNewSlot(''); // Reset the newSlot input
         } catch (error) {
             console.error('Error adding slot:', error);
+        }
+    };
+
+    // Function to delete a slot
+    const deleteSlot = async (slotToDelete) => {
+        try {
+            const tutorRef = doc(db, 'tutors', tutorId);
+            const tutorDoc = await getDoc(tutorRef);
+
+            if (!tutorDoc.exists()) {
+                console.error("Tutor document does not exist.");
+                return;
+            }
+
+            const availableSlots = tutorDoc.data().availableSlots || [];
+            const updatedSlots = availableSlots.filter(slot => slot !== slotToDelete);
+
+            await updateDoc(tutorRef, {
+                availableSlots: updatedSlots
+            });
+
+            console.log('Slot deleted successfully!');
+            setAvailableSlots(updatedSlots); // Update local state to reflect changes
+        } catch (error) {
+            console.error('Error deleting slot:', error);
+        }
+    };
+
+    // Function to start editing a slot
+    const startEditingSlot = (slot) => {
+        setEditingSlot(slot);
+        setNewSlot(slot); // Populate the input with the selected slot for editing
+    };
+
+    // Function to save the edited slot
+    const saveEditedSlot = async () => {
+        if (!newSlot || !editingSlot) return;
+
+        try {
+            const tutorRef = doc(db, 'tutors', tutorId);
+            const tutorDoc = await getDoc(tutorRef);
+
+            if (!tutorDoc.exists()) {
+                console.error("Tutor document does not exist.");
+                return;
+            }
+
+            const availableSlots = tutorDoc.data().availableSlots || [];
+
+            // Remove the old slot and add the new slot
+            const updatedSlots = availableSlots.filter(slot => slot !== editingSlot);
+            updatedSlots.push(newSlot);
+
+            await updateDoc(tutorRef, {
+                availableSlots: updatedSlots
+            });
+
+            console.log('Slot updated successfully!');
+            setAvailableSlots(updatedSlots); // Update local state to reflect changes
+            setNewSlot('');
+            setEditingSlot(null); // Reset the editing state
+        } catch (error) {
+            console.error('Error updating slot:', error);
         }
     };
 
@@ -84,32 +140,17 @@ const TutorScheduler = () => {
         setNewSlot(e.target.value);
     };
 
-    // Function to format the slot date with the day of the week and time
+    // Function to format the slot date
     const formatSlotDate = (slot) => {
         const date = new Date(slot);
-
-        // Format the date in mm/dd/yyyy
-        const formattedDate = date.toLocaleDateString('en-US', {
-            month: '2-digit',
-            day: '2-digit',
-            year: 'numeric',
-        });
-
-        // Format the time (including day of the week)
-        const formattedTime = date.toLocaleTimeString('en-US', {
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true,
-        });
-
-        // Get the day of the week
+        const formattedDate = date.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+        const formattedTime = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
         const dayOfWeek = date.toLocaleString('en-US', { weekday: 'long' });
 
         return `${dayOfWeek}, ${formattedDate}, ${formattedTime}`;
     };
 
     return (
-        
         <div className="tutor-scheduler">
             <h1>Schedules</h1>
             <h4>Manage Available Slots</h4>
@@ -120,20 +161,24 @@ const TutorScheduler = () => {
                 value={newSlot}
                 onChange={handleDateTimeChange}
             />
-            <button onClick={addSlot}>Add Slot</button>
-    
+            {editingSlot ? (
+                <button onClick={saveEditedSlot}>Save Edited Slot</button>
+            ) : (
+                <button onClick={addSlot}>Add Slot</button>
+            )}
+
             <h4>Available Slots:</h4>
             <ul>
                 {availableSlots.map((slot, index) => (
-                    // Ensure slot is a valid date before attempting to format it
                     <li key={index}>
                         {slot ? formatSlotDate(slot) : "Invalid Date"}
+                        <button onClick={() => startEditingSlot(slot)}>Edit</button>
+                        <button onClick={() => deleteSlot(slot)}>Delete</button>
                     </li>
                 ))}
             </ul>
         </div>
     );
-    
 };
 
 export default TutorScheduler;

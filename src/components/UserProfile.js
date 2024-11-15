@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { auth, db } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { doc, getDoc, updateDoc, collection, getDocs } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, collection, getDocs, setDoc} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom'; 
 import '../styles/UserProfile.css';
-import TutorScheduler from './TutorScheduler';
-import StudentScheduler from './StudentScheduler';
 
 const UserProfile = () => {
   const [user] = useAuthState(auth);
@@ -14,12 +12,13 @@ const UserProfile = () => {
   const [tutors, setTutors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); 
+  const [subjects, setSubjects] = useState([]); // Store subjects from Firestore
+  const navigate = useNavigate();
 
   const handleNavigateToAdmin = () => {
     navigate('/admin');
   };
-
+  
   const handleInputChange = (field, value) => {
     setUserData((prev) => ({
       ...prev,
@@ -118,6 +117,17 @@ const UserProfile = () => {
       }
     };
 
+    const fetchSubjects = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'subjects'));
+        const subjectList = querySnapshot.docs.map((doc) => doc.data().name);
+        setSubjects(subjectList);
+      } catch (error) {
+        console.error('Error fetching subjects:', error);
+      }
+    };
+
+    fetchSubjects();
     fetchUserData().then(() => {
       fetchUsers();
     });
@@ -220,53 +230,30 @@ const UserProfile = () => {
               </label1>
             </li>
           </ul>
-
           <ul style={{ listStyleType: 'none', padding: 0 }}>
-            <label>Subjects:</label>
-            {["Math Tutoring", "Science Tutoring", "Writing Support", "Tennis Coaching", "Piano Lessons", "English Tutoring", "Programming Classes"].map((subject) => (
-              <li key={subject} style={{ marginBottom: '0px', marginLeft: '52px', }}>
-              {subject}
-                <label style={{ display: 'inline-flex', alignItems: 'center' }}>
-                  <input
-                    type="checkbox"
-                    value={subject}
-                    checked={userData.selectedSubjects.includes(subject)}
-                    onChange={() => handleSubjectChange(subject)}
-                  />
-                </label>
-              </li>
-            ))}
+                    <label>Subjects:</label>
+                    {subjects.length > 0 ? (
+                      subjects.map((subject) => (
+                        <li key={subject} style={{ marginBottom: '0px', marginLeft: '52px' }}>
+                          {subject}
+                          <label style={{ display: 'inline-flex', alignItems: 'center' }}>
+                            <input
+                              type="checkbox"
+                              value={subject}
+                              checked={userData.selectedSubjects.includes(subject)}
+                              onChange={() => handleSubjectChange(subject)}
+                            />
+                          </label>
+                        </li>
+                      ))
+                    ) : (
+              <p>Loading subjects...</p>
+            )}
           </ul>
           <div style={{ marginTop: '20px' }}>
             <button onClick={saveChanges} className="save-button">Save Changes</button>
             <button onClick={handleLogout} className="auth-link">Logout</button>
-            {/*userData.isAdmin && (
-              <button className="auth-link" onClick={handleNavigateToAdmin}>Go to Admin Dashboard</button>
-            )*/}
           </div>
-
-          {/* Scheduling section */}
-          {/*userData.userType === 'tutor' && <TutorScheduler tutorId={user.uid} />*/}
-          {/*userData.userType === 'student' && <StudentScheduler studentId={user.uid} />*/}
-
-
-          {/*<h3>Users List</h3>
-          <h4>Students:</h4>
-          <ul>
-            {students.map(student => (
-              <li key={student.id}>
-                {student.displayName} ({student.email}) - Phone: {student.phone} - Subjects: {student.selectedSubjects.join(', ')}
-              </li>
-            ))}
-          </ul>
-          <h4>Tutors:</h4>
-          <ul>
-            {tutors.map(tutor => (
-              <li key={tutor.id}>
-                {tutor.displayName} ({tutor.email}) - Phone: {tutor.phone} - Subjects: {tutor.selectedSubjects.join(', ')}
-              </li>
-            ))}
-          </ul>*/}
         </div>
       ) : (
         <p>No user data available.</p>
