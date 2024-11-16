@@ -103,3 +103,55 @@
     color: #6c757d;
     margin-top: 15px;
 }
+
+/* Calendar styles */
+.student-scheduler .calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 columns for the days of the week */
+    gap: 5px;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+/* Set the calendar container to take full width */
+.student-scheduler .rbc-calendar {
+    background-color: #f4f4f9; /* Light background color */
+    border-radius: 10px; /* Rounded corners */
+    border: 1px solid #ddd; /* Light border around the calendar */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    padding: 0px;
+    margin-top: 0px;
+}
+/* Ensure the toolbar buttons are aligned in a row */
+.rbc-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Style for each button group */
+.rbc-btn-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Adjust individual buttons if needed */
+.rbc-btn {
+    margin: 0 5px;  /* Add spacing between the buttons */
+}
+
+/* Optional: You can add a background color or style for better visibility */
+.rbc-toolbar button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #2196F3; /* Button background color */
+    color: white;
+    cursor: pointer;
+}
+
+.rbc-toolbar button:hover {
+    background-color: #1976D2; /* Darker blue on hover */
+}
