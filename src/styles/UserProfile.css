@@ -55,3 +55,16 @@ input {
     border-radius: 4px; /* Rounded corners for inputs */
     width: 95%;        /* Full width for inputs */
 }
+.profile-picture-section {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.profile-picture {
+  border: 2px solid #ccc;
+  margin-bottom: 10px;
+}
+
+input[type="file"] {
+  margin-top: 10px;
+}

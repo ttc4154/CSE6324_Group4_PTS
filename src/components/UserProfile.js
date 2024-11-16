@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { auth, db } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { doc, getDoc, updateDoc, collection, getDocs, setDoc} from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom'; 
+import { doc, getDoc, updateDoc, collection, getDocs } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Firebase Storage imports
+import { storage } from '../firebase'; // Firebase Storage instance
 import '../styles/UserProfile.css';
 
 const UserProfile = () => {
@@ -13,12 +15,43 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [subjects, setSubjects] = useState([]); // Store subjects from Firestore
+  const [profilePicture, setProfilePicture] = useState(null); // Store the profile picture URL
+  const [uploading, setUploading] = useState(false); // State to handle uploading status
   const navigate = useNavigate();
 
   const handleNavigateToAdmin = () => {
     navigate('/admin');
   };
+
+  const handleProfilePictureChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
   
+    setUploading(true);
+  
+    try {
+      // Ensure the file path uses a valid string
+      const fileRef = ref(storage, `profilePictures/${user.uid}/${file.name}`);
+      await uploadBytes(fileRef, file);
+  
+      // Get the file URL
+      const photoURL = await getDownloadURL(fileRef);
+      setProfilePicture(photoURL);
+  
+      // Update Firestore with the photo URL
+      const collectionName = userData.userType === 'student' ? 'students' : 'tutors';
+      const docRef = doc(db, collectionName, user.uid);
+      await updateDoc(docRef, { photoURL });
+  
+      alert('Profile picture updated successfully!');
+    } catch (err) {
+      console.error('Error uploading profile picture:', err);
+      alert('Failed to upload profile picture.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleInputChange = (field, value) => {
     setUserData((prev) => ({
       ...prev,
@@ -78,15 +111,19 @@ const UserProfile = () => {
             setUserData({
               ...data,
               userType: 'student',
-              selectedSubjects: data.selectedSubjects || []
+              selectedSubjects: data.selectedSubjects || [],
+              photoURL: data.photoURL || null
             });
+            setProfilePicture(data.photoURL || null);
           } else if (tutorSnap.exists()) {
             const data = tutorSnap.data();
             setUserData({
               ...data,
               userType: 'tutor',
-              selectedSubjects: data.selectedSubjects || []
+              selectedSubjects: data.selectedSubjects || [],
+              photoURL: data.photoURL || null
             });
+            setProfilePicture(data.photoURL || null);
           } else {
             console.warn("User document does not exist in both collections.");
             setError("User profile does not exist.");
@@ -147,6 +184,25 @@ const UserProfile = () => {
       {userData ? (
         <div>
           <h1>User Profile</h1>
+          <div className="profile-picture-section">
+            {profilePicture ? (
+              <img
+                src={profilePicture}
+                alt="Profile"
+                className="profile-picture"
+                style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }}
+              />
+            ) : (
+              <p>No profile picture uploaded.</p>
+            )}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleProfilePictureChange}
+              disabled={uploading}
+            />
+            {uploading && <p>Uploading...</p>}
+          </div>
           <div>
             <label>
               Name:
