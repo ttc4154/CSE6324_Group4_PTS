@@ -8,6 +8,7 @@ function CreateCourse() {
     const [courseName, setCourseName] = useState('');
     const [courseSubject, setCourseSubject] = useState('');
     const [courseDescription, setCourseDescription] = useState('');
+    const [courseLocation, setCourseLocation] = useState('');
     const [userType, setUserType] = useState('');
     const [error, setError] = useState('');
 
@@ -67,6 +68,7 @@ function CreateCourse() {
                 courseName,
                 courseSubject,
                 courseDescription,
+                courseLocation,
                 createdAt: new Date(),
                 createdBy: auth.currentUser.uid,
             });
@@ -74,6 +76,7 @@ function CreateCourse() {
             setCourseName('');
             setCourseSubject('');
             setCourseDescription('');
+            setCourseLocation('');
             navigate('/my-courses');
         } catch (err) {
             setError(err.message);
@@ -121,7 +124,6 @@ function CreateCourse() {
                         ))}
                     </select>
                 </div>
-
                 <div style={{ marginBottom: '10px' }}>
                     <input
                         type="text"
@@ -129,6 +131,16 @@ function CreateCourse() {
                         value={courseDescription}
                         onChange={(e) => setCourseDescription(e.target.value)}
                         maxLength={500}
+                        required
+                    />
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                    <input
+                        type="text"
+                        placeholder="Course Location"
+                        value={courseLocation}
+                        onChange={(e) => setCourseLocation(e.target.value)}
+                        maxLength={100}
                         required
                     />
                 </div>

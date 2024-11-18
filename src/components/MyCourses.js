@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
-import { collection, getDoc, getDocs, updateDoc, doc, query, where, deleteDoc } from 'firebase/firestore';
+import { collection, getDoc, getDocs, updateDoc, doc, query, where, deleteDoc, writeBatch } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import '../styles/MyCourses.css';
 
@@ -16,6 +16,7 @@ function MyCourses() {
     const [courseName, setCourseName] = useState('');
     const [courseSubject, setCourseSubject] = useState('');
     const [courseDescription, setCourseDescription] = useState('');
+    const [courseLocation, setCourseLocation] = useState('');
     const [error, setError] = useState('');
     const [userType, setUserType] = useState('');
     const [selectedTab, setSelectedTab] = useState('available');
@@ -119,14 +120,28 @@ function MyCourses() {
         setCourseName(course.courseName);
         setCourseSubject(course.courseSubject);
         setCourseDescription(course.courseDescription);
+        setCourseLocation(course.courseLocation);
     };
     const handleDeleteCourse = async (courseID) => {
         try {
+            const studentsQuery = query(
+                collection(db, 'students'),
+                where('signedUpCourses', 'array-contains', courseID)
+            );
+            const studentsDocs = await getDocs(studentsQuery);
+            const batch = writeBatch(db);
+            studentsDocs.docs.forEach(studentDoc => {
+                const studentRef = doc(db, 'students', studentDoc.id);
+                const updatedCourses = studentDoc.data().signedUpCourses.filter(course => course !== courseID);
+                batch.update(studentRef, { signedUpCourses: updatedCourses });
+            });
             await deleteDoc(doc(db, 'courses', courseID));
+            await batch.commit();
             setTutorCourses(tutorCourses.filter(course => course.id !== courseID));
             alert('Course deleted successfully!');
         } catch (err) {
             setError(err);
+            console.log(err);
         }
     };
 
@@ -139,12 +154,13 @@ function MyCourses() {
                 courseName,
                 courseSubject,
                 courseDescription,
+                courseLocation,
                 updatedAt: new Date(),
             });
             setCourseID(null);
             alert('Course updated successfully!');
             const updatedCourses = tutorCourses.map(course => 
-                course.id === courseID ? { ...course, courseName, courseSubject, courseDescription } : course
+                course.id === courseID ? { ...course, courseName, courseSubject, courseLocation } : course
             );
             setTutorCourses(updatedCourses);
         } catch (err) {
@@ -254,6 +270,10 @@ function MyCourses() {
                                         <p className="course-card-title">Course Instructor</p>
                                         {tutorNames[course.createdBy]}
                                     </p>
+                                    <p className="course-location">
+                                        <p className="course-card-title">Course Location</p>
+                                        {course.courseLocation}
+                                    </p>
                                     <button
                                         className="sign-up-btn"
                                         onClick={() => handleCourseSignUp(course.id)}
@@ -286,6 +306,10 @@ function MyCourses() {
                                         <p className="course-description">
                                             <p className="course-card-title">Course Description</p>
                                             {course.courseDescription}
+                                        </p>
+                                        <p className="course-description">
+                                            <p className="course-card-title">Course Location</p>
+                                            {course.courseLocation}
                                         </p>
                                         <button 
                                             onClick={() => handleEditCourse(course)}
@@ -332,6 +356,12 @@ function MyCourses() {
                             placeholder="Course Description"
                             required
                         />
+                        <textarea
+                            value={courseLocation}
+                            onChange={(e) => setCourseLocation(e.target.value)}
+                            placeholder="Course Location"
+                            required
+                        />
                         <button type="submit">Save</button>
                         <button
                             type="button"
@@ -357,6 +387,10 @@ function MyCourses() {
                                         <p className="course-description">
                                             <p className="course-card-title">Course Description</p>
                                             {course.courseDescription}
+                                        </p>
+                                        <p className="course-location">
+                                            <p className="course-card-title">Course Location</p>
+                                            {course.courseLocation}
                                         </p>
                                         <p className="course-offered-by">
                                             <p className="course-card-title">Course Instructor</p>
