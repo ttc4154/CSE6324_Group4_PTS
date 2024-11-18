@@ -1,20 +1,13 @@
 import "./userInfo.css"
-import edit from "./edit.png"
-import more from "./more.png"
-import video from "./video.png"
+import { useUserStore } from "../../lib/userStore"
 
 const Userinfo = () => {
+    const {currentUser} = useUserStore();
     return(
         <div className="userInfo">
-            <div className="user">John Doe</div>
-                
-            <div className="icons">
-                <img src={more} alt=""></img>
-                <img src={video} alt=""></img>
-                <img src={edit} alt=""></img>
-            </div>
+            <div className="user">{currentUser.displayName}</div>
         </div>
-    )
-}
+    );
+};
 
-export default Userinfo
+export default Userinfo;

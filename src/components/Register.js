@@ -64,11 +64,17 @@ function Register() {
         address,
         memberStatus,
         createdAt: new Date(),
+        id: user.uid,
       });
   
       console.log("User data saved to Firestore:", user.uid);
   
       alert("Registration successful!");
+
+      await setDoc(doc(db, "userchats", user.uid), {
+        chats: [],
+      });
+      
     } catch (err) {
       setError(err.message);
       console.error("Error in registration:", err);

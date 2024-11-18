@@ -1,11 +1,9 @@
 .chat{
-    display: flex;
-    flex-direction: column;
     padding: 2px;
     flex: 2;
     border-left: 1px solid #645e5e4b;
-    border-right: 1px solid #645e5e4b;
-    height: 100%;
+    display: flex;
+    flex-direction: column;
 
     .top{
         padding: 10px;
@@ -37,26 +35,58 @@
                 }
             }
         }
-        .icons{
-            display: flex;
-            gap: 10px;
-            img{
-                width: 20px;
-                height: 20px;
-                cursor: pointer;
-            }
-        }
     }
     .center{
-        padding: 20px;
+        padding: 10px;
         flex: 1;
+        overflow: scroll;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .message{
+            max-width: 70%;
+            display: flex;
+            gap: 20px;
+
+            &.own{
+                align-self: flex-end;
+
+                .texts{
+                    p{
+                        background-color: #119a75;
+                    }
+                }
+            }
+
+            .user{
+                font-size: 10px;
+            }
+            .texts{
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+                p{
+                    padding: 10px;
+                    background-color: #4e49494b;
+                    color: white;
+                    border-radius: 10px;
+                }
+                span {
+                    font-size: 10px;
+                }
+            }
+        }
 
     }
+
     .bottom{
-        margin-top:auto;
         padding: 10px;
         display: flex;
         align-items: center;
+        align-self: flex-end;
         justify-content: space-between;
         background-color: #645e5e4b;
         border-radius: 5px;
@@ -77,6 +107,7 @@
             border:none;
             border-radius: 5px;
             cursor: pointer;
+            background-color: #119a75;
         }
     }
 }
