@@ -87,7 +87,7 @@ function CreateCourse() {
 
     return (
         <div className="createCourse-container">
-            <h2>Create a Course</h2>
+            <h1>Create a Course</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={handleCourseCreation}>
                 <div style={{ marginBottom: '10px' }}>
@@ -96,6 +96,7 @@ function CreateCourse() {
                         placeholder="Course Name"
                         value={courseName}
                         onChange={(e) => setCourseName(e.target.value)}
+                        maxLength={100}
                         required
                     />
                 </div>
@@ -127,6 +128,7 @@ function CreateCourse() {
                         placeholder="Course Description"
                         value={courseDescription}
                         onChange={(e) => setCourseDescription(e.target.value)}
+                        maxLength={500}
                         required
                     />
                 </div>

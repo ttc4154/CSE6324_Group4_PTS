@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
-import { collection, getDoc, getDocs, updateDoc, doc, query, where } from 'firebase/firestore';
+import { collection, getDoc, getDocs, updateDoc, doc, query, where, deleteDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import '../styles/MyCourses.css';
 
@@ -9,6 +9,7 @@ function MyCourses() {
     const [availableCourses, setAvailableCourses] = useState([]);
     const [signedUpCourses, setSignedUpCourses] = useState([]);
     const [tutorCourses, setTutorCourses] = useState([]);
+    const [tutorNames, setTutorNames] = useState({});
     const [studentID, setstudentID] = useState(0);
     const [tutorID, settutorID] = useState(0);
     const [courseID, setCourseID] = useState(null);
@@ -72,6 +73,14 @@ function MyCourses() {
                     ...course.data(),
                 }));
                 setAvailableCourses(coursesMap);
+                // get all tutor names
+                const tutorsCollection = await getDocs(collection(db, 'tutors'));
+                const tutorsMap = tutorsCollection.docs.reduce((acc, doc) => {
+                    acc[doc.id] = doc.data().displayName;
+                    return acc;
+                }, {});
+                console.log(tutorsMap);
+                setTutorNames(tutorsMap);
             } catch (err) {
                 setError(err);
             }
@@ -104,11 +113,21 @@ function MyCourses() {
         }
     }, [tutorID]);
 
+    // Edit and Delete Courses
     const handleEditCourse = (course) => {
         setCourseID(course.id);
         setCourseName(course.courseName);
         setCourseSubject(course.courseSubject);
         setCourseDescription(course.courseDescription);
+    };
+    const handleDeleteCourse = async (courseID) => {
+        try {
+            await deleteDoc(doc(db, 'courses', courseID));
+            setTutorCourses(tutorCourses.filter(course => course.id !== courseID));
+            alert('Course deleted successfully!');
+        } catch (err) {
+            setError(err);
+        }
     };
 
     // Save the updated course
@@ -120,9 +139,9 @@ function MyCourses() {
                 courseName,
                 courseSubject,
                 courseDescription,
-                updatedAt: new Date(),  // Add an updated timestamp
+                updatedAt: new Date(),
             });
-            setCourseID(null);  // Reset the editing state
+            setCourseID(null);
             alert('Course updated successfully!');
             const updatedCourses = tutorCourses.map(course => 
                 course.id === courseID ? { ...course, courseName, courseSubject, courseDescription } : course
@@ -186,7 +205,7 @@ function MyCourses() {
 
     return (
         <div className="myCourses-container">
-            <h2>Courses Page</h2>
+            <h1>My Courses</h1>
             {userType === 'student' && (
                 <div className="tabs">
                     <button
@@ -205,6 +224,7 @@ function MyCourses() {
             )}
             {((userType === "tutor") || (userType === "admin")) && (
                 <div classname="myCourses-container">
+                    <h3>Create a Course</h3>
                     <button onClick={() => navigate('/create-course')}>
                         Create Course
                     </button>
@@ -227,7 +247,12 @@ function MyCourses() {
                                 <div key={course.id} className="course-card">
                                     <h4 className="course-title">{course.courseName}</h4>
                                     <p className="course-description">
+                                        <p className="course-card-title">Course Description</p>
                                         {course.courseDescription}
+                                    </p>
+                                    <p className="course-offered-by">
+                                        <p className="course-card-title">Course Instructor</p>
+                                        {tutorNames[course.createdBy]}
                                     </p>
                                     <button
                                         className="sign-up-btn"
@@ -246,7 +271,7 @@ function MyCourses() {
             )}
             {userType === 'tutor' && (
                 <div>
-                    <h2>Your Courses</h2>
+                    <h3>Your Courses</h3>
                     {(tutorCourses.length === 0 ) ? (
                         <p>No courses found. Please create a course.</p>
                         ) : (
@@ -254,12 +279,23 @@ function MyCourses() {
                                 {tutorCourses.map(course => (
                                     <div key={course.id} className="course-card">
                                         <h3 className="course-title">{course.courseName}</h3>
-                                        <p className="course-subject">{course.courseSubject}</p>
-                                        <p className="course-description">{course.courseDescription}</p>
+                                        <p className="course-subject">
+                                            <p className="course-card-title">Course Subject</p>
+                                            {course.courseSubject}
+                                        </p>
+                                        <p className="course-description">
+                                            <p className="course-card-title">Course Description</p>
+                                            {course.courseDescription}
+                                        </p>
                                         <button 
                                             onClick={() => handleEditCourse(course)}
                                             className="edit-course-btn">
                                             Edit Course
+                                        </button>
+                                        <button 
+                                            onClick={() => handleDeleteCourse(course.id)} 
+                                            className="delete-course-btn">
+                                            Delete Course
                                         </button>
                                     </div>
                                 ))}
@@ -319,7 +355,12 @@ function MyCourses() {
                                     <div key={courseID} className="course-card signed-up-course-card">
                                         <h4 className="course-title">{course.courseName}</h4>
                                         <p className="course-description">
+                                            <p className="course-card-title">Course Description</p>
                                             {course.courseDescription}
+                                        </p>
+                                        <p className="course-offered-by">
+                                            <p className="course-card-title">Course Instructor</p>
+                                            {tutorNames[course.createdBy]}
                                         </p>
                                         <button
                                             className="unregister-btn"

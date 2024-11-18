@@ -56,6 +56,10 @@
     min-height: 200px;
 }
 
+.course-card-title {
+    color: gray;
+}
+
 .course-card:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
@@ -121,4 +125,31 @@
 .search-input:focus {
     outline: none;
     border-color: #28a745;
+}
+
+.edit-course-btn {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.edit-course-btn:hover {
+    background-color: darkgreen;
+}
+
+.delete-course-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.delete-course-btn:hover {
+    background-color: darkred;
 }
