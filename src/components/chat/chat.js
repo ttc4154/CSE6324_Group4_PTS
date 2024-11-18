@@ -4,7 +4,6 @@ import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from "firebase/firesto
 import { db } from "../../firebase"
 import { useChatStore } from "../lib/chatStore"
 import { useUserStore } from "../lib/userStore"
-import { format } from "timeago.js";
 
 const Chat = () => {
     const[chat, setChat] = useState();
@@ -54,8 +53,12 @@ const Chat = () => {
                     const chatIndex = userChatsData.chats.findIndex((c)=> c.chatId === chatId);
 
                     userChatsData.chats[chatIndex].lastMessage = text;
-                    userChatsData.chats[chatIndex].isSeen = 
-                        id === currentUser.id ? true : false;
+                    if(id === currentUser.id){
+                        userChatsData.chats[chatIndex].isSeen =  true;
+                    }
+                    else{
+                        userChatsData.chats[chatIndex].isSeen = false;
+                    }
                     userChatsData.chats[chatIndex].updatedAt = Date.now();
 
                     await updateDoc(userChatsRef, {
@@ -86,7 +89,6 @@ const Chat = () => {
                             key = {message?.createAt}>
                         <div className="texts">
                             <p>{message.text}</p>
-                            <span>{format(message.createdAt.toDate())}</span>
                         </div>
                     </div>
                 ))}

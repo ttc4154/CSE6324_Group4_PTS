@@ -8,13 +8,14 @@ import { useUserStore } from "../../lib/userStore"
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore"
 import { db } from "../../../firebase"
 import { useChatStore } from "../../lib/chatStore"
+
 const ChatList = () => {
     const [chats, setChats] = useState([]);
     const [addMode, setAddMode] = useState(false);
     const [input, setInput] = useState("");
 
     const { currentUser } = useUserStore();
-    const { chatId, changeChat } = useChatStore();
+    const { changeChat } = useChatStore();
 
     useEffect(() => {
         const unSub = onSnapshot(
@@ -23,18 +24,20 @@ const ChatList = () => {
             const items = res.data().chats;
 
             const promises = items.map(async (item) => {
-            const userDocRef = doc(db, "students", item.receiverId);
-            const userDocSnap = await getDoc(userDocRef);
+                let userDocRef = doc(db, "students", item.receiverId);
+                let userDocSnap = await getDoc(userDocRef);
             
-            if(!userDocSnap.exists()){
-                console.log("Did not find user")
-            }
-            const user = userDocSnap.data();
+                if(!userDocSnap.exists()){
+                    console.log("Did not find student user")
+                    userDocRef = doc(db, "tutors", item.receiverId);
+                    userDocSnap = await getDoc(userDocRef);
+                }
+                const user = userDocSnap.data();
 
-            return { ...item, user };
+                return { ...item, user };
             });
 
-            const chatData = await Promise.all(promises);
+            const chatData = (await Promise.all(promises));
 
             setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
         }
@@ -50,7 +53,7 @@ const ChatList = () => {
         const { user, ...rest } = item;
         return rest;
         });
-  
+
         const chatIndex = userChats.findIndex(
         (item) => item.chatId === chat.chatId
         );
@@ -70,7 +73,7 @@ const ChatList = () => {
     };
 
     const filteredChats = chats.filter((c) =>
-        c.user.username.toLowerCase().includes(input.toLowerCase())
+        c.user.displayName.toLowerCase().includes(input.toLowerCase())
     );
 
     return (
@@ -102,7 +105,7 @@ const ChatList = () => {
             >
             <div className="texts">
                 <span>
-                    {chat.user.username}
+                    {chat.user.displayName}
                 </span>
                 <p>{chat.lastMessage}</p>
                 </div>
@@ -113,5 +116,5 @@ const ChatList = () => {
         </div>
     );
 };
-  
-  export default ChatList;
+
+export default ChatList;
