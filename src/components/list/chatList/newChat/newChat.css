@@ -1,0 +1,57 @@
+.newChat{
+    width: max-content;
+    height: max-content;
+    padding: 15px;
+    background-color: #645e5e86;
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+    form{
+        display: flex;
+        gap: 10px;
+
+        input{
+            flex: 1;
+            background-color: #4e49494b;
+            border: none;
+            outline: none;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        button{
+            padding: 5px 15px;
+            border:none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #119a75;
+        }
+    }
+    .user{
+        margin-top: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .detail{
+            display: flex;
+            align-items: center;
+            
+            span{
+                font-size: 20px;
+                color: white;
+            }
+        }
+        button{
+            padding: 10px 15px;
+            border:none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #119a75;
+        }
+    }
+}
