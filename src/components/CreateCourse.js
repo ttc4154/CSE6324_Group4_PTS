@@ -8,8 +8,10 @@ function CreateCourse() {
     const [courseName, setCourseName] = useState('');
     const [courseSubject, setCourseSubject] = useState('');
     const [courseDescription, setCourseDescription] = useState('');
-    const [error, setError] = useState('');
     const [userType, setUserType] = useState('');
+    const [error, setError] = useState('');
+
+    const tutorID = auth.currentUser.uid;
     const navigate = useNavigate();
 
     const subjects = [
@@ -56,7 +58,7 @@ function CreateCourse() {
             navigate('/my-courses');
         }
     }, [userType, navigate]);
-
+   
     // Handle course creation
     const handleCourseCreation = async (e) => {
         e.preventDefault();
@@ -72,6 +74,7 @@ function CreateCourse() {
             setCourseName('');
             setCourseSubject('');
             setCourseDescription('');
+            navigate('/my-courses');
         } catch (err) {
             setError(err.message);
         }
@@ -127,7 +130,6 @@ function CreateCourse() {
                         required
                     />
                 </div>
-
                 <button type="submit">Create Course</button>
             </form>
         </div>
