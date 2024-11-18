@@ -121,6 +121,7 @@ function MyCourses() {
         setCourseSubject(course.courseSubject);
         setCourseDescription(course.courseDescription);
         setCourseLocation(course.courseLocation);
+        navigate('/my-courses');
     };
     const handleDeleteCourse = async (courseID) => {
         try {
