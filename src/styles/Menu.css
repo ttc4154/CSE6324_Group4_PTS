@@ -5,7 +5,7 @@
     width: 100%; /* Full width of the page */
     background-color: #2c3e50;
     color: white;
-    padding: 0px 0; /* Adjust the padding to fit below the navbar */
+    padding: 10px 0; /* Adjust the padding to fit below the navbar */
     margin-top: 0px; /* Space the menu below the navbar (adjust this value if needed) */
     display: flex;
     justify-content: center; /* Center the menu */
@@ -18,23 +18,30 @@
     margin: 0;
     display: flex; /* Use flexbox to align the menu items horizontally */
     justify-content: center; /* Center the menu items */
+    gap: 10px;
   }
   
-  .menu li {
-    padding: 0px;
-    font-size: 1px;
-    transition: background-color 0.3s;
-  }
-  
-  .menu li a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    width: 100%;
-  }
+  /* Menu item styles */
+.menu li {
+  padding: 0px; /* Remove padding to bring items closer */
+  font-size: 20px; /* Reduce font size if necessary */
+  transition: background-color 0.3s;
+  margin: 0px; /* Remove any margin if applied elsewhere */
+}
+
+/* Menu link styles */
+.menu li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 8px 5px; /* Tighten the padding on the links */
+  margin: 0; /* Ensure no margin around the link */
+}
+
   
   .menu li:hover {
     background-color: #34495e;
+    
   }
   
   .menu li a:hover {
@@ -42,6 +49,6 @@
   }
   
   .menu li a:active {
-    background-color: #525c5a;
+    background-color: #3dc9ad;
   }
   

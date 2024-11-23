@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './styles/styles.css'; // Import styles
+import { UserContext } from './context/UserContext';
+import { UserProvider } from './context/UserContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Correct import for Routes and Route in v6
 import Home from './components/Home';
 import Register from './components/Register';
@@ -21,6 +23,7 @@ import StudentScheduler from './components/StudentScheduler';
 import MyCourses from './components/MyCourses';
 import Messages from './components/messages/Messages';
 
+
 function App() {
     const [user, setUser] = useState(null); // State to track user
 
@@ -34,30 +37,32 @@ function App() {
     }, []);
 
     return (
-        <Router>
-            <div className="App">
-                <Navbar user={user} /> {/* Pass user state to Navbar */}
-                {/* Render Menu only if user is logged in */}
-                {user && <Menu />} 
+        <UserProvider>
+            <Router>
+                <div className="App">
+                    <Navbar user={user} /> {/* Pass user state to Navbar */}
+                    {/* Render Menu only if user is logged in */}
+                    {user && <Menu />} 
 
-                <Routes>
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/" element={<Home />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/create-course" element={<CreateCourse />} /> 
-                    <Route path="/user-profile" element={<UserProfile />} />
-                    <Route path="/tutor-scheduler/:userId" element={<TutorScheduler />} />
-                    <Route path="/student-scheduler/:userId" element={<StudentScheduler />} />
-                    <Route path="/admin" element={<AdminDashboard />} />
-                    <Route path="/chat" element={<LiveChat />} />
-                    <Route path="/my-courses" element={<MyCourses />} />
-                    <Route path="/my-messages" element={<Messages />} />
-                </Routes>
-                <Footer />
-            </div>
-        </Router>
+                    <Routes>
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/" element={<Home />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/contact" element={<Contact />} />
+                        <Route path="/create-course" element={<CreateCourse />} /> 
+                        <Route path="/user-profile" element={<UserProfile />} />
+                        <Route path="/tutor-scheduler/:userId" element={<TutorScheduler />} />
+                        <Route path="/student-scheduler/:userId" element={<StudentScheduler />} />
+                        <Route path="/admin" element={<AdminDashboard />} />
+                        <Route path="/chat" element={<LiveChat />} />
+                        <Route path="/my-courses" element={<MyCourses />} />
+                        <Route path="/my-messages" element={<Messages />} />
+                    </Routes>
+                    <Footer />
+                </div>
+            </Router>
+        </UserProvider>
     );
 }
 

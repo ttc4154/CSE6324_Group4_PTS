@@ -2,8 +2,8 @@
 .footer {
     background-color: #333;    /* Dark background for footer */
     color: white;              /* White text color */
-    padding: 5px;             /* Padding around the footer */
     text-align: center;        /* Center text alignment */
+    padding: 10px 0;
 }
 
 .footer-container {
