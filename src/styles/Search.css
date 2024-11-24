@@ -1,0 +1,22 @@
+.search-results {
+    padding: 20px;
+  }
+  
+  .search-results h2 {
+    font-size: 2em;
+  }
+  
+  .subjects, .tutors {
+    margin: 20px 0;
+  }
+  
+  .subjects ul, .tutors ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .subjects li, .tutors li {
+    padding: 5px 0;
+    font-size: 1.2em;
+  }
+  

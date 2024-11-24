@@ -21,6 +21,7 @@ import { auth } from './firebase'; // Import Firebase auth
 import TutorScheduler from './components/TutorScheduler';
 import StudentScheduler from './components/StudentScheduler';
 import MyCourses from './components/MyCourses';
+import Search from './components/Search';
 import Messages from './components/messages/Messages';
 
 
@@ -58,6 +59,7 @@ function App() {
                         <Route path="/chat" element={<LiveChat />} />
                         <Route path="/my-courses" element={<MyCourses />} />
                         <Route path="/my-messages" element={<Messages />} />
+                        <Route path="/search" element={<Search />} />
                     </Routes>
                     <Footer />
                 </div>

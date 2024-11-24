@@ -14,19 +14,19 @@
 
 /* Logo styling */
 .navbar-logo {
-  font-size: 1.5rem; /* Increased size for better visibility */
-  font-weight: bold; /* Make it bold */
-  color: #ffffff; /* Choose a unique color */
-  margin-left: 0.5rem; 
-  text-decoration: none; /* Remove underline */
-  font-family: 'Montserrat', sans-serif; /* Add a custom font */
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-left: 0.5rem;
+  text-decoration: none;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .navbar-subtitle {
-  font-size: 0.8rem; /* Adjusted for better scaling */
-  color: #ffffff; /* Subtle color for the subtitle */
-  margin-top: 0.2rem; /* Small space between logo and subtitle */
-  text-align: center; /* Center-align text under the logo */
+  font-size: 0.8rem;
+  color: #ffffff;
+  margin-top: 0.2rem;
+  text-align: center;
 }
 
 /* Navbar menu styling */
@@ -47,194 +47,227 @@
 }
 
 .navbar-link:hover {
-  color: #ffd700; /* Change to desired hover color */
+  color: #ffd700;
 }
-
-/* Search bar styling */
 .navbar-search {
   display: flex;
-  align-items: center;
-  margin-right: 20px; /* Increased space from links */
+  align-items: center; /* Align all items vertically in the center */
+  justify-content: center; /* Align all items horizontally in the center */
+  margin: 0 auto;
+  margin-top: 0;
 }
-
+/* Both input and zipcode should have the same styling */
 .navbar-search-input {
-  padding: 8px 12px; /* Added padding for better click area */
+  padding: 8px 12px;
   font-size: 16px;
-  border: 1px solid #ddd; /* Light border for contrast */
-  border-radius: 10px 0 0 10px; /* Rounded corners for input */
+  border: 1px solid #ddd;
+  border-radius: 10px 0px 0px 10px;
   outline: none;
-  flex-grow: 1; /* Allow input to grow and fill available space */
+  margin-right: 0px;
+  height: 35px; /* Set the height for both input and zipcode */
+  box-sizing: border-box; /* Ensure padding is included in the height */
+  width: 300px; /* Make the search input larger */
 }
 
-/* Search button styling */
-.navbar-search-button {
-  background-color: #ffffff; /* Distinct color for contrast */
+/* Both input and zipcode should have the same styling */
+.navbar-search-zipcode {
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 0;
+  outline: none;
+  margin-right: 0px;
+  height: 35px; /* Set the height for both input and zipcode */
+  box-sizing: border-box; /* Ensure padding is included in the height */
+  width: 100px; /* Make the zipcode input smaller */
+}
+
+.navbar-subjects {
+  position: relative;
+  display: inline-block;
+}
+
+.navbar-dropdown-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
   border: none;
   cursor: pointer;
-  padding: 12px 15px; /* Adjusted padding for better size */
-  margin-top: -10px; /* Add some space above links */
-  color: #333; /* Dark color for button icon */
+}
+
+.navbar-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  z-index: 1;
+}
+
+.navbar-subjects:hover .navbar-dropdown-content {
+  display: block;
+}
+
+.navbar-dropdown-item {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.navbar-dropdown-item:hover {
+  background-color: #ddd;
+}
+
+/* Adjust the search button to match height */
+.navbar-search-button {
+  background-color: #ffffff;
+  border: none;
+  cursor: pointer;
+  padding: 8px 15px; /* Adjust padding for alignment */
+  color: #333;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0 10px 10px 0; /* Rounded corners on right */
+  border-radius: 0px 10px 10px 0px;
   transition: background-color 0.3s ease;
+  height: 35px; /* Same height as input fields */
+  box-sizing: border-box; /* Ensure padding is included in height */
+  margin-top: -10px;
+}
+
+label {
+  display: flex;
+  align-items: center;  /* Ensure the label and checkbox are aligned on the same line */
+  margin-left: 10px;
+  margin-bottom: 15px;
+}
+
+input[type="checkbox"] {
+  margin-right: 0px;  /* Small gap between the checkbox and label */
+  margin-top: 10px;
 }
 
 .navbar-search-button:hover {
-  background-color: #7e7575; /* Slightly darker color on hover */
+  background-color: #7e7575;
 }
 
+/* Auth links styling */
 .navbar-auth {
-  display: flex; /* Align Login and Register horizontally */
-  align-items: center; /* Center vertically */
-  margin-left: auto; /* Push auth links to the right */
+  display: flex;
+  align-items: center;
+  margin-left: auto;
 }
 
 .auth-link {
-  margin-left: 10px; /* Space between Login and Register */
+  margin-left: 10px;
   text-decoration: none;
-  color: #ffffff; /* Bootstrap primary color */
+  color: #ffffff;
 }
 
 .auth-link:hover {
-  text-decoration: underline; /* Underline on hover */
+  text-decoration: underline;
 }
 
 /* Media queries for responsiveness */
 @media (max-width: 768px) {
   .navbar {
-    flex-direction: column; /* Stack items vertically on smaller screens */
-    align-items: flex-start; /* Align items to the start */
-  }
-
-  .navbar-container {
-    width: 100%; /* Ensure full width for mobile */
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .navbar-links {
-    justify-content: flex-start; /* Align links to the left */
-    width: 100%; /* Make links take full width */
-    margin-top: 10px; /* Add some space above links */
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 10px;
   }
 
-  .navbar-search {
-    width: 100%; /* Make search take full width */
-    margin-right: 0;
-    margin-top: 10px; /* Space above search box */
-  }
-
-  .navbar-auth {
-    margin-top: 10px; /* Space above auth links */
-    justify-content: flex-start; /* Align auth links to the left */
-  }
-
-  .navbar-search-input {
-    font-size: 14px; /* Smaller font size for mobile */
-    padding: 6px; /* Adjust padding for mobile */
-  }
-
-  .navbar-search-button {
-    padding: 8px; /* Adjust button padding for mobile */
-    font-size: 14px; /* Smaller font size for mobile */
-  }
 }
+
 /* Dropdown Menu Styling */
 .menu-dropdown {
-  position: relative; /* Parent container for positioning */
+  position: relative;
   display: inline-block;
 }
 
 .menu-button {
-  background-color: #333; /* Dark background for button */
-  color: white; /* White text */
-  padding: 2px 5px; /* Padding for the button */
-  font-size: 1rem; /* Font size */
-  border: none; /* Remove default border */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor */
-  display: flex; /* Flexbox layout for alignment */
-  align-items: center; /* Center items vertically */
-  gap: 5px; /* Space between image and text */
-  transition: background-color 0.3s ease; /* Smooth transition */
+  background-color: #333;
+  color: white;
+  padding: 2px 5px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.3s ease;
 }
 
-/* Style for the profile picture */
-.profile-pic {
-  width: 40px; /* Set width of the profile picture */
-  height: 40px; /* Set height of the profile picture */
-  border-radius: 50%; /* Make it a circle */
-  object-fit: cover; /* Make sure the image covers the circle */
-}
 .menu-button:hover {
-  background-color: #555; /* Slightly lighter on hover */
+  background-color: #555;
 }
 
 .menu-content {
-  display: none; /* Hidden by default */
-  position: absolute; /* Position relative to parent */
-  background-color: white; /* Light background */
-  min-width: 200px; /* Minimum width */
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-  border-radius: 20px; /* Rounded corners */
-  z-index: 1; /* Ensure it's above other elements */
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  z-index: 1;
   right: 0;
 }
 
 .menu-content a {
-  color: #333; /* Dark text for links */
-  padding: 12px 16px; /* Padding for clickable area */
-  text-decoration: none; /* Remove underline */
-  display: block; /* Make links take up full width */
-  font-size: 0.95rem; /* Slightly smaller font size */
-  transition: background-color 0.3s ease; /* Smooth hover transition */
+  color: #333;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease;
 }
 
 .menu-content a:hover {
-  border-radius: 20px; /* Rounded corners */
-  background-color: #f0f0f0; /* Light gray hover effect */
+  background-color: #f0f0f0;
+  border-radius: 20px;
 }
 
 .menu-dropdown:hover .menu-content {
-  border-radius: 20px; /* Rounded corners */
-  display: block; /* Show the dropdown on hover */
+  display: block;
 }
 
 .menu-content .auth-link {
-  border-radius: 20px; /* Rounded corners */
-  display: flex; /* For consistent alignment */
-  justify-content: space-between; /* Space between text and icons (if any) */
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-/* Optional: Transition effect for showing the dropdown */
 .menu-content {
-  opacity: 0; /* Initially hidden */
-  transform: translateY(-10px); /* Slight upward offset */
-  transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .menu-dropdown:hover .menu-content {
-  opacity: 1; /* Fully visible */
-  transform: translateY(0); /* Reset position */
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Mobile adjustments */
 @media (max-width: 600px) {
   .menu-button {
-    width: 100%; /* Full width on smaller screens */
+    width: 100%;
   }
   .menu-content {
-    min-width: unset; /* Adjust width for responsiveness */
-    width: 100%; /* Take up the full width of the parent */
+    min-width: unset;
+    width: 100%;
   }
 }
-
-.navbar-profile-picture {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
+/* Profile picture styling */
+.navbar-profile-picture, .profile-pic {
+  width: 40px; /* Ensure consistent size */
+  height: 40px; /* Ensure consistent size */
+  border-radius: 50%; /* Circular shape */
+  object-fit: cover; /* Crop the image to cover the circle */
 }
 
 .navbar-profile-placeholder {
@@ -243,6 +276,24 @@
   background-color: gray;
   color: white;
   text-align: center;
-  line-height: 40px;
-  border-radius: 50%;
+  line-height: 40px; /* Center text vertically */
+  border-radius: 50%; /* Circular shape */
+}
+
+/* Optional: Adjust container if necessary */
+.menu-dropdown {
+  display: inline-block;
+  position: relative;
+  margin-left: 10px; /* Space between items */
+}
+
+/* Search info box styling */
+.search-info {
+  margin-top: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  color: #333;
 }

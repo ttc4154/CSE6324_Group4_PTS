@@ -81,6 +81,7 @@ const UserProfile = () => {
           email: userData.email,
           phone: userData.phone,
           address: userData.address,
+          zipcode: userData.zipcode,
           memberStatus: userData.memberStatus,
           selectedSubjects: userData.selectedSubjects || []
         });
@@ -240,6 +241,16 @@ const UserProfile = () => {
                 type="text"
                 value={userData.address}
                 onChange={(e) => handleInputChange("address", e.target.value)}
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Zipcode:
+              <input
+                type="text"
+                value={userData.zipcode || ""}
+                onChange={(e) => handleInputChange("zipcode", e.target.value)}
               />
             </label>
           </div>
