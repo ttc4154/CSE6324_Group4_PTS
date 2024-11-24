@@ -102,7 +102,7 @@ const Navbar = () => {
     setIsSearchFocused(false);
   };
 
-  const combinedValue = searchValue || (isSearchFocused ? '' : `What would you like to learn today?`);
+  const combinedValue = searchValue || (isSearchFocused ? '' : `Search Subject...`);
 
   const handleLogout = async () => {
     await auth.signOut();

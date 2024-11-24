@@ -8,6 +8,8 @@
     margin-top: 10px;
     margin-bottom: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    
+    
 }
 
 .search-results h2 {
@@ -154,4 +156,100 @@
     margin: 5px 0;
     font-size: 14px;
   }
+  /* Dropdown Menu Styling */
+  .menu-dropdown {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px; /* Adds space between menus */
+    margin-top: 0px;
+  }
+  
+  .menu-button {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s ease;
+  }
+
+  .search-menu-button {
+    background-color: #555555;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .menu-button:hover {
+    background-color: #555;
+  }
+  .dropdown-content {
+    display: block;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    z-index: 1;
+    left: 0;
+  }
+  
+  .menu-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    z-index: 1;
+    right: 0;
+  }
+  
+  .menu-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.95rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .menu-content a:hover {
+    background-color: #f0f0f0;
+    border-radius: 20px;
+  }
+  
+  .menu-dropdown:hover .menu-content {
+    display: block;
+  }
+  
+  .menu-content .auth-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .menu-content {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .menu-dropdown:hover .menu-content {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
   

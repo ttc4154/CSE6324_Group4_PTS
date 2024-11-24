@@ -20,7 +20,7 @@ const StudentScheduler = () => {
     const [calendarDays, setCalendarDays] = useState([]);
 
     // Fetch student's registered subjects
-// Generate a basic calendar for the current month
+    // Generate a basic calendar for the current month
     const generateCalendar = () => {
         const daysInMonth = new Date(2024, 11, 0).getDate(); // Get number of days in current month (e.g., December)
         const days = [];

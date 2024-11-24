@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
-import { collection, addDoc, getDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, getDoc, doc, getDocs } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import '../styles/CreateCourse.css';
 
@@ -11,19 +11,25 @@ function CreateCourse() {
     const [courseLocation, setCourseLocation] = useState('');
     const [userType, setUserType] = useState('');
     const [error, setError] = useState('');
+    const [subjects, setSubjects] = useState([]); // Store subjects from Firestore
 
     const tutorID = auth.currentUser.uid;
     const navigate = useNavigate();
 
-    const subjects = [
-        "Math", 
-        "Science", 
-        "Writing", 
-        "Tennis", 
-        "Piano", 
-        "English", 
-        "Programming"
-    ];
+    useEffect(() => {    
+        const fetchSubjects = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'subjects'));
+                const subjectList = querySnapshot.docs.map((doc) => doc.data().name);
+                setSubjects(subjectList); // Set the subjects list only once
+                console.log('Fetched subjects:', subjectList);
+            } catch (error) {
+                console.error('Error fetching subjects:', error);
+            }
+        };
+        
+        fetchSubjects();
+    }, []); // Empty dependency array ensures this runs only once on component mount
 
     // Check the user type student, tutor, admin, or null
     useEffect(() => {

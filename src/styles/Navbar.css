@@ -66,7 +66,7 @@
   margin-right: 0px;
   height: 35px; /* Set the height for both input and zipcode */
   box-sizing: border-box; /* Ensure padding is included in the height */
-  width: 300px; /* Make the search input larger */
+  width: 200px; /* Make the search input larger */
 }
 
 /* Both input and zipcode should have the same styling */

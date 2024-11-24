@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
 import { collection, getDoc, getDocs, updateDoc, doc, query, where, deleteDoc, writeBatch } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import TutorRating from './TutorRating';
 import '../styles/MyCourses.css';
 
 function MyCourses() {
@@ -21,16 +22,23 @@ function MyCourses() {
     const [userType, setUserType] = useState('');
     const [selectedTab, setSelectedTab] = useState('available');
     const [search, setSearch] = useState('');
+    const [subjects, setSubjects] = useState([]); // Store subjects from Firestore
+
+    useEffect(() => {    
+        const fetchSubjects = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'subjects'));
+                const subjectList = querySnapshot.docs.map((doc) => doc.data().name);
+                setSubjects(subjectList); // Set the subjects list only once
+                console.log('Fetched subjects:', subjectList);
+            } catch (error) {
+                console.error('Error fetching subjects:', error);
+            }
+        };
+        
+        fetchSubjects();
+    }, []); // Empty dependency array ensures this runs only once on component mount
     
-    const subjects = [
-        "Math", 
-        "Science",
-        "Writing", 
-        "Tennis", 
-        "Piano", 
-        "English", 
-        "Programming"
-    ];
 
     useEffect(() => {
         const checkUserType = async () => {
@@ -347,8 +355,10 @@ function MyCourses() {
                             required
                         >
                             <option value="">Select Subject</option>
-                            {subjects.map(subject => (
-                                <option key={subject} value={subject}>{subject}</option>
+                            {subjects.map((subject) => (
+                                <option key={subject} value={subject}>
+                                    {subject}
+                                </option>
                             ))}
                         </select>
                         <textarea
@@ -403,6 +413,32 @@ function MyCourses() {
                                         >
                                             Unregister
                                         </button>
+                                        <TutorRating
+                                            tutorId={course.createdBy}
+                                            onSubmitRating={async (rating) => {
+                                                try {
+                                                    const tutorRef = doc(db, 'tutors', course.createdBy);
+                                                    const tutorDoc = await getDoc(tutorRef);
+                                                    if (tutorDoc.exists()) {
+                                                        const ratings = tutorDoc.data().ratings || [];
+                                                        const updatedRatings = [...ratings, rating];
+                                                        const averageRating =
+                                                            updatedRatings.reduce((sum, r) => sum + r, 0) /
+                                                            updatedRatings.length;
+
+                                                        await updateDoc(tutorRef, {
+                                                            ratings: updatedRatings,
+                                                            averageRating: averageRating.toFixed(1),
+                                                        });
+
+                                                        alert('Your rating has been submitted!');
+                                                    }
+                                                } catch (err) {
+                                                    console.error('Error submitting rating:', err);
+                                                    alert('Failed to submit rating.');
+                                                }
+                                            }}
+                                        />
                                     </div>
                                 );
                             })}
