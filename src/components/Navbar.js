@@ -20,7 +20,7 @@ const Navbar = () => {
   const locationData = useLocation();
   const navigate = useNavigate();
 
-  const GOOGLE_MAPS_API_KEY = 'youkeyhere';
+  const GOOGLE_MAPS_API_KEY = 'key';
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {

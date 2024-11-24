@@ -1,22 +1,157 @@
+/* Apply common styling */
 .search-results {
     padding: 20px;
-  }
-  
-  .search-results h2 {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #c1e8ff;
+    border-radius: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.search-results h2 {
     font-size: 2em;
-  }
-  
-  .subjects, .tutors {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Tutors container */
+.tutors {
     margin: 20px 0;
-  }
-  
-  .subjects ul, .tutors ul {
+}
+
+.tutors h3 {
+    font-size: 1.8em;
+    color: #333;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.tutors ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
+}
+
+.tutors li {
+    font-size: 1.2em;
+    padding: 12px;
+    margin: 8px 0;
+    background-color: #f8f9fa;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tutors li span {
+    color: #555;
+    display: block;
+    margin-top: 8px;
+}
+
+/* Button to show more or refine search */
+.search-results .refine-button {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 25px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.search-results .refine-button:hover {
+    background-color: #218838;
+}
+
+/* Disabled button style */
+.search-results .refine-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Loader style */
+.search-results .loading {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #6c757d;
+    margin-top: 30px;
+}
+
+/* No tutors found message */
+.search-results .no-tutors {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #dc3545;
+    margin-top: 20px;
+}
+
+/* Add matching styles for specific Search layout */
+.search-results .message {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-top: 15px;
+}
+
+/* Calendar styles (optional, in case you add scheduling) */
+.search-results .calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 columns for the days of the week */
+    gap: 5px;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.tutor-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
   }
   
-  .subjects li, .tutors li {
-    padding: 5px 0;
-    font-size: 1.2em;
+  .tutor-info {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .tutor-photo-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  
+  .tutor-profile-pic {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .tutor-details {
+    flex-grow: 1;
+    margin-left: 15px;
+  }
+  
+  .tutor-details strong {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .tutor-details span {
+    display: block;
+    margin: 5px 0;
+    font-size: 14px;
   }
   

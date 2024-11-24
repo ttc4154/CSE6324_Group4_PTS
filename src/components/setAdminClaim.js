@@ -11,5 +11,6 @@ const setAdminClaim = async (uid) => {
   }
 };
 
-// Example usage: Set the claim for a user with UID 'FhfAkMMZWLOe3r8eYXh0fi7xDP83'
-setAdminClaim('FhfAkMMZWLOe3r8eYXh0fi7xDP83');
+// Example usage: Set the claim for a user with UID 'FhfAkMMZWLOe3r8eYXh0fi7xDP83' for ttchuvn2411@gmail.com
+// FEUYjPdZ0beiXNSebqJd42LJmMV2: user7
+setAdminClaim('FEUYjPdZ0beiXNSebqJd42LJmMV2');
