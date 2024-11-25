@@ -4,6 +4,7 @@ import { db } from '../firebase'; // Firebase config import
 import { collection, getDocs, query, where } from 'firebase/firestore'; // Firestore methods
 import axios from 'axios'; // For geocoding API
 import '../styles/Search.css';
+import ReactStars from "react-rating-stars-component";
 
 const Search = () => {
   const location = useLocation();
@@ -18,7 +19,62 @@ const Search = () => {
   const [showRateMenu, setShowRateMenu] = useState(false); 
   const [showRatingMenu, setShowRatingMenu] = useState(false);
   const [showLevelMenu, setShowLevelMenu] = useState(false);
-  
+  const [subjects, setSubjects] = useState([]); // Store subjects from Firestore
+  const [activeMenu, setActiveMenu] = useState(null); // State to track the currently active menu
+
+  const [selectedSubject, setSelectedSubject] = useState(null);
+  const [selectedType, setSelectedType] = useState(null);
+  const [selectedDistance, setSelectedDistance] = useState(null);
+  const [selectedRate, setSelectedRate] = useState(null);
+  const [selectedRating, setSelectedRating] = useState(null);
+  const [selectedLevels, setSelectedLevels] = useState([]);
+  // Define the available levels
+  const levels = ['Beginner', 'Intermediate', 'Advanced', 'Proficient', 'Children'];
+
+  useEffect(() => {    
+    const fetchSubjects = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'subjects'));
+            const subjectList = querySnapshot.docs.map((doc) => doc.data().name);
+            setSubjects(subjectList); // Set the subjects list only once
+            console.log('Fetched subjects:', subjectList);
+        } catch (error) {
+            console.error('Error fetching subjects:', error);
+        }
+    };
+    
+    fetchSubjects();
+    }, []); // Empty dependency array ensures this runs only once on component mount
+
+  const handleSelectSubject = (index) => setSelectedSubject(index);
+  const handleSelectType = (index) => setSelectedType(index);
+  const handleSelectDistance = (index) => setSelectedDistance(index);
+  const handleSelectRate = (index) => setSelectedRate(index);
+  const handleSelectRating = (index) => setSelectedRating(index);
+  // Handle the selection of individual levels
+  const handleSelectLevels = (level) => {
+    setSelectedLevels((prevSelectedLevels) => {
+      if (prevSelectedLevels.includes(level)) {
+        // If level is already selected, remove it
+        return prevSelectedLevels.filter((item) => item !== level);
+      } else {
+        // If level is not selected, add it
+        return [...prevSelectedLevels, level];
+      }
+    });
+  };
+
+  // Handle the "All" checkbox logic
+  const handleSelectAll = () => {
+    if (selectedLevels.length === levels.length) {
+      // If all are selected, deselect all
+      setSelectedLevels([]);
+    } else {
+      // Otherwise, select all levels
+      setSelectedLevels([...levels]);
+    }
+  };
+
   const getCoordinatesFromZip = async (zip) => {
     try {
       // Example geocoding API (Google Maps API or similar)
@@ -116,7 +172,23 @@ const Search = () => {
     };
 
     fetchData();
-  }, [searchValue, zipCode, userLocation, isOnline]); // Include isOnline in dependency array
+  }, [searchValue, zipCode, userLocation, isOnline, selectedSubject,selectedType, selectedDistance, selectedRate, selectedRating, selectedLevels]); // Include isOnline in dependency array
+  const toggleMenu = (menu) => {
+    setActiveMenu((prevMenu) => (prevMenu === menu ? null : menu));
+  };
+
+  const handleOutsideClick = (event) => {
+    if (!event.target.closest('.menu-dropdown')) {
+      setActiveMenu(null);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleOutsideClick);
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, []);
 
   // Toggle functions for each menu
   const toggleSubjectsMenu = () => setShowSubjectsMenu(prev => !prev);
@@ -135,87 +207,137 @@ const Search = () => {
       <h2>Search Results</h2>
       {/* Filters Menu */}
       <div className="menu-dropdown">
-        <button className="search-menu-button " onClick={toggleSubjectsMenu}>
+        <button className="search-menu-button " onClick={() =>toggleMenu('subjects')}>
           Subjects
         </button>
-        {showSubjectsMenu && (
+        {activeMenu === 'subjects' &&(
           <div className="dropdown-content">
             <ul>
-              <li>Math Tutoring</li>
-              <li>Chemistry Tutoring</li>
+                {subjects.map((subject, index) => (
+                    <li key={subject}
+                        className={selectedSubject === index ? 'selected' : ''}
+                        onClick={() => handleSelectSubject(index)}
+                    >
+                      {subject}
+                    </li>
+                ))}
             </ul>
-          </div>
+           </div>
         )}
       </div>
       <div className="menu-dropdown">
-        <button className="search-menu-button " onClick={toggleTypeMenu}>
+        <button className="search-menu-button " onClick={() => toggleMenu('type')}>
           Type of Class
         </button>
-        {showTypeMenu && (
+        {activeMenu === 'type' && (
           <div className="dropdown-content">
             <ul>
-              <li>In-Person</li>
-              <li>Online</li>
+              {['In-Person', 'Online'].map((type, index) => (
+                <li
+                  key={type}
+                  className={selectedType === index ? 'selected' : ''}
+                  onClick={() => handleSelectType(index)}
+                >
+                  {type}
+                </li>
+              ))}
             </ul>
           </div>
         )}
       </div>
       <div className="menu-dropdown">
-        <button className="search-menu-button " onClick={toggleDistanceMenu}>
+        <button className="search-menu-button " onClick={() => toggleMenu('distance')}>
           Distance
         </button>
-        {showDistanceMenu && (
+        {activeMenu === 'distance' && (
           <div className="dropdown-content">
             <ul>
-              <li>Within 10 miles</li>
-              <li>Within 25 miles</li>
-              <li>Within 50 miles</li>
+              {['Within 10 miles', 'Within 25 miles', 'Within 50 miles'].map((distance, index) => (
+                <li
+                  key={distance}
+                  className={selectedDistance === index ? 'selected' : ''}
+                  onClick={() => handleSelectDistance(index)}
+                >
+                  {distance}
+                </li>
+              ))}
             </ul>
           </div>
         )}
       </div>
 
       <div className="menu-dropdown">
-        <button className="search-menu-button " onClick={toggleRateMenu}>
+        <button className="search-menu-button " onClick={() => toggleMenu('rate')}>
           Rate
         </button>
-        {showRateMenu && (
+        {activeMenu === 'rate' && (
           <div className="dropdown-content">
             <ul>
-              <li>$20 - $40</li>
-              <li>$40 - $60</li>
-              <li>$60+</li>
+              {['$10 - $40', '$40 - $60', '$60+'].map((rate) => (
+                <li
+                  key={rate}
+                  className={selectedRate === rate ? 'selected' : ''}
+                  onClick={() => handleSelectRate(rate)}
+                >
+                  {rate}
+                </li>
+              ))}
             </ul>
           </div>
         )}
       </div>
-
       <div className="menu-dropdown">
-        <button className="search-menu-button " onClick={toggleRatingMenu}>
+        <button className="search-menu-button " onClick={() => toggleMenu('rating')}>
           Rating
         </button>
-        {showRatingMenu && (
+        {activeMenu === 'rating' && (
           <div className="dropdown-content">
             <ul>
-              <li>4 Stars and above</li>
-              <li>3 Stars and above</li>
-              <li>Any Rating</li>
+              {['4 Stars and above', '3 Stars and above', 'Any Rating'].map((rating) => (
+                <li
+                  key={rating}
+                  className={selectedRating === rating ? 'selected' : ''}
+                  onClick={() => handleSelectRating(rating)}
+                >
+                  {rating}
+                </li>
+              ))}
             </ul>
           </div>
         )}
       </div>
       <div className="menu-dropdown">
-        <button className="search-menu-button " onClick={toggleLevelMenu}>
+        <button className="search-menu-button " onClick={() => toggleMenu('level')}>
           Level
         </button>
-        {showLevelMenu && (
+        {activeMenu === 'level' && (
           <div className="dropdown-content">
             <ul>
-              <li>Beginer</li>
-              <li>Intermediate</li>
-              <li>Advanced</li>
-              <li>Proficient</li>
-              <li>Children</li>
+              {/* "All" checkbox */}
+              <li key="All">
+              <label htmlFor="All">All</label>
+                <input
+                  type="checkbox"
+                  id="All"
+                  checked={selectedLevels.length === levels.length} // Check if all levels are selected
+                  onChange={handleSelectAll} // Handle "All" checkbox change
+                />
+                
+              </li>
+
+              {/* Individual level checkboxes */}
+              {levels.map((level) => (
+                <li key={level}>
+                    <label htmlFor={level}>{level}</label>
+                  <input
+                    type="checkbox"
+                    id={level}
+                    checked={selectedLevels.includes(level)} // Check if the level is selected
+                    onChange={() => handleSelectLevels(level)} // Handle checkbox change
+                  />
+                  
+                </li>
+              ))}
             </ul>
           </div>
         )}
@@ -233,13 +355,21 @@ const Search = () => {
                       alt={`${tutor.displayName}'s profile`} 
                       className="tutor-profile-pic" 
                     />
+                    <ReactStars
+                        count={5}
+                        size={24}
+                        value={tutor.averageRating || 0} // Show the average rating or default to 0
+                        edit={false} // Make the stars read-only
+                        activeColor="#ffd700"
+                    />
+                    <div className="tutor-details"><strong>{tutor.displayName}</strong><br /></div>
                   </div>
                   <div className="tutor-details">
-                    <strong>{tutor.displayName}</strong><br />
+                    
                     <span>Subjects: {tutor.selectedSubjects ? tutor.selectedSubjects.join(', ') : 'No subjects listed'}</span><br />
                     <span>Zip Code: {tutor.zipCode}</span><br />
                     <span>Phone: {tutor.phone}</span><br />
-                    <span>Online Status: {tutor.isOnline ? 'Online' : 'Offline'}</span>  {/* Display online status */}
+                    <span>Type of Class : {tutor.isOnline ? 'Online' : 'In-person'}</span>  {/* Display online status */}
                   </div>
                 </div>
               </li>

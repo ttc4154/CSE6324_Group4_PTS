@@ -18,3 +18,4 @@ Link to the webserver: https://yellow-desert-0d08f4210.5.azurestaticapps.net/
 13. npm install react-firebase-hooks
 14. npm install react-calendar
 15. npm install react-big-calendar moment
+16. npm install react-rating-stars-component
