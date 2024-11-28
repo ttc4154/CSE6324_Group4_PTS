@@ -196,6 +196,20 @@
     z-index: 9999;
     transition: background-color 0.3s ease;
   }
+  .search-menu-button.active {
+    background-color: #007bff; /* Active background color */
+    color: #fff; /* Active text color */
+    border: 1px solid #007bff;
+  }
+  /* Active submenu item style */
+.dropdown-content ul li.submenu-active {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+  
   
   .menu-button:hover {
     background-color: #555;
@@ -248,6 +262,12 @@
     right: 0;
   }
   
+  .dropdown-content hr {
+    border: 0;
+    height: 1px;
+    background-color: #ddd; /* Light gray */
+    margin: 10px 0; /* Add spacing above and below the line */
+  }
   .menu-content a {
     color: #333;
     padding: 12px 16px;

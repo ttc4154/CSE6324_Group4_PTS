@@ -74,6 +74,10 @@ const Search = () => {
       setSelectedLevels([...levels]);
     }
   };
+  // Handle mouse leave to close the dropdown
+  const handleMouseLeave = () => {
+    setActiveMenu(null); // Close dropdown when mouse leaves
+  };
 
   const getCoordinatesFromZip = async (zip) => {
     try {
@@ -138,6 +142,30 @@ const Search = () => {
               tutor.selectedSubjects.some(subject =>
                 subject.toLowerCase().includes(searchValue.toLowerCase())  // Partial match
               );
+          });
+        }
+
+        // Perform filtering based on selectedSubject if it exists
+        if (selectedSubject !== null && subjects[selectedSubject]) {
+          const selectedSubjectName = subjects[selectedSubject].toLowerCase();
+
+          filteredTutors = filteredTutors.filter((tutor) => {
+            return (
+              tutor.selectedSubjects &&
+              Array.isArray(tutor.selectedSubjects) &&
+              tutor.selectedSubjects.some((subject) =>
+                //subject.toLowerCase() === selectedSubjectName // Exact match
+                subject.toLowerCase().includes(selectedSubjectName.toLowerCase())  // Partial match
+              )
+            );
+          });
+        }
+        // Perform filtering based on selectedType if it exists
+        if (selectedType !== null) {
+          const isOnlineSelected = selectedType === 1; // Assuming index 1 is "Online" and index 0 is "In-Person"
+
+          filteredTutors = filteredTutors.filter((tutor) => {
+            return tutor.isOnline === isOnlineSelected; // Match isOnline with the selected type
           });
         }
 
@@ -206,37 +234,55 @@ const Search = () => {
     <div className="search-results">
       <h2>Search Results</h2>
       {/* Filters Menu */}
-      <div className="menu-dropdown">
-        <button className="search-menu-button " onClick={() =>toggleMenu('subjects')}>
+      <div 
+        className="menu-dropdown" 
+        onMouseLeave={handleMouseLeave}
+      >
+        <button 
+          className={`search-menu-button ${selectedSubject !== null ? 'active' : ''}`} 
+          onClick={() => toggleMenu('subjects')}
+        >
           Subjects
         </button>
-        {activeMenu === 'subjects' &&(
+
+        {activeMenu === 'subjects' && (
           <div className="dropdown-content">
             <ul>
-                {subjects.map((subject, index) => (
-                    <li key={subject}
-                        className={selectedSubject === index ? 'selected' : ''}
-                        onClick={() => handleSelectSubject(index)}
-                    >
-                      {subject}
-                    </li>
-                ))}
+              {subjects.map((subject, index) => (
+                <li 
+                  key={subject}
+                  className={selectedSubject === index ? 'submenu-active' : ''}
+                  onClick={() => {
+                    handleSelectSubject(index); // Update the selected subject
+                    toggleMenu('subjects');    // Close the menu
+                  }}
+                >
+                  {subject}
+                </li>
+              ))}
             </ul>
-           </div>
+          </div>
         )}
       </div>
-      <div className="menu-dropdown">
-        <button className="search-menu-button " onClick={() => toggleMenu('type')}>
+      <div className="menu-dropdown" onMouseLeave={handleMouseLeave}>
+        <button 
+          className={`search-menu-button ${selectedType !== null ? 'active' : ''}`} 
+          onClick={() => toggleMenu('type')}
+        >
           Type of Class
         </button>
+
         {activeMenu === 'type' && (
           <div className="dropdown-content">
             <ul>
               {['In-Person', 'Online'].map((type, index) => (
                 <li
                   key={type}
-                  className={selectedType === index ? 'selected' : ''}
-                  onClick={() => handleSelectType(index)}
+                  className={selectedType === index ? 'submenu-active' : ''}
+                  onClick={() => {
+                    handleSelectType(index); // Update selected type
+                    toggleMenu('type');     // Close the menu
+                  }}
                 >
                   {type}
                 </li>
@@ -245,7 +291,7 @@ const Search = () => {
           </div>
         )}
       </div>
-      <div className="menu-dropdown">
+      <div className="menu-dropdown" onMouseLeave={handleMouseLeave}>
         <button className="search-menu-button " onClick={() => toggleMenu('distance')}>
           Distance
         </button>
@@ -256,7 +302,9 @@ const Search = () => {
                 <li
                   key={distance}
                   className={selectedDistance === index ? 'selected' : ''}
-                  onClick={() => handleSelectDistance(index)}
+                  onClick={() => {handleSelectDistance(index);
+                    toggleMenu('distance'); // Close the menu after selection
+                    }}
                 >
                   {distance}
                 </li>
@@ -266,7 +314,7 @@ const Search = () => {
         )}
       </div>
 
-      <div className="menu-dropdown">
+      <div className="menu-dropdown" onMouseLeave={handleMouseLeave}>
         <button className="search-menu-button " onClick={() => toggleMenu('rate')}>
           Rate
         </button>
@@ -277,7 +325,7 @@ const Search = () => {
                 <li
                   key={rate}
                   className={selectedRate === rate ? 'selected' : ''}
-                  onClick={() => handleSelectRate(rate)}
+                  onClick={() => {handleSelectRate(rate); toggleMenu('rate');}}
                 >
                   {rate}
                 </li>
@@ -286,7 +334,7 @@ const Search = () => {
           </div>
         )}
       </div>
-      <div className="menu-dropdown">
+      <div className="menu-dropdown" onMouseLeave={handleMouseLeave}>
         <button className="search-menu-button " onClick={() => toggleMenu('rating')}>
           Rating
         </button>
@@ -297,7 +345,7 @@ const Search = () => {
                 <li
                   key={rating}
                   className={selectedRating === rating ? 'selected' : ''}
-                  onClick={() => handleSelectRating(rating)}
+                  onClick={() => {handleSelectRating(rating); toggleMenu('rating');}}
                 >
                   {rating}
                 </li>
@@ -306,7 +354,7 @@ const Search = () => {
           </div>
         )}
       </div>
-      <div className="menu-dropdown">
+      <div className="menu-dropdown" onMouseLeave={handleMouseLeave}>
         <button className="search-menu-button " onClick={() => toggleMenu('level')}>
           Level
         </button>
@@ -315,12 +363,15 @@ const Search = () => {
             <ul>
               {/* "All" checkbox */}
               <li key="All">
-              <label htmlFor="All">All</label>
+              <label htmlFor="All">All&nbsp;Level</label>
                 <input
                   type="checkbox"
                   id="All"
                   checked={selectedLevels.length === levels.length} // Check if all levels are selected
-                  onChange={handleSelectAll} // Handle "All" checkbox change
+                  onChange={() => {
+                    handleSelectAll(); // Handle "All" checkbox change
+                    //toggleMenu('level'); // Close the dropdown after selection
+                  }}
                 />
                 
               </li>
@@ -333,7 +384,10 @@ const Search = () => {
                     type="checkbox"
                     id={level}
                     checked={selectedLevels.includes(level)} // Check if the level is selected
-                    onChange={() => handleSelectLevels(level)} // Handle checkbox change
+                    onChange={() => {
+                      handleSelectLevels(level); // Handle checkbox change
+                      //toggleMenu('level'); // Close the dropdown after selection
+                    }}
                   />
                   
                 </li>
@@ -364,11 +418,12 @@ const Search = () => {
                     />
                     <div className="tutor-details"><strong>{tutor.displayName}</strong><br /></div>
                   </div>
-                  <div className="tutor-details">
-                    
-                    <span>Subjects: {tutor.selectedSubjects ? tutor.selectedSubjects.join(', ') : 'No subjects listed'}</span><br />
+                  <div className="tutor-details">                    
+                    <span>Subjects: {tutor.selectedSubjects ? tutor.selectedSubjects.join(', ') : 'No subjects listed'}</span>
                     <span>Zip Code: {tutor.zipCode}</span><br />
                     <span>Phone: {tutor.phone}</span><br />
+                    <span>Rates: ${tutor.rates}/hr</span><br />
+                    <span>Levels: {tutor.level ? tutor.level.join(', ') : 'No levels available'}</span><br />
                     <span>Type of Class : {tutor.isOnline ? 'Online' : 'In-person'}</span>  {/* Display online status */}
                   </div>
                 </div>

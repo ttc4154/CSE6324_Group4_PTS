@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import '../styles/Navbar.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
+import { useAuthState } from 'react-firebase-hooks/auth'; // Firebase hook
+import { doc, getDoc } from 'firebase/firestore'; // For Firestore operations
+
 
 const Navbar = () => {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -19,6 +22,8 @@ const Navbar = () => {
   const [user, setUser] = useState(null);
   const locationData = useLocation();
   const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState(false); // State for checking if user is admin  
+  const [userType, setUserType] = useState(null); // State for storing user type ('student' or 'tutor')
 
   const GOOGLE_MAPS_API_KEY = 'key';
 
@@ -29,6 +34,30 @@ const Navbar = () => {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    const checkUserStatus = async () => {
+      if (user) {
+        // Check if user exists in 'students' collection
+        const studentDoc = await getDoc(doc(db, 'students', user.uid));
+        // Check if user exists in 'tutors' collection
+        const tutorDoc = await getDoc(doc(db, 'tutors', user.uid));
+
+        // Check if the user is an admin
+        if ((studentDoc.exists() && studentDoc.data().isAdmin) || 
+            (tutorDoc.exists() && tutorDoc.data().isAdmin)) {
+          setIsAdmin(true);
+        }
+        // Determine if the user is a student or tutor
+        if (studentDoc.exists()) {
+          setUserType('student');
+        } else if (tutorDoc.exists()) {
+          setUserType('tutor');
+        }
+      }
+    };
+
+    checkUserStatus();
+  }, [user]); // Re-run when user changes
   useEffect(() => {
     if (navigator.geolocation) {
       console.log('Geolocation API available');
@@ -164,12 +193,18 @@ const Navbar = () => {
               <div className="menu-content">
                 <Link to="/user-profile">User Profile</Link>
                 <Link to="/chat">Live Chat</Link>
+                <hr />
                 <Link to="/my-courses">My Courses</Link>
                 <Link to="/my-schedules">My Schedules</Link>
                 <Link to="/my-messages">My Messages</Link>
-                <Link to="/my-tutor-ads">My Tutor Ads</Link>
+                {user && user.uid && userType === 'tutor' && (
+                  <Link to="/my-tutor-ads">My Tutor Ads</Link>
+                )}  
+                <hr />
                 <Link to="/my-account">My Account</Link>
-                {user.isAdmin && <Link to="/admin">Admin Dashboard</Link>}
+                {/*<Link to="/admin">Admin Dashboard</Link>*/}
+                {/*user.isAdmin && <Link to="/admin">Admin Dashboard</Link>*/}
+                {isAdmin && <Link to="/admin">Admin Dashboard</Link>}
                 <Link to="/" onClick={handleLogout}>Logout</Link>
               </div>
             </div>

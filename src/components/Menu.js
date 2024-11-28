@@ -44,20 +44,18 @@ const Menu = () => {
       <ul className="menu">
         <li><Link to="/user-profile">Profile</Link></li>
         <li><Link to="/my-courses">Courses</Link></li>
-
-        {/* Conditionally render the scheduler links based on user type */}
         {user && user.uid && userType === 'tutor' && (
           <li><Link to={`/tutor-scheduler/${user.uid}`}>Schedules</Link></li>
         )}
         {user && user.uid && userType === 'student' && (
-  <li>
-    <Link to={`/student-scheduler/${user.uid}`}>Schedules</Link>
-  </li>
-)}
-
-
+          <li>
+            <Link to={`/student-scheduler/${user.uid}`}>Schedules</Link>
+          </li>
+        )}
         <li><Link to="/my-messages">Messages</Link></li>
-        <li><Link to="/my-tutor-ads">Tutor Ads</Link></li>
+        {user && user.uid && userType === 'tutor' && (
+          <li><Link to="/my-tutor-ads">Tutor Ads</Link></li>
+        )}        
         <li><Link to="/my-account">Account</Link></li>
         
         {/* Conditionally render the Admin Dashboard link if the user is an admin */}

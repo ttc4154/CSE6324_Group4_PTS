@@ -116,6 +116,13 @@
 .navbar-dropdown-item:hover {
   background-color: #ddd;
 }
+.menu-content hr {
+  border: 0;
+  height: 1px;
+  background-color: #ddd; /* Light gray */
+  margin: 10px 0; /* Add spacing above and below the line */
+}
+
 
 /* Adjust the search button to match height */
 .navbar-search-button {
