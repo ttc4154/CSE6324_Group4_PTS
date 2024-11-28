@@ -209,7 +209,19 @@
   border-radius: 4px;
 }
 
-  
+.clear-filters-button {
+  background-color: #f44336; /* Red background */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.clear-filters-button:hover {
+  background-color: #d32f2f;
+}
   
   .menu-button:hover {
     background-color: #555;
@@ -306,3 +318,22 @@
     margin-right: 8px;
   }
   
+  .view-courses-button, .login-button, .register-button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+  .view-courses-button:hover, .login-button:hover, .register-button:hover {
+    background-color: #45a049; /* Darker green */
+  }
+  
+  .auth-buttons {
+    display: flex;
+    gap: 10px;
+  }

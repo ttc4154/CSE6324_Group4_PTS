@@ -27,6 +27,8 @@ import Messages from './components/messages/Messages';
 
 function App() {
     const [user, setUser] = useState(null); // State to track user
+    const [selectedSubjectReturn, setSelectedSubjectReturn] = useState(''); // State for selected subject
+    const [tutorIdReturn, setTutorIdReturn] = useState(''); // State for tutor ID
 
     // Firebase listener for authentication state
     useEffect(() => {
@@ -57,9 +59,12 @@ function App() {
                         <Route path="/student-scheduler/:userId" element={<StudentScheduler />} />
                         <Route path="/admin" element={<AdminDashboard />} />
                         <Route path="/chat" element={<LiveChat />} />
-                        <Route path="/my-courses" element={<MyCourses />} />
+                        {/*<Route path="/my-courses" element={<MyCourses />} />*/}
+                        <Route path="/my-courses" element={<MyCourses selectedSubjectReturn={selectedSubjectReturn} tutorIdReturn={tutorIdReturn} />} />
                         <Route path="/my-messages" element={<Messages />} />
-                        <Route path="/search" element={<Search />} />
+                        <Route path="/my-messages" element={<Messages />} />
+                        {/*<Route path="/search" element={<Search />} />*/}
+                        <Route path="/search" element={<Search setSelectedSubjectReturn={setSelectedSubjectReturn} setTutorIdReturn={setTutorIdReturn} />} />
                     </Routes>
                     <Footer />
                 </div>

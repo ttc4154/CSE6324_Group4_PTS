@@ -5,29 +5,54 @@ import { collection, getDocs, query, where } from 'firebase/firestore'; // Fires
 import axios from 'axios'; // For geocoding API
 import '../styles/Search.css';
 import ReactStars from "react-rating-stars-component";
+import { useNavigate } from 'react-router-dom';
 
-const Search = () => {
+const Search = ({ setSelectedSubjectReturn, setTutorIdReturn }) => {
+  const GOOGLE_MAPS_API_KEY = 'key';
+  const navigate = useNavigate(); // React Router's navigation hook
   const location = useLocation();
   const { searchValue, zipCode, isOnline } = location.state || {};  // Extract searchValue, zipCode, and isOnline
 
   const [tutors, setTutors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userLocation, setUserLocation] = useState(null);
-  const [showSubjectsMenu, setShowSubjectsMenu] = useState(false); 
-  const [showTypeMenu, setShowTypeMenu] = useState(false); 
-  const [showDistanceMenu, setShowDistanceMenu] = useState(false); 
-  const [showRateMenu, setShowRateMenu] = useState(false); 
-  const [showRatingMenu, setShowRatingMenu] = useState(false);
-  const [showLevelMenu, setShowLevelMenu] = useState(false);
   const [subjects, setSubjects] = useState([]); // Store subjects from Firestore
   const [activeMenu, setActiveMenu] = useState(null); // State to track the currently active menu
-
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
   const [selectedDistance, setSelectedDistance] = useState(null);
   const [selectedRate, setSelectedRate] = useState(null);
   const [selectedRating, setSelectedRating] = useState(null);
   const [selectedLevels, setSelectedLevels] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const clearFilters = () => {
+    setSelectedRate(null);
+    setSelectedRating(null);
+    setSelectedSubject(null);
+    setSelectedDistance(null);
+    setSelectedType(null);
+    setSelectedLevels(null);
+  };
+  const handleLogin = () => {
+    // Redirect to login page or open login modal
+    console.log("Redirecting to login...");
+    navigate('/login'); // Navigate to login page
+  };
+  
+  const handleRegister = () => {
+    // Redirect to registration page or open registration modal
+    console.log("Redirecting to register...");
+    navigate('/register'); // Navigate to registration page
+  };
+  const viewCourses = (tutorId) => {
+    // Navigate to a page showing available courses for this tutor or open a modal
+    setTutorIdReturn(tutorId);
+    console.log(`Viewing courses for tutor: ${tutorId}`);
+    navigate('/my-courses'); // Navigate to the courses page
+
+    // Example: Redirect or update state to show courses
+  };
+  
   // Define the available levels
   const levels = ['Beginner', 'Intermediate', 'Advanced', 'Proficient', 'Children'];
 
@@ -46,7 +71,7 @@ const Search = () => {
     fetchSubjects();
     }, []); // Empty dependency array ensures this runs only once on component mount
 
-  const handleSelectSubject = (index) => setSelectedSubject(index);
+  const handleSelectSubject = (index) => {{setSelectedSubject(index); setSelectedSubjectReturn(index)}};
   const handleSelectType = (index) => setSelectedType(index);
   const handleSelectDistance = (index) => setSelectedDistance(index);
   const handleSelectRate = (index) => setSelectedRate(index);
@@ -78,18 +103,42 @@ const Search = () => {
   const handleMouseLeave = () => {
     setActiveMenu(null); // Close dropdown when mouse leaves
   };
+  const zipCache = new Map();
 
   const getCoordinatesFromZip = async (zip) => {
-    try {
-      // Example geocoding API (Google Maps API or similar)
-      const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&key=YOUR_GOOGLE_API_KEY`);
-      const location = response.data.results[0]?.geometry.location;
-      return location || null;
-    } catch (error) {
-      console.error('Error getting coordinates from zip code:', error);
+    if (!zip) {
+      console.error("Invalid zip code:", zip);
       return null;
     }
-  };
+
+    // Return cached coordinates if available
+    if (zipCache.has(zip)) {
+      return zipCache.get(zip);
+    }
+
+    try {
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&key=${GOOGLE_MAPS_API_KEY}`
+        //const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GOOGLE_MAPS_API_KEY}`;
+      );
+
+      const location = response.data.results[0]?.geometry.location;
+      //const location = { lat: 32.7502, lng: -97.3250 };
+      //zip = 76102;
+      console.log('location Data:', location);
+      console.log('zip Data:', zip);
+      if (location) {
+        zipCache.set(zip, location); // Cache the result
+        return location;
+      } else {
+        console.error(`No results found for zip code: ${zip}`);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error getting coordinates from zip code:", error.message);
+      return null;
+    }
+  };  
 
   const haversineDistance = (lat1, lon1, lat2, lon2) => {
     // Convert degrees to radians
@@ -107,100 +156,116 @@ const Search = () => {
     return distance;
   };
 
-  // Fetch tutors based on zipCode, searchValue (subject), and isOnline flag
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('Fetching tutors with zipCode:', zipCode);
-        
-        // Get the user's coordinates based on the zip code
-        const userLocationData = await getCoordinatesFromZip(zipCode);
-        if (userLocationData) {
-          setUserLocation(userLocationData);
+        if (!zipCode) {
+          console.error("Zip code is required");
+          return;
         }
-
+  
+        if (!userLocation) {
+          const userLocationData = await getCoordinatesFromZip(zipCode);
+          if (userLocationData) setUserLocation(userLocationData);
+        }
+  
         // Start Firestore query
         let tutorQuery = query(collection(db, 'tutors'));
-
-        // Filter by isOnline flag if it's true
         if (isOnline) {
           tutorQuery = query(tutorQuery, where('isOnline', '==', true));
         }
-        
-        // Fetch tutors from Firestore
+  
         const tutorSnapshot = await getDocs(tutorQuery);
         const tutorsData = tutorSnapshot.docs.map(doc => doc.data());
         console.log('Fetched Tutors Data:', tutorsData);
-
-        // Filter tutors by searchValue (subject)
+  
         let filteredTutors = tutorsData;
-
+  
+        // Apply filters
         if (searchValue) {
-          filteredTutors = filteredTutors.filter(tutor => {
-            return tutor.selectedSubjects &&
-              Array.isArray(tutor.selectedSubjects) &&
-              tutor.selectedSubjects.some(subject =>
-                subject.toLowerCase().includes(searchValue.toLowerCase())  // Partial match
-              );
-          });
+          filteredTutors = filteredTutors.filter((tutor) =>
+            tutor.selectedSubjects?.some((subject) =>
+              subject?.toLowerCase().includes(searchValue.toLowerCase())
+            )
+          );
         }
-
-        // Perform filtering based on selectedSubject if it exists
+  
+        if (selectedType === 0 || selectedType === 1) {
+          const isOnlineSelected = selectedType === 1;
+          filteredTutors = filteredTutors.filter((tutor) => tutor.isOnline === isOnlineSelected);
+        }
+  
         if (selectedSubject !== null && subjects[selectedSubject]) {
-          const selectedSubjectName = subjects[selectedSubject].toLowerCase();
-
-          filteredTutors = filteredTutors.filter((tutor) => {
-            return (
-              tutor.selectedSubjects &&
-              Array.isArray(tutor.selectedSubjects) &&
-              tutor.selectedSubjects.some((subject) =>
-                //subject.toLowerCase() === selectedSubjectName // Exact match
-                subject.toLowerCase().includes(selectedSubjectName.toLowerCase())  // Partial match
-              )
-            );
-          });
+          const selectedSubjectName = subjects[selectedSubject]?.toLowerCase();
+          filteredTutors = filteredTutors.filter((tutor) =>
+            tutor.selectedSubjects?.some((subject) =>
+              subject?.toLowerCase().includes(selectedSubjectName)
+            )
+          );
         }
-        // Perform filtering based on selectedType if it exists
-        if (selectedType !== null) {
-          const isOnlineSelected = selectedType === 1; // Assuming index 1 is "Online" and index 0 is "In-Person"
-
-          filteredTutors = filteredTutors.filter((tutor) => {
-            return tutor.isOnline === isOnlineSelected; // Match isOnline with the selected type
-          });
+  
+        if (selectedDistance !== null) {
+          const distanceLimits = [10, 25, 50, 1000];
+          const maxDistance = distanceLimits[selectedDistance];
+  
+          const tutorsWithinRange = await Promise.all(
+            filteredTutors.map(async (tutor) => {
+              if (!tutor.zipCode) return null;
+              const tutorCoordinates = await getCoordinatesFromZip(tutor.zipCode);
+              if (tutorCoordinates) {
+                const distance = haversineDistance(
+                  userLocation.lat,
+                  userLocation.lng,
+                  tutorCoordinates.lat,
+                  tutorCoordinates.lng
+                );
+                return distance <= maxDistance ? tutor : null;
+              }
+              return null;
+            })
+          );
+  
+          filteredTutors = tutorsWithinRange.filter(Boolean);
         }
-
-        // If we have a valid user location, filter tutors by distance asynchronously
-        if (userLocation) {
-          const tutorsWithinRange = await Promise.all(filteredTutors.map(async (tutor) => {
-            const tutorCoordinates = await getCoordinatesFromZip(tutor.zipCode);
-
-            if (tutorCoordinates) {
-              const distance = haversineDistance(
-                userLocation.lat,
-                userLocation.lng,
-                tutorCoordinates.lat,
-                tutorCoordinates.lng
-              );
-              return distance <= 25 ? tutor : null; // Include tutor if within 25 miles
-            }
-            return null;
-          }));
-
-          // Remove any null values (tutors that didn't meet the distance criteria)
-          filteredTutors = tutorsWithinRange.filter(tutor => tutor !== null);
+  
+        if (selectedRate !== null) {
+          const rateRanges = {
+            '...': [0, 100],
+            '$10 - $40': [10, 40],
+            '$40 - $60': [40, 60],
+            '$60+': [60, Infinity],
+          };
+          const [minRate, maxRate] = rateRanges[selectedRate];
+          filteredTutors = filteredTutors.filter(
+            (tutor) => typeof tutor.rates === 'number' && tutor.rates >= minRate && tutor.rates <= maxRate
+          );
         }
-
-        console.log('Filtered Tutors after applying zipCode, subject, and distance filters:', filteredTutors);
+  
+        if (selectedRating !== null) {
+          const ratingThresholds = {
+            '4 Stars and above': 4,
+            '3 Stars and above': 3,
+            'Any Rating': -1,
+          };
+          const minRating = ratingThresholds[selectedRating];
+          filteredTutors = filteredTutors.filter((tutor) =>
+            tutor.averageRating && tutor.averageRating >= minRating
+          );
+        }
+  
+        filteredTutors = filteredTutors.filter(Boolean); // Remove invalid values
         setTutors(filteredTutors);
-        setLoading(false);
+        console.log('Final Filtered Tutors:', filteredTutors.map((t) => t.name || 'Unknown'));
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
         setLoading(false);
       }
     };
-
+  
     fetchData();
-  }, [searchValue, zipCode, userLocation, isOnline, selectedSubject,selectedType, selectedDistance, selectedRate, selectedRating, selectedLevels]); // Include isOnline in dependency array
+  }, [searchValue, zipCode, userLocation, isOnline, selectedSubject, selectedType, selectedDistance, selectedRate, selectedRating, selectedLevels]);
+  
   const toggleMenu = (menu) => {
     setActiveMenu((prevMenu) => (prevMenu === menu ? null : menu));
   };
@@ -217,14 +282,6 @@ const Search = () => {
       document.removeEventListener('click', handleOutsideClick);
     };
   }, []);
-
-  // Toggle functions for each menu
-  const toggleSubjectsMenu = () => setShowSubjectsMenu(prev => !prev);
-  const toggleTypeMenu = () => setShowTypeMenu(prev => !prev);
-  const toggleDistanceMenu = () => setShowDistanceMenu(prev => !prev);
-  const toggleRateMenu = () => setShowRateMenu(prev => !prev);
-  const toggleRatingMenu = () => setShowRatingMenu(prev => !prev);
-  const toggleLevelMenu = () => setShowLevelMenu(prev => !prev);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -275,7 +332,7 @@ const Search = () => {
         {activeMenu === 'type' && (
           <div className="dropdown-content">
             <ul>
-              {['In-Person', 'Online'].map((type, index) => (
+              {['In-Person', 'Online', 'Both'].map((type, index) => (
                 <li
                   key={type}
                   className={selectedType === index ? 'submenu-active' : ''}
@@ -292,16 +349,24 @@ const Search = () => {
         )}
       </div>
       <div className="menu-dropdown" onMouseLeave={handleMouseLeave}>
-        <button className="search-menu-button " onClick={() => toggleMenu('distance')}>
-          Distance
-        </button>
+      <button 
+        className={`search-menu-button ${selectedDistance !== null ? 'active' : ''}`} 
+        onClick={() => toggleMenu('distance')}
+        disabled={selectedType === 1} // Disable if "Online" is selected
+        style={{
+          opacity: selectedType === 1 ? 0.5 : 1, // Optional: Reduce opacity when disabled
+          cursor: selectedType === 1 ? 'not-allowed' : 'pointer', // Optional: Show "not-allowed" cursor
+        }}
+      >
+        Distance
+      </button>
         {activeMenu === 'distance' && (
           <div className="dropdown-content">
             <ul>
-              {['Within 10 miles', 'Within 25 miles', 'Within 50 miles'].map((distance, index) => (
+              {['Within 10 miles', 'Within 25 miles', 'Within 50 miles', '...'].map((distance, index) => (
                 <li
                   key={distance}
-                  className={selectedDistance === index ? 'selected' : ''}
+                  className={selectedDistance === index ? 'submenu-active' : ''}
                   onClick={() => {handleSelectDistance(index);
                     toggleMenu('distance'); // Close the menu after selection
                     }}
@@ -315,16 +380,19 @@ const Search = () => {
       </div>
 
       <div className="menu-dropdown" onMouseLeave={handleMouseLeave}>
-        <button className="search-menu-button " onClick={() => toggleMenu('rate')}>
+        <button 
+          className={`search-menu-button ${selectedRate !== null ? 'active' : ''}`} 
+          onClick={() => toggleMenu('rate')}
+        >
           Rate
         </button>
         {activeMenu === 'rate' && (
           <div className="dropdown-content">
             <ul>
-              {['$10 - $40', '$40 - $60', '$60+'].map((rate) => (
+              {['...','$10 - $40', '$40 - $60', '$60+'].map((rate) => (
                 <li
                   key={rate}
-                  className={selectedRate === rate ? 'selected' : ''}
+                  className={selectedRate === rate ? 'submenu-active' : ''}
                   onClick={() => {handleSelectRate(rate); toggleMenu('rate');}}
                 >
                   {rate}
@@ -335,7 +403,9 @@ const Search = () => {
         )}
       </div>
       <div className="menu-dropdown" onMouseLeave={handleMouseLeave}>
-        <button className="search-menu-button " onClick={() => toggleMenu('rating')}>
+        <button className={`search-menu-button ${selectedRating !== null ? 'active' : ''}`} 
+          onClick={() => toggleMenu('rating')}
+        >
           Rating
         </button>
         {activeMenu === 'rating' && (
@@ -344,7 +414,7 @@ const Search = () => {
               {['4 Stars and above', '3 Stars and above', 'Any Rating'].map((rating) => (
                 <li
                   key={rating}
-                  className={selectedRating === rating ? 'selected' : ''}
+                  className={selectedRating === rating ? 'submenu-active' : ''}
                   onClick={() => {handleSelectRating(rating); toggleMenu('rating');}}
                 >
                   {rating}
@@ -396,6 +466,11 @@ const Search = () => {
           </div>
         )}
       </div>
+      <div className="menu-dropdown" onMouseLeave={handleMouseLeave}>
+        <button className="clear-filters-button" onClick={clearFilters}>
+        Clear
+        </button>
+      </div>
       <div className="tutors">
         <ul>
           {tutors.length > 0 ? (
@@ -420,12 +495,25 @@ const Search = () => {
                   </div>
                   <div className="tutor-details">                    
                     <span>Subjects: {tutor.selectedSubjects ? tutor.selectedSubjects.join(', ') : 'No subjects listed'}</span>
-                    <span>Zip Code: {tutor.zipCode}</span><br />
-                    <span>Phone: {tutor.phone}</span><br />
-                    <span>Rates: ${tutor.rates}/hr</span><br />
-                    <span>Levels: {tutor.level ? tutor.level.join(', ') : 'No levels available'}</span><br />
+                    <span>Phone: {tutor.phone}</span>
+                    <span>Rates: ${tutor.rates}/hr</span>
+                    <span>Levels: {tutor.level ? tutor.level.join(', ') : 'No levels available'}</span>
                     <span>Type of Class : {tutor.isOnline ? 'Online' : 'In-person'}</span>  {/* Display online status */}
+                    <span>Zip Code: {tutor.zipCode}</span>
+                    <span>Tutor ID: {tutor.id}</span>
+                    {/* Button for logged-in users to view available courses */}
+                    {1 ? (
+                      <button className="view-courses-button" onClick={() => viewCourses(tutor.id)}>
+                        View Available Courses
+                      </button>
+                    ) : (
+                      <div className="auth-buttons">
+                        <button className="login-button" onClick={handleLogin}>Login</button>
+                        <button className="register-button" onClick={handleRegister}>Register</button>
+                      </div>
+                    )}
                   </div>
+                  
                 </div>
               </li>
             ))
