@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/ContactUs.css';
+import { Link } from 'react-router-dom';
 
 import { FaPhone, FaEnvelope, FaComments } from 'react-icons/fa';  // Import icons from react-icons library
 
@@ -7,7 +8,7 @@ const ContactUs = () => {
   return (
     <div className="contact-us">
       <h3>Questions? Our front desk team is here to help.</h3>
-      <div className="contact-options">
+      <ul className="contact-options">
         {/* Phone Contact */}
         <a href="tel:+1234567890" className="contact-option">
           <FaPhone size={24} />
@@ -15,17 +16,17 @@ const ContactUs = () => {
         </a>
 
         {/* Chat Contact */}
-        <a href="#chat" className="contact-option" onClick={() => alert("Chat feature coming soon!")}>
+        <li><Link to="/my-messages" className="contact-option">
           <FaComments size={24} />
           <span>Chat</span>
-        </a>
+        </Link></li>
 
         {/* Email Contact */}
         <a href="mailto:support@example.com" className="contact-option">
           <FaEnvelope size={24} />
           <span>Email</span>
         </a>
-      </div>
+      </ul>
     </div>
   );
 };

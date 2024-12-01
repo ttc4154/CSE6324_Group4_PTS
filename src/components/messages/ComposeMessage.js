@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
 import { db } from '../../firebase'; // Assuming you have a Firebase config
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import '../../styles/Messages.css';
 
 const ComposeMessage = () => {
@@ -17,24 +17,63 @@ const ComposeMessage = () => {
             const user = auth.currentUser;
 
             if (user) {
-                try {
-                    // Query to fetch the list of users (for receiver selection)
-                    const studentsSnapshot = await getDocs(collection(db, 'students'));
-                    const tutorsSnapshot = await getDocs(collection(db, 'tutors'));
-                    const usersList = [
-                        ...studentsSnapshot.docs.map(doc => ({
-                            id: doc.id,
-                            name: doc.data().displayName || 'No Name Available',  // Accessing displayName
-                        })),
-                        ...tutorsSnapshot.docs.map(doc => ({
-                            id: doc.id,
-                            name: doc.data().displayName || 'No Name Available',  // Accessing displayName
-                        }))
-                    ];
-                    setUsers(usersList);
-                } catch (error) {
-                    setError('Error fetching users: ' + error.message);
+                const studentDoc = await getDoc(doc(db, 'students', user.uid));
+                const tutorDoc = await getDoc(doc(db, 'tutors', user.uid));
+
+                if (
+                    (studentDoc.exists() && studentDoc.data().isAdmin) ||
+                    (tutorDoc.exists() && tutorDoc.data().isAdmin)
+                ) {
+                    try {
+                        // Query to fetch the list of users (for receiver selection)
+                        const studentsSnapshot = await getDocs(collection(db, 'students'));
+                        const tutorsSnapshot = await getDocs(collection(db, 'tutors'));
+                        
+                        const usersList = [
+                            ...studentsSnapshot.docs.map(doc => ({
+                                id: doc.id,
+                                name: doc.data().displayName || 'No Name Available',  // Accessing displayName
+                            })),
+                            ...tutorsSnapshot.docs.map(doc => ({
+                                id: doc.id,
+                                name: doc.data().displayName || 'No Name Available',  // Accessing displayName
+                            }))
+                        ];
+                        
+                        setUsers(usersList);
+                    } catch (error) {
+                        setError('Error fetching users: ' + error.message);
+                    }
                 }
+                else {
+                    try {
+                        // Query to fetch the list of users (for receiver selection)
+                        const studentsCollection = collection(db, 'students');
+                        const tutorsCollection = collection(db, 'tutors');
+    
+                        const q = query(studentsCollection, where("isAdmin", "==", true));
+                        const studentsSnapshot = await getDocs(q);
+    
+                        const qq = query(tutorsCollection, where("isAdmin", "==", true));
+                        const tutorsSnapshot = await getDocs(qq);
+    
+                        const usersList = [
+                            ...studentsSnapshot.docs.map(doc => ({
+                                id: doc.id,
+                                name: doc.data().displayName || 'No Name Available',  // Accessing displayName
+                            })),
+                            ...tutorsSnapshot.docs.map(doc => ({
+                                id: doc.id,
+                                name: doc.data().displayName || 'No Name Available',  // Accessing displayName
+                            }))
+                        ];
+                        
+                        setUsers(usersList);
+                    } catch (error) {
+                        setError('Error fetching users: ' + error.message);
+                    }
+                }
+                
             } else {
                 setError('User is not authenticated.');
             }

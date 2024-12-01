@@ -194,11 +194,10 @@ const Navbar = () => {
               </button>
               <div className="menu-content">
                 <Link to="/user-profile">User Profile</Link>
-                <Link to="/chat">Live Chat</Link>
                 <hr />
                 <Link to="/my-courses">My Courses</Link>
                 <Link to="/my-schedules">My Schedules</Link>
-                <Link to="/my-messages">My Messages</Link>
+                <Link to="/chat">My Messages</Link>
                 {user && user.uid && userType === 'tutor' && (
                   <Link to={`/my-tutor-ads/${user.uid}`}>Tutor Ads</Link>
                 )}  

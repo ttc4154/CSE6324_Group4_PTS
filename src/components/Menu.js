@@ -52,7 +52,7 @@ const Menu = () => {
             <Link to={`/student-scheduler/${user.uid}`}>Schedules</Link>
           </li>
         )}
-        <li><Link to="/my-messages">Messages</Link></li>
+        <li><Link to="/chat">My Messages</Link></li>
         {user && user.uid && userType === 'tutor' && (
           <li><Link to={`/my-tutor-ads/${user.uid}`}>Tutor Ads</Link></li>
         )}
