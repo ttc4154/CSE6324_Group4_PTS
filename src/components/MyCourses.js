@@ -3,6 +3,7 @@ import { db, auth } from '../firebase';
 import { collection, getDoc, getDocs, updateDoc, doc, query, where, deleteDoc, writeBatch } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import TutorRating from './TutorRating';
+import Payment from './Payment'; // Import the Payment component
 import '../styles/MyCourses.css';
 
 function MyCourses() {
@@ -23,6 +24,9 @@ function MyCourses() {
     const [selectedTab, setSelectedTab] = useState('available');
     const [search, setSearch] = useState('');
     const [subjects, setSubjects] = useState([]); // Store subjects from Firestore
+    const [showModal, setShowModal] = useState(false);
+    const [userPoints, setUserPoints] = useState(0);
+    const [courseToPayFor, setCourseToPayFor] = useState(null); // Store the ad to pay for
 
     useEffect(() => {    
         const fetchSubjects = async () => {
@@ -50,6 +54,7 @@ function MyCourses() {
                         const userType = studentDoc.data().userType;
                         setUserType(userType);
                         setstudentID(auth.currentUser.uid)
+                        setUserPoints(auth.currentUser.points || 1000); // Default to 1000 if no points
                     } else {
                         const tutorDoc = await getDoc(doc(db, 'tutors', user.uid));
                         if (tutorDoc.exists() && !tutorDoc.data().isAdmin) {
@@ -121,6 +126,21 @@ function MyCourses() {
             fetchTutorCourses();
         }
     }, [tutorID]);
+
+    const handlePaymentSuccess = () => {
+        alert("Payment Successful! You have registered for the course.");
+        setUserPoints(prevPoints => prevPoints - 10); // Deduct points after successful payment
+        setShowModal(false); // Close the modal after payment
+    };
+
+    const handlePaymentError = (message) => {
+        alert(message);
+    };
+
+    const handlePayNowClick = (courseId) => {
+        setCourseToPayFor(courseId); // Set the ad to pay for
+        setShowModal(true); // Show the payment modal
+    };
 
     // Edit and Delete Courses
     const handleEditCourse = (course) => {
@@ -290,10 +310,25 @@ function MyCourses() {
                                     >
                                         {signedUpCourses.includes(course.id) ? 'Registered' : 'Sign Up'}
                                     </button>
+                                    <button className="sign-up-btn" onClick={() => handlePayNowClick(course.id)}>Pay Now</button>
                                 </div>
                             ))
                         ) : (
                             <p>No courses found.</p>
+                        )}
+                        {/* Payment Modal */}
+                        {showModal && (
+                            <div className="modal">
+                                <div className="modal-content">
+                                    <span className="close-btn" onClick={() => setShowModal(false)}>&times;</span>
+                                    <Payment
+                                        currentPoints={userPoints}
+                                        price={10}
+                                        onSuccess={handlePaymentSuccess}
+                                        onError={handlePaymentError}
+                                    />
+                                </div>
+                            </div>
                         )}
                     </div>
                 </div>
