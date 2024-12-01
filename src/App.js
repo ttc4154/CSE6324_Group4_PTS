@@ -23,6 +23,7 @@ import StudentScheduler from './components/StudentScheduler';
 import MyCourses from './components/MyCourses';
 import Search from './components/Search';
 import Messages from './components/messages/Messages';
+import MyTutorAds from './components/MyTutorAds';
 
 
 function App() {
@@ -62,7 +63,7 @@ function App() {
                         {/*<Route path="/my-courses" element={<MyCourses />} />*/}
                         <Route path="/my-courses" element={<MyCourses selectedSubjectReturn={selectedSubjectReturn} tutorIdReturn={tutorIdReturn} />} />
                         <Route path="/my-messages" element={<Messages />} />
-                        <Route path="/my-messages" element={<Messages />} />
+                        <Route path="/my-tutor-ads/:userId" element={<MyTutorAds />} />
                         {/*<Route path="/search" element={<Search />} />*/}
                         <Route path="/search" element={<Search setSelectedSubjectReturn={setSelectedSubjectReturn} setTutorIdReturn={setTutorIdReturn} />} />
                     </Routes>

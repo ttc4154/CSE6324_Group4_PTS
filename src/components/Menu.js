@@ -54,8 +54,8 @@ const Menu = () => {
         )}
         <li><Link to="/my-messages">Messages</Link></li>
         {user && user.uid && userType === 'tutor' && (
-          <li><Link to="/my-tutor-ads">Tutor Ads</Link></li>
-        )}        
+          <li><Link to={`/my-tutor-ads/${user.uid}`}>Tutor Ads</Link></li>
+        )}
         <li><Link to="/my-account">Account</Link></li>
         
         {/* Conditionally render the Admin Dashboard link if the user is an admin */}

@@ -200,7 +200,7 @@ const Navbar = () => {
                 <Link to="/my-schedules">My Schedules</Link>
                 <Link to="/my-messages">My Messages</Link>
                 {user && user.uid && userType === 'tutor' && (
-                  <Link to="/my-tutor-ads">My Tutor Ads</Link>
+                  <Link to={`/my-tutor-ads/${user.uid}`}>Tutor Ads</Link>
                 )}  
                 <hr />
                 <Link to="/my-account">My Account</Link>
