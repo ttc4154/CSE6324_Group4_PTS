@@ -8,7 +8,9 @@ import ReactStars from "react-rating-stars-component";
 import { useNavigate } from 'react-router-dom';
 
 const Search = ({ setSelectedSubjectReturn, setTutorIdReturn }) => {
-  const GOOGLE_MAPS_API_KEY = 'key';
+  const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+  console.log('Google Maps API Key:', GOOGLE_MAPS_API_KEY); // Debugging
+
   const navigate = useNavigate(); // React Router's navigation hook
   const location = useLocation();
   const { searchValue, zipCode, isOnline } = location.state || {};  // Extract searchValue, zipCode, and isOnline
@@ -120,6 +122,7 @@ const Search = ({ setSelectedSubjectReturn, setTutorIdReturn }) => {
       const response = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&key=${GOOGLE_MAPS_API_KEY}`
         //const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GOOGLE_MAPS_API_KEY}`;
+        
       );
 
       const location = response.data.results[0]?.geometry.location;

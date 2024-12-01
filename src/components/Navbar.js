@@ -25,7 +25,9 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false); // State for checking if user is admin  
   const [userType, setUserType] = useState(null); // State for storing user type ('student' or 'tutor')
 
-  const GOOGLE_MAPS_API_KEY = 'key';
+  const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+  console.log('Google Maps API Key:', GOOGLE_MAPS_API_KEY); // Debugging
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
