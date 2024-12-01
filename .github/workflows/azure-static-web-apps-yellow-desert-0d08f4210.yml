@@ -23,7 +23,8 @@ jobs:
           submodules: true
           lfs: false
       - name: Install OIDC Client from Core Package
-        run: npm install @actions/core@1.6.0 @actions/http-client
+        run: npm install @actions/core@1.6.0 @actions/http-client |
+          echo "REACT_APP_GOOGLE_MAPS_API_KEY=${{ secrets.REACT_APP_GOOGLE_MAPS_API_KEY }}" >> $GITHUB_EN
       - name: Get Id Token
         uses: actions/github-script@v6
         id: idtoken
