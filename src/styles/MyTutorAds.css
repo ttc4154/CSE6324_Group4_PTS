@@ -55,7 +55,9 @@
 }
 
 .my-tutor-ads li {
-    display: flex;
+    display: -webkit-flex;  /* Safari */
+    display: -ms-flexbox;   /* Internet Explorer */
+    display: flex;          /* Standard syntax */
     flex-direction: column;
     background-color: #fff;
     padding: 10px;
