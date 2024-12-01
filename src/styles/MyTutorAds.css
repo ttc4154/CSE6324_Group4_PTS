@@ -1,0 +1,140 @@
+/* Styles for MyTutorAds Component */
+.my-tutor-ads {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.my-tutor-ads h1 {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.my-tutor-ads h4 {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.my-tutor-ads label {
+    font-size: 1rem;
+    color: #444;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.my-tutor-ads textarea {
+    width: 100%;
+    height: 120px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    margin-bottom: 20px;
+}
+
+.my-tutor-ads button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.my-tutor-ads button:hover {
+    background-color: #45a049;
+}
+
+.my-tutor-ads button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.my-tutor-ads ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.my-tutor-ads li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.my-tutor-ads li div {
+    flex: 1;
+}
+
+.my-tutor-ads li button {
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    color: #fff;
+    background-color: #f44336;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.my-tutor-ads li button:hover {
+    background-color: #e53935;
+}
+
+.my-tutor-ads li button:active {
+    background-color: #d32f2f;
+}
+
+.my-tutor-ads li button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.my-tutor-ads .ad-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.my-tutor-ads .editing-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.my-tutor-ads .editing-buttons button {
+    background-color: #2196F3;
+}
+
+.my-tutor-ads .editing-buttons button:hover {
+    background-color: #1e88e5;
+}
+textarea {
+    width: 100%; /* Make the text area take full width */
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    resize: vertical; /* Allows resizing of the text area vertically */
+}
+pre {
+    white-space: pre-wrap; /* Allow the text to wrap within the container */
+    word-wrap: break-word; /* Ensure long words break and wrap into the next line */
+    word-break: break-all; /* Optional: Break words if necessary */
+    max-width: 100%; /* Prevent the text from exceeding the width of the container */
+}
