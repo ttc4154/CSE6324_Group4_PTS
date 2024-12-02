@@ -16,6 +16,7 @@ function Register() {
   const [memberStatus, setMemberStatus] = useState('regular'); // Default member status
   const [error, setError] = useState('');
   const [subjects, setSubjects] = useState([]); // Store subjects from Firestore
+  const [UserMoney, setUserMoney] = useState(100);
   const [resetPasswordEmail, setResetPasswordEmail] = useState(''); // For resetting password
   const [resetEmailError, setResetEmailError] = useState('');
 
@@ -65,6 +66,7 @@ function Register() {
         memberStatus,
         createdAt: new Date(),
         id: user.uid,
+        money: UserMoney, 
       });
   
       console.log("User data saved to Firestore:", user.uid);

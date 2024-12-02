@@ -10,6 +10,21 @@ function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate(); // Use useNavigate instead of useHistory
 
+//   try {
+//     const user = auth.currentUser;
+//     const userDocRef = doc(db, "users", user.uid);
+//     const userDoc = await getDoc(userDocRef);
+//     const userData = userDoc.data();
+//     const userMoney = userData.money;
+
+//     // Pass userMoney to App component (using context)
+    
+
+
+// } catch (error) {
+//     console.error("Error fetching user data:", error);
+// }
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -27,6 +42,7 @@ function Login() {
       alert("Password reset email sent!");
     }
   };
+  
 
   return (
     <div className="login-container">
