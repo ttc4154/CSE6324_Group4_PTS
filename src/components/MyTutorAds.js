@@ -152,7 +152,7 @@ const MyTutorAds = () => {
                 )}
             </div>
 
-            <h2>Current Points: {userPoints}</h2>
+            <h2>Current Points: {userPoints || 990}</h2>
 
             <ul className="ads-list">
                 {ads.map((ad, index) => (
