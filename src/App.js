@@ -24,7 +24,7 @@ import MyCourses from './components/MyCourses';
 import Search from './components/Search';
 import Messages from './components/messages/Messages';
 import MyTutorAds from './components/MyTutorAds';
-
+import MyAccount from './components/MyAccount';
 
 function App() {
     const [user, setUser] = useState(null); // State to track user
@@ -66,6 +66,7 @@ function App() {
                         <Route path="/my-tutor-ads/:userId" element={<MyTutorAds />} />
                         {/*<Route path="/search" element={<Search />} />*/}
                         <Route path="/search" element={<Search setSelectedSubjectReturn={setSelectedSubjectReturn} setTutorIdReturn={setTutorIdReturn} />} />
+                        <Route path="/my-account/:userId" element={<MyAccount />} />
                     </Routes>
                     <Footer />
                 </div>

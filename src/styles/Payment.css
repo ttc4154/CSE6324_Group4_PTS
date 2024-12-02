@@ -64,3 +64,12 @@
 .payment-container button:hover:not(:disabled) {
     background-color: #45a049;
 }
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Adds spacing between the radio button and the text */
+}
+
+.radio-label input[type="radio"] {
+    margin: -50px; /* Removes extra margin added by default */
+}
