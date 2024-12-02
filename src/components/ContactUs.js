@@ -16,7 +16,7 @@ const ContactUs = () => {
         </a>
 
         {/* Chat Contact */}
-        <li><Link to="/chat" className="contact-option">
+        <li><Link to="/my-messages" className="contact-option">
           <FaComments size={24} />
           <span>Chat</span>
         </Link></li>
