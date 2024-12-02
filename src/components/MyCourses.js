@@ -143,10 +143,6 @@ function MyCourses() {
     const handlePaymentError = (message) => {
         alert(message);
     };
-  const handlePayNowClick = (courseId) => {
-        setCourseToPayFor(courseId); // Set the ad to pay for
-        setShowModal(true); // Show the payment modal
-    };
     // Edit and Delete Courses
     const handleEditCourse = (course) => {
         setCourseID(course.id);
@@ -226,6 +222,11 @@ function MyCourses() {
             try {
                 setCourseToPayFor(courseID); // Set the ad to pay for
                 setShowModal(true); // Show the payment modal
+                const newSignedUpCourses = [...signedUpCourses, courseID];
+                await updateDoc(doc(db, 'students', studentID), {
+                    signedUpCourses: newSignedUpCourses,
+                });
+                setSignedUpCourses(newSignedUpCourses);
             } catch (err) {
                 setError(err);
             }
@@ -336,7 +337,6 @@ function MyCourses() {
                                     >
                                         {signedUpCourses.includes(course.id) ? 'Registered' : 'Sign Up'}
                                     </button>
-                                    <button className="sign-up-btn" onClick={() => handlePayNowClick(course.id)}>Pay Now</button>
                                 </div>
                             ))
                         ) : (
