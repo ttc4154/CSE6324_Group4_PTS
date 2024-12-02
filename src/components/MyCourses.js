@@ -23,6 +23,8 @@ function MyCourses() {
     const [userType, setUserType] = useState('');
     const [selectedTab, setSelectedTab] = useState('available');
     const [search, setSearch] = useState('');
+    const [searchCategory, setSearchCategory] = useState('Course Name');
+    const [dropdownVisible, setDropdownVisible] = useState(false);
     const [subjects, setSubjects] = useState([]); // Store subjects from Firestore
     const [showModal, setShowModal] = useState(false);
     const [userPoints, setUserPoints] = useState(0);
@@ -127,10 +129,15 @@ function MyCourses() {
         }
     }, [tutorID]);
 
-    const handlePaymentSuccess = () => {
+    const handlePaymentSuccess = async (courseID) => {
         alert("Payment Successful! You have registered for the course.");
         setUserPoints(prevPoints => prevPoints - 10); // Deduct points after successful payment
         setShowModal(false); // Close the modal after payment
+        const newSignedUpCourses = [...signedUpCourses, courseToPayFor];
+        await updateDoc(doc(db, 'students', studentID), {
+            signedUpCourses: newSignedUpCourses,
+        });
+        setSignedUpCourses(newSignedUpCourses);
     };
 
     const handlePaymentError = (message) => {
@@ -216,11 +223,6 @@ function MyCourses() {
             try {
                 setCourseToPayFor(courseID); // Set the ad to pay for
                 setShowModal(true); // Show the payment modal
-                const newSignedUpCourses = [...signedUpCourses, courseID];
-                await updateDoc(doc(db, 'students', studentID), {
-                    signedUpCourses: newSignedUpCourses,
-                });
-                setSignedUpCourses(newSignedUpCourses);
             } catch (err) {
                 setError(err);
             }
@@ -240,10 +242,17 @@ function MyCourses() {
         }
     };
 
-    // Filter courses
-    const filteredCourses = availableCourses.filter(course =>
-        course.courseName.toLowerCase().includes(search.toLowerCase())
-    );
+    // Filter courses based on search category
+    const filteredCourses = availableCourses.filter(course => {
+        if (searchCategory === 'Course Name') {
+            return course.courseName.toLowerCase().includes(search.toLowerCase());
+        } else if (searchCategory === 'Course Subject') {
+            return course.courseSubject.toLowerCase().includes(search.toLowerCase());
+        } else if (searchCategory === 'Course Location') {
+            return course.courseLocation.toLowerCase().includes(search.toLowerCase());
+        }
+        return false;
+    });
 
     return (
         <div className="myCourses-container">
@@ -276,13 +285,30 @@ function MyCourses() {
             {selectedTab === 'available' && userType === 'student' && (
                 <div className="signUp-container">
                     <h3>Available Courses</h3>
-                    <input
-                        type="text"
-                        placeholder="Search by course name"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="search-input"
-                    />
+                    <div className="search-bar">
+                        <input
+                            type="text"
+                            placeholder="Search"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className="search-input"
+                        />
+                        <div className="dropdown">
+                            <button
+                                className="dropdown-button"
+                                onClick={() => setDropdownVisible(!dropdownVisible)}
+                            >
+                                {searchCategory} <span className="dropdown-arrow">▼</span>
+                            </button>
+                            {dropdownVisible && (
+                                <div className="dropdown-content">
+                                    <button onClick={() => { setSearchCategory('Course Name'); setDropdownVisible(false); }}>Course Name</button>
+                                    <button onClick={() => { setSearchCategory('Course Subject'); setDropdownVisible(false); }}>Course Subject</button>
+                                    <button onClick={() => { setSearchCategory('Course Location'); setDropdownVisible(false); }}>Course Location</button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                     <div className="courses-grid">
                         {filteredCourses.length > 0 ? (
                             filteredCourses.map(course => (

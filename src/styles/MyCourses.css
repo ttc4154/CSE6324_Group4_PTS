@@ -1,11 +1,9 @@
 .myCourses-container {
     max-width: 600px;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -35,8 +33,9 @@
     background-color: #ddd;
 }
 
-/* Sign-up container */
-.signUp-container, .yourCourses-container {
+/* Sign-up and course containers */
+.signUp-container,
+.yourCourses-container {
     padding: 20px;
 }
 
@@ -83,16 +82,21 @@
     color: #555;
 }
 
-/* Sign-up button styles */
-.sign-up-btn {
+/* Button styles */
+.sign-up-btn,
+.edit-course-btn,
+.delete-course-btn {
     padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #28a745;
-    color: white;
-    border: none;
     border-radius: 5px;
+    font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border: none;
+}
+
+.sign-up-btn {
+    background-color: #28a745;
+    color: white;
 }
 
 .sign-up-btn:disabled {
@@ -100,44 +104,9 @@
     cursor: not-allowed;
 }
 
-/* Unregister button styles */
-.unregister-btn {
-    padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.unregister-btn:hover {
-    background-color: #c82333;
-}
-
-.search-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    box-sizing: border-box;
-}
-
-.search-input:focus {
-    outline: none;
-    border-color: #28a745;
-}
-
 .edit-course-btn {
     background-color: green;
     color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 14px;
 }
 
 .edit-course-btn:hover {
@@ -147,13 +116,163 @@
 .delete-course-btn {
     background-color: red;
     color: white;
-    border: none;
-    padding: 10px;
     margin-left: 10px;
-    cursor: pointer;
-    font-size: 14px;
 }
 
 .delete-course-btn:hover {
     background-color: darkred;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    margin-bottom: 0; /* Remove or set to 0 */
+}
+
+/* Additional styling to align the search bar and dropdown */
+.search-input {
+    margin-bottom: 0; /* Remove any bottom margin */
+}
+
+.dropdown-button {
+    margin-left: -1px; /* This ensures the dropdown aligns with the input */
+}
+/* 
+/* Container for the search bar */
+.search-bar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+/* Search input */
+.search-input {
+    flex: 1;
+    padding: 8px 10px; /* Adjusted for consistent padding */
+    margin-right: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    height: 38px; /* Set a specific height */
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #28a745;
+}
+
+.search-input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    height: 38px;
+    margin-bottom: 0; /* Remove any bottom margin */
+    outline: none; /* Removes the blue highlight when focused */
+}
+
+/* Optional: Add a border color change on focus for better accessibility */
+.search-input:focus {
+    border-color: #28a745; /* Change border color to green when focused */
+}
+
+/* Dropdown button */
+.dropdown-button {
+    padding: 8px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -1px; /* Aligns with the input */
+    height: 38px; /* Set a specific height */
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+/* Make sure the dropdown container has position: relative */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0; /* Aligns with the right side of the dropdown button */
+    top: 100%; /* Positions it below the dropdown button */
+    background-color: #f1f1f1;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    margin-top: 5px; /* Adds some space between the button and dropdown */
+}
+
+.dropdown-button:hover {
+    background-color: #ddd;
+}
+
+/* Dropdown arrow */
+.dropdown-arrow {
+    margin-left: 5px;
+    display: inline-block;
+}
+
+/* Dropdown button */
+.dropdown-button {
+    padding: 8px;
+    background-color: #28a745; /* Green background color */
+    color: white; /* White text */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    margin-left: -1px; /* Aligns with the input */
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+
+/* Change button color on hover */
+.dropdown-button:hover {
+    background-color: #218838; /* Darker green for hover effect */
+}
+
+/* Dropdown content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0; /* Aligns with the right side of the dropdown button */
+    top: 100%; /* Positions it below the dropdown button */
+    background-color: #f1f1f1;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    margin-top: 5px; /* Space between button and dropdown */
+}
+
+.dropdown-content button {
+    padding: 8px;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    color: #333; /* Text color for dropdown items */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.dropdown-content button:hover {
+    background-color: #ddd; /* Background color on hover */
 }
