@@ -1,0 +1,129 @@
+/* MyAccount.css */
+
+/* General container for MyAccount page */
+.my-account {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Header */
+.my-account h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+/* Section title for Receipts and Payments */
+.my-account h4 {
+    margin-top: 30px;
+    font-size: 1.6rem;
+    color: #333;
+    text-align: center;
+}
+
+/* Receipts section */
+.my-receipts {
+    margin-top: 20px;
+}
+
+.my-receipts ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.my-receipts li {
+    background-color: #f8f9fa;
+    margin: 8px 0;
+    padding: 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* Payment section */
+.my-payment {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.my-payment button {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 25px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
+    margin: 0 auto;
+}
+
+.my-payment button:hover {
+    background-color: #218838;
+}
+
+/* Disabled button style */
+.my-payment button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Message display section */
+.my-account .message {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-top: 20px;
+}
+
+/* Calendar styles for scheduling payments or managing receipts */
+.my-account .calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling the calendar header */
+.my-account .rbc-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Style for each button group in the calendar */
+.my-account .rbc-btn-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.my-account .rbc-btn {
+    margin: 0 5px;
+}
+
+.my-account .rbc-toolbar button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #2196F3;
+    color: white;
+    cursor: pointer;
+}
+
+.my-account .rbc-toolbar button:hover {
+    background-color: #1976D2;
+}

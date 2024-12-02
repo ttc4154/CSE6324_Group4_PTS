@@ -27,6 +27,7 @@ import Search from './components/Search';
 import Messages from './components/messages/Messages';
 import MyTutorAds from './components/MyTutorAds';
 import Payment from './components/Payment';
+import MyAccount from './components/MyAccount';
 
 function App() {
   const [user, setUser] = useState(null); // State to track user
@@ -95,7 +96,6 @@ function App() {
           <Navbar user={user} /> {/* Pass user state to Navbar */}
           {/* Render Menu only if user is logged in */}
           {user && <Menu />}
-
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
@@ -125,6 +125,7 @@ function App() {
               />
             } />
             <Route path="/search" element={<Search setSelectedSubjectReturn={setSelectedSubjectReturn} setTutorIdReturn={setTutorIdReturn} />} />
+            <Route path="/my-account/:userId" element={<MyAccount />} />
         </Routes>
         <Footer />
         </div>

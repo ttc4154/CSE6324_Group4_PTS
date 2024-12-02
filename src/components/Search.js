@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { db } from '../firebase'; // Firebase config import
 import { collection, getDocs, query, where } from 'firebase/firestore'; // Firestore methods
 import axios from 'axios'; // For geocoding API
+import { auth } from '../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import '../styles/Search.css';
 import ReactStars from "react-rating-stars-component";
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +29,15 @@ const Search = ({ setSelectedSubjectReturn, setTutorIdReturn }) => {
   const [selectedRating, setSelectedRating] = useState(null);
   const [selectedLevels, setSelectedLevels] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // Check if the user is logged in
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setIsLoggedIn(!!currentUser); // Set isLoggedIn to true if currentUser exists
+    });
+
+    return () => unsubscribe(); // Cleanup subscription
+  }, []);
+
   const clearFilters = () => {
     setSelectedRate(null);
     setSelectedRating(null);
@@ -503,9 +514,8 @@ const Search = ({ setSelectedSubjectReturn, setTutorIdReturn }) => {
                     <span>Levels: {tutor.level ? tutor.level.join(', ') : 'No levels available'}</span>
                     <span>Type of Class : {tutor.isOnline ? 'Online' : 'In-person'}</span>  {/* Display online status */}
                     <span>Zip Code: {tutor.zipCode}</span>
-                    <span>Tutor ID: {tutor.id}</span>
                     {/* Button for logged-in users to view available courses */}
-                    {1 ? (
+                    {isLoggedIn ? (
                       <button className="view-courses-button" onClick={() => viewCourses(tutor.id)}>
                         View Available Courses
                       </button>

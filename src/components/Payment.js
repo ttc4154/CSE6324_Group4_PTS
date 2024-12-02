@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '../firebase';
@@ -148,6 +147,7 @@ const Payment = ({ price, onSuccess, onError, isNavbarVersion, type }) => {
                         </div>
                     )}
                     {/* Show credit card input only for purchasing */}
+
                     <input
                         type="text"
                         value={creditCard}

@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Firebase Storage imports
 import { storage } from '../firebase'; // Firebase Storage instance
 import '../styles/UserProfile.css';
+import ReactStars from "react-rating-stars-component";
+
 
 const UserProfile = () => {
   const [user] = useAuthState(auth);
@@ -186,13 +188,29 @@ const UserProfile = () => {
         <div>
           <h1>User Profile</h1>
           <div className="profile-picture-section">
-            {profilePicture ? (
+          {profilePicture ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <img
                 src={profilePicture}
                 alt="Profile"
                 className="profile-picture"
-                style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }}
+                style={{
+                  width: '150px',
+                  height: '150px',
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                }}
               />
+              {userData.userType === 'tutor' && (
+                <ReactStars
+                  count={5}
+                  size={24}
+                  value={userData.averageRating || 0} // Replace with the actual user's average rating
+                  edit={false} // Read-only stars
+                  activeColor="#ffd700"
+                />
+              )}
+            </div>
             ) : (
               <p>No profile picture uploaded.</p>
             )}

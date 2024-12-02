@@ -52,12 +52,13 @@ const Menu = () => {
             <Link to={`/student-scheduler/${user.uid}`}>Schedules</Link>
           </li>
         )}
-        <li><Link to="/chat">My Messages</Link></li>
+        <li><Link to="/chat">Live Chat</Link></li>
         {user && user.uid && userType === 'tutor' && (
           <li><Link to={`/my-tutor-ads/${user.uid}`}>Tutor Ads</Link></li>
         )}
         <li><Link to="/my-account">Account</Link></li>
         <li><Link to="/Payment">My Money</Link></li>
+
         {/* Conditionally render the Admin Dashboard link if the user is an admin */}
         {isAdmin && <li><Link to="/admin">Admin</Link></li>}
       </ul>
