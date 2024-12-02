@@ -203,6 +203,7 @@ const Navbar = () => {
                 )}  
                 <hr />
                 <Link to="/my-account">My Account</Link>
+                <Link to="/payment">My Money</Link>
                 {/*<Link to="/admin">Admin Dashboard</Link>*/}
                 {/*user.isAdmin && <Link to="/admin">Admin Dashboard</Link>*/}
                 {isAdmin && <Link to="/admin">Admin Dashboard</Link>}

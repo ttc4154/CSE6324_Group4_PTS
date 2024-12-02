@@ -137,11 +137,6 @@ function MyCourses() {
         alert(message);
     };
 
-    const handlePayNowClick = (courseId) => {
-        setCourseToPayFor(courseId); // Set the ad to pay for
-        setShowModal(true); // Show the payment modal
-    };
-
     // Edit and Delete Courses
     const handleEditCourse = (course) => {
         setCourseID(course.id);
@@ -219,6 +214,8 @@ function MyCourses() {
     const handleCourseSignUp = async (courseID) => {
         if (!signedUpCourses.includes(courseID)) {
             try {
+                setCourseToPayFor(courseID); // Set the ad to pay for
+                setShowModal(true); // Show the payment modal
                 const newSignedUpCourses = [...signedUpCourses, courseID];
                 await updateDoc(doc(db, 'students', studentID), {
                     signedUpCourses: newSignedUpCourses,
@@ -310,7 +307,6 @@ function MyCourses() {
                                     >
                                         {signedUpCourses.includes(course.id) ? 'Registered' : 'Sign Up'}
                                     </button>
-                                    <button className="sign-up-btn" onClick={() => handlePayNowClick(course.id)}>Pay Now</button>
                                 </div>
                             ))
                         ) : (
