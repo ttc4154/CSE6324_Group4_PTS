@@ -34,7 +34,15 @@
 }
 
 .payment-container {
-    padding: 20px;
+    background-color: #f9f9f9; /* Light background */
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    max-width: 400px;      /* Limit width */
+    margin: auto;          /* Center on the page */
+    padding: 20px;         /* Padding for aesthetics */
+    border: 1px solid #ccc; /* Optional border */
+    border-radius: 5px;    /* Optional rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
 }
 
 .payment-container input {
