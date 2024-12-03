@@ -81,7 +81,16 @@ const Payment = ({ price, onSuccess, onError, isNavbarVersion, type, courseId, o
     	setLoading(true);
 
     	try {
-        	if (user) {
+
+			if (window.location.pathname.match(/^\/my-tutor-ads\//))
+			{
+				setLoading(true);
+				setTimeout(() => {
+					onSuccess();
+					setLoading(false);
+				}, 2000);
+			}
+        	else if (user) {
             	const userDocRef = doc(db, 'students', user.uid);
             	const userDocSnap = await getDoc(userDocRef);
 
